@@ -1,10 +1,29 @@
 import { Component } from '@angular/core';
 
+import { EchoService } from './echo.service'
+
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  	<button (click)="postEcho()">Test echo</button>
+  	<br />
+  	<br />
+  	<img *ngIf="message" src="{{message}}" />
+  	<br />
+  	<p *ngIf="time">Server time: {{time}}</p>
+  `,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'client';
+  time = null
+  message = null
+
+  constructor(private echoService : EchoService) {}
+
+  postEcho() {
+  	this.echoService.getEcho().subscribe(data => {
+  		this.time = data['time']
+  		this.message = data['message']
+  	})
+  }
 }
