@@ -4,14 +4,7 @@ import { EchoService } from './echo.service'
 
 @Component({
   selector: 'app-root',
-  template: `
-  	<button (click)="postEcho()">Test echo</button>
-  	<br />
-  	<br />
-  	<img *ngIf="message" src="{{message}}" />
-  	<br />
-  	<p *ngIf="time">Server time: {{time}}</p>
-  `,
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {

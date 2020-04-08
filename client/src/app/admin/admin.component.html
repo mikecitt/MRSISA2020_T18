@@ -1,0 +1,32 @@
+<div>
+  <form>
+    <table>
+      <tr>
+        <td>Ime:</td>
+        <td><input type="text" name="firstname" [(ngModel)]="firstname"></td>
+      </tr>
+      <tr>
+        <td>Prezime:</td>
+        <td><input type="text" name="lastname" [(ngModel)]="lastname"></td>
+      </tr>
+      <tr>
+        <td>Email adresa:</td>
+        <td><input type="email" name="email" [(ngModel)]="email"></td>
+      </tr>
+      <tr>
+        <td>Korisničko ime:</td>
+        <td><input type="text" name="username" [(ngModel)]="username"></td>
+      </tr>
+      <tr>
+        <td>Šifra:</td>
+        <td><input type="password" name="password" [(ngModel)]="password"></td>
+      </tr>
+      <tr>
+        <td>Potvrdite šifru:</td>
+        <td><input type="password" name="repeat" [(ngModel)]="repeat"></td>
+      </tr>
+      <tr><td colspan=2><input (click)="addAdmin()" type="button" value="Pošalji"></td></tr>
+    </table>
+  </form>
+  <p *ngIf="message">{{message}}</p>
+</div>
