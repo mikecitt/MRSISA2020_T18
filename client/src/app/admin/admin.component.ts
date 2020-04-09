@@ -28,18 +28,21 @@ export class AdminComponent implements OnInit {
       "lastname": this.lastname,
       "username": this.username,
       "email": this.email,
-      "password": this.password,
-      "repeat": this.repeat
+      "password": this.password
     }
 
-    return this.http.post<any>('http://localhost:8080/admin/add', formData).subscribe(data => {
-      if(data['message'] == 'true') {
-        this.message = "Dodat admin"
-      }
-      else {
-        this.message = "Admin vec postoji"
-      }
-    });
+    if(this.password == this.repeat)
+      return this.http.post<any>('http://localhost:8080/admin/add', formData).subscribe(data => {
+            if(data['message'] == 'true') {
+              this.message = "Dodat admin"
+            }
+            else {
+              this.message = "Admin vec postoji"
+            }
+          });
+    else {
+      this.message = "Lozinke se ne poklapaju"
+    }
   }
 
 }

@@ -16,7 +16,14 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private static ArrayList<Map<String, String>> admins = new ArrayList<Map<String, String>>();
+    private static Map<String, Map<String, String>> admins = new HashMap<String, Map<String, String>>();
+    private final static Map<String, String> ADMIN = new HashMap<String, String>() {{
+        put("firstname", "Admin");
+        put("lastname", "Admin");
+        put("username", "admin");
+        put("email", "admin@gmail.com");
+        put("password", "admin123");
+    }};
 
     @PostMapping(
             path="/add",
@@ -26,11 +33,11 @@ public class AdminController {
     public ResponseEntity<HashMap<String, String>> addAdmin(@RequestBody Map<String, String> newAdmin) {
         HashMap<String, String> response = new HashMap<>();
 
-        if(admins.contains(newAdmin)) {
+        if(admins.containsKey(newAdmin.get("username")) || ADMIN.get("username").equals(newAdmin.get("username"))) {
             response.put("message", "false");
         }
         else {
-            admins.add(newAdmin);
+            admins.put(newAdmin.get("username"), newAdmin);
             response.put("message", "true");
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
