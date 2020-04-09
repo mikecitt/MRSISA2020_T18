@@ -18,4 +18,12 @@ export class PatientComponent implements OnInit {
   	})
   }
 
+  sortName() {
+  	this.doctorsList.sort((a, b) => (a.name > b.name ? 1 : -1))
+  }
+
+  sortLastname() {
+  	this.doctorsList.sort((a, b) => (a.surname > b.surname ? 1 : -1))
+  }
+
 }

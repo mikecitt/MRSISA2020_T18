@@ -19,7 +19,7 @@ public class DoctorController {
 
         HashMap<String, String> doctor1 = new HashMap<>();
         doctor1.put("name", "John");
-        doctor1.put("surname", "Johnson");
+        doctor1.put("surname", "Anderson");
 
         HashMap<String, String> doctor2 = new HashMap<>();
         doctor2.put("name", "Mark");
