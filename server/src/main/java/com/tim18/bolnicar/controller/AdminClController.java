@@ -25,7 +25,10 @@ public class AdminClController {
     public ResponseEntity<HashMap<String, String>> addDoctor(@RequestBody Map<String, String> newDoctor) {
         HashMap<String, String> response = new HashMap<>();
 
-        if(doctors.containsKey(newDoctor.get("username"))) {
+        if(newDoctor.get("firstname").isEmpty() || newDoctor.get("lastname").isEmpty() || newDoctor.get("username").isEmpty()
+            || newDoctor.get("email").isEmpty() || newDoctor.get("password").isEmpty())
+            response.put("message", "false");
+        else if(doctors.containsKey(newDoctor.get("username"))) {
             response.put("message", "false");
         }
         else {
