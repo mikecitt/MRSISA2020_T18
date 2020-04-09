@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PatientComponent } from './patient/patient.component';
+import { AdminClComponent } from './admincl/admincl.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
+    AdminClComponent,
     PatientComponent
   ],
   imports: [
