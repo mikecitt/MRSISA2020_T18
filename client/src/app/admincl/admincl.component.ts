@@ -28,18 +28,25 @@ export class AdminClComponent implements OnInit {
       "lastname": this.lastname,
       "username": this.username,
       "email":    this.email,
-      "password": this.password,
-      "repeat":   this.repeat
+      "password": this.password
     }
 
-    return this.http.post<any>('http://localhost:8080/admincl/add', formData).subscribe(data => {
-      if(data['message'] == "true") {
-        this.message = "Lekar uspesno dodat."
-      }
-      else {
-        this.message = "Lekar vec postoji."
-      }
-    });
+    if(this.firstname == "" || this.lastname == "" || this.username == ""
+    || this.email == "" || this.password == "" || this.repeat == "") {
+      this.message = "Sva polja moraju biti popunjena.";
+    }
+    else if(this.password == this.repeat)
+      return this.http.post<any>('http://localhost:8080/admincl/add', formData).subscribe(data => {
+        if(data['message'] == "true") {
+          this.message = "Lekar uspesno dodat."
+        }
+        else {
+          this.message = "Lekar vec postoji."
+        }
+      });
+    else {
+      this.message = "Lozinke se ne poklapaju."
+    }
   }
 
 }

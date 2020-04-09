@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/admincl")
 public class AdminClController {
 
-    private static ArrayList<Map<String, String>> doctors =  new ArrayList<>();
+    private static Map<String, Map<String, String>> doctors = new HashMap<String, Map<String, String>>();
 
     @PostMapping(
             path="/add",
@@ -25,11 +25,12 @@ public class AdminClController {
     public ResponseEntity<HashMap<String, String>> addDoctor(@RequestBody Map<String, String> newDoctor) {
         HashMap<String, String> response = new HashMap<>();
 
-        if(doctors.contains(newDoctor)) {
+        if(doctors.containsKey(newDoctor.get("username"))) {
             response.put("message", "false");
         }
         else {
             response.put("message", "true");
+            doctors.put(newDoctor.get("username"), newDoctor);
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
