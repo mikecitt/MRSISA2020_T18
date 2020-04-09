@@ -1,0 +1,15 @@
+<h3>List of doctors</h3>
+<table border="1">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Surname</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let doctor of doctorsList">
+            <td>{{doctor.name}}</td>
+            <td>{{doctor.surname}}</td>
+        </tr>
+    </tbody>
+</table>
