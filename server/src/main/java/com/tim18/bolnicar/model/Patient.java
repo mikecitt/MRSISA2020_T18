@@ -10,7 +10,7 @@ import java.util.Set;
 public class Patient extends User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<MedicalReport> reports; // this represents medical record
+    private Set<MedicalReport> medicalRecord;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
     private Set<Appointment> appointments;
