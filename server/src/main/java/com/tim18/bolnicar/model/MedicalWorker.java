@@ -14,4 +14,7 @@ public class MedicalWorker {
 
     @ManyToOne
     private Clinic clinic;
+
+    @OneToMany
+    private Set<TimeOff> calendar; // change name...
 }
