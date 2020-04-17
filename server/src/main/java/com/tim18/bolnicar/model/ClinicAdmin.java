@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 //TODO: naslediti kao celu tabelu?
 
 @Entity
-public class ClinicAdmin {
+public class ClinicAdmin extends User {
     @ManyToOne
     private Clinic clinic;
 }

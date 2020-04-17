@@ -32,7 +32,7 @@ public class Appointment {
     private Patient patient;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private MedicalWorker doctor;
+    private Doctor doctor;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Clinic clinic;

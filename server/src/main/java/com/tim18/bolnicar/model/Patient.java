@@ -7,7 +7,7 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity
-public class Patient {
+public class Patient extends User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<MedicalReport> reports; // this represents medical record

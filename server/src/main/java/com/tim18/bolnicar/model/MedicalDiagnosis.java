@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public class MedicalDiagnosis {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -9,12 +9,12 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Drug> drugs;
 
     @Column
     private Boolean sealed;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MedicalWorker nurse;
+    private Nurse nurse;
 }

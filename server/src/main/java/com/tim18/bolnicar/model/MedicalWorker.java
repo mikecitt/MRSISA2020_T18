@@ -4,16 +4,11 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class MedicalWorker {
-
-    @Enumerated(EnumType.STRING)
-    private MedicalWorkerType type;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nurse")
-    private Set<Recipe> recipes;
-
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
+public abstract class MedicalWorker extends User {
     @ManyToOne
-    private Clinic clinic;
+    private Clinic clinic; // why?
 
     @OneToMany
     private Set<TimeOff> calendar; // change name...
