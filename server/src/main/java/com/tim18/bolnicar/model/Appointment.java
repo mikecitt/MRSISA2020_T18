@@ -19,22 +19,101 @@ public class Appointment {
     @Column(nullable = false)
     private Double discount;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Room room;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private ExaminationType type;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private MedicalReport report;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     private Patient patient;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Doctor doctor;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     private Clinic clinic;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public ExaminationType getType() {
+        return type;
+    }
+
+    public void setType(ExaminationType type) {
+        this.type = type;
+    }
+
+    public MedicalReport getReport() {
+        return report;
+    }
+
+    public void setReport(MedicalReport report) {
+        this.report = report;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
 }
