@@ -9,13 +9,17 @@ import { AdminComponent } from './admin/admin.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PatientComponent } from './patient/patient.component';
 import { AdminClComponent } from './admincl/admincl.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     AdminClComponent,
-    PatientComponent
+    PatientComponent,
+    MainPageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
