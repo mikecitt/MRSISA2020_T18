@@ -1,29 +1,41 @@
 <div class="d-flex" id="wrapper">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
 
-    <!-- Step 3: Toggle the value of the property when the toggler button is clicked. -->
-    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
-      &#9776;
-    </button>
-
-    <!-- Step 2: Add the ngbCollapse directive to the element below. -->
-    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-      <ul class="navbar-nav flex-sm-column">
-        <li class="nav-item">
-          <a class="navbar-brand nav-link" routerLink="/">Klinički centar</a>
-        </li>
-        <li class="nav-item">
-          <!-- Step 4: Close the menu when a link is clicked. -->
-          <a class="nav-link" routerLink="/patient" (click)="isMenuCollapsed = true">Pacijenti</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admin" (click)="isMenuCollapsed = true">Admini klinickog centra</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/admincl" (click)="isMenuCollapsed = true">Admini klinike</a>
-        </li>
-      </ul>
+  <!-- Sidebar -->
+  <div [@sidebaranimation]="isSideBarCollapsed ? 'shown' : 'hidden'" class="bg- border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">Klinički centar</div>
+    <div class="list-group list-group-flush">
+      <a routerLink="/" class="list-group-item list-group-item-action">Početna</a>
+      <a routerLink="/patient" class="list-group-item list-group-item-action">Pacijenti</a>
+      <a routerLink="/admin" class="list-group-item list-group-item-action">Admini kliničkog centra</a>
+      <a routerLink="/admincl" class="list-group-item list-group-item-action">Admini klinike</a>
     </div>
-  </nav>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <button class="btn btn-primary" id="menu-toggle" (click)="toggle()">&#9776;</button>
+
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+        &#9660;
+      </button>
+
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Klinički centar <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
-<router-outlet></router-outlet>
