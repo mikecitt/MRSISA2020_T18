@@ -13,8 +13,8 @@ public class MedicalReport {
     @Column
     private String description;
 
-    @OneToOne
-    private MedicalDiagnosis diagnosis;
+    @ManyToMany
+    private Set<MedicalDiagnosis> diagnoses;
 
     @OneToMany
     private Set<Recipe> recipes;
