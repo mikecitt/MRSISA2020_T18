@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,21 @@ public class AdminClController {
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
 
-    public ResponseEntity<HashMap<String, String>> addDoctor(@RequestBody Map<String, String> newDoctor) {
+    public ResponseEntity<HashMap<String, String>> addDoctor(@RequestBody Doctor newDoctor) {
         HashMap<String, String> response = new HashMap<>();
+        System.out.println(newDoctor);
+        Doctor doctor = new Doctor();
+        try {
+            doctor = doctorService.save(newDoctor);
+            response.put("message", "true");
 
+        } catch(Exception e) {
+            response.put("message", "false");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        /*
         if(newDoctor.get("firstname").isEmpty() || newDoctor.get("lastname").isEmpty() ||
                 newDoctor.get("emailAddress").isEmpty() || newDoctor.get("password").isEmpty() ||
                 newDoctor.get("address").isEmpty() || newDoctor.get("city").isEmpty() ||
@@ -43,6 +56,6 @@ public class AdminClController {
             doctors.put(newDoctor.get("emailAddress"), newDoctor);
         }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);*/
     }
 }

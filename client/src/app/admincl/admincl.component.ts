@@ -28,8 +28,8 @@ export class AdminClComponent implements OnInit {
 
   addDoctor() {
     var formData = {
-      "firstname"   : this.firstname,
-      "lastname"    : this.lastname,
+      "firstName"   : this.firstname,
+      "lastName"    : this.lastname,
       "emailAddress": this.email,
       "password"    : this.password,
       "address"     : this.address,
