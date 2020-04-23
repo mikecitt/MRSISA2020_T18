@@ -21,6 +21,7 @@ export class AdminComponent implements OnInit {
   password:string = '';
   repeat:string = '';
   message:string = null;
+  alertType:string = null;
 
   constructor(private http:HttpClient) { }
 
@@ -42,14 +43,17 @@ export class AdminComponent implements OnInit {
     if(this.password == this.repeat)
       return this.http.post<any>('http://localhost:8080/admin/add', formData).subscribe(data => {
             if(data['message'] == 'true') {
-              this.message = "Dodat admin"
+              this.message = "Admin uspešno dodat"
+              this.alertType = "success"
             }
             else {
-              this.message = "Admin vec postoji"
+              this.message = "Admin nije dodat ili već postojeći"
+              this.alertType = "danger"
             }
           });
     else {
       this.message = "Lozinke se ne poklapaju"
+      this.alertType = "warning"
     }
   }
 

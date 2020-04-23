@@ -31,12 +31,13 @@ public class AdminController {
     public ResponseEntity<HashMap<String, String>> addAdmin(@RequestBody ClinicCenterAdmin newAdmin) {
         HashMap<String, String> response = new HashMap<>();
 
-        if(ccAdminService.save(newAdmin) == null) {
+        try {
+            ccAdminService.save(newAdmin);
+            response.put("message", "true");
+        } catch (Exception ex) {
             response.put("message", "false");
         }
-        else {
-            response.put("message", "true");
-        }
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
