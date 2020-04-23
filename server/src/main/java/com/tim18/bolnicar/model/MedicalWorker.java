@@ -8,8 +8,24 @@ import java.util.Set;
 @DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
 public abstract class MedicalWorker extends User {
     @ManyToOne
-    private Clinic clinic;
+    protected Clinic clinic;
 
     @OneToMany
-    private Set<TimeOff> calendar; // change name...
+    protected Set<TimeOff> calendar; // change name...
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
+
+    public Set<TimeOff> getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Set<TimeOff> calendar) {
+        this.calendar = calendar;
+    }
 }
