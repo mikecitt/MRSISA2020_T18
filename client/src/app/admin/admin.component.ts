@@ -12,7 +12,11 @@ export class AdminComponent implements OnInit {
 
   firstname:string = '';
   lastname:string = '';
-  username:string = '';
+  address:string = '';
+  city:string = '';
+  country:string = '';
+  contact:string = '';
+  jmbg:string = '';
   email:string = '';
   password:string = '';
   repeat:string = '';
@@ -24,13 +28,17 @@ export class AdminComponent implements OnInit {
 
   addAdmin() {
     var formData = {
-      "firstname": this.firstname,
-      "lastname": this.lastname,
-      "username": this.username,
-      "email": this.email,
-      "password": this.password
+      "emailAddress": this.email,
+      "password": this.password,
+      "firstName": this.firstname,
+      "lastName": this.lastname,
+      "address": this.address,
+      "city": this.city,
+      "country": this.country,
+      "contact": this.contact,
+      "jmbg": this.jmbg
     }
-
+    console.log(formData);
     if(this.password == this.repeat)
       return this.http.post<any>('http://localhost:8080/admin/add', formData).subscribe(data => {
             if(data['message'] == 'true') {
