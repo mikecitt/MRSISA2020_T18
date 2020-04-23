@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,6 +12,7 @@ import { PatientComponent } from './patient/patient.component';
 import { AdminClComponent } from './admincl/admincl.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
+import { TableViewComponent } from './table-view/table-view.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
     AdminClComponent,
     PatientComponent,
     MainPageComponent,
-    LoginComponent
+    LoginComponent,
+    TableViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,8 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
