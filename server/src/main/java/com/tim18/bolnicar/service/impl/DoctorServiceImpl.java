@@ -18,4 +18,19 @@ public class DoctorServiceImpl implements DoctorService {
     public List<Doctor> findAll() {
         return (List<Doctor>) doctorRepository.findAll();
     }
+
+    @Override
+    public Doctor findOne(int id) {
+        return doctorRepository.findById(id).orElseGet(null);
+    }
+
+    @Override
+    public Doctor save(Doctor doctor) {
+        return doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void remove(int id) {
+        doctorRepository.deleteById(id);
+    }
 }
