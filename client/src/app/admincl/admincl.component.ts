@@ -12,10 +12,14 @@ export class AdminClComponent implements OnInit {
 
   firstname:string = '';
   lastname:string = '';
-  username:string = '';
   email:string = '';
   password:string = '';
   repeat:string = '';
+  address:string = '';
+  city:string = '';
+  country:string = '';
+  jmbg:string = '';
+  contact:string = '';
   message:string = null;
 
   constructor(private http:HttpClient) { }
@@ -24,15 +28,20 @@ export class AdminClComponent implements OnInit {
 
   addDoctor() {
     var formData = {
-      "firstname":this.firstname,
-      "lastname": this.lastname,
-      "username": this.username,
-      "email":    this.email,
-      "password": this.password
+      "firstname"   : this.firstname,
+      "lastname"    : this.lastname,
+      "emailAddress": this.email,
+      "password"    : this.password,
+      "address"     : this.address,
+      "city"        : this.city,
+      "country"     : this.country,
+      "jmbg"        : this.jmbg,
+      "contact"     : this.contact
     }
 
-    if(this.firstname == "" || this.lastname == "" || this.username == ""
-    || this.email == "" || this.password == "" || this.repeat == "") {
+    if(this.firstname == "" || this.lastname == "" || this.email == "" ||
+      this.password == "" || this.repeat == "" || this.address == "" ||
+      this.city == "" || this.country == "" || this.contact == "") {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else if(this.password == this.repeat)
