@@ -20,4 +20,21 @@ public class Doctor extends MedicalWorker {
     public void setSpecialization(Set<ExaminationType> specialization) {
         this.specialization = specialization;
     }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", contact='" + contact + '\'' +
+                ", jmbg='" + jmbg + '\'' +
+                ", active=" + active +
+                '}';
+    }
 }
