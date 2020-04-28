@@ -45,7 +45,7 @@ export class AdminClComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else if(this.password == this.repeat)
-      return this.http.post<any>('http://localhost:8080/admincl/add', formData).subscribe(data => {
+      return this.http.post<any>('http://localhost:8080/doctor/add', formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Lekar uspesno dodat."
         }
