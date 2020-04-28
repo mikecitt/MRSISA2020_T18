@@ -29,6 +29,7 @@ export class ClinicComponent implements OnInit {
 
     if(this.name == "" || this.address == "" || this.description == "") {
       this.message = "Sva polja moraju biti popunjena.";
+      this.alertType = "warning"
     }
     else {
       return this.http.post<any>('http://localhost:8080/clinic/add', formData).subscribe(data => {
