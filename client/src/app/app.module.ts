@@ -13,6 +13,8 @@ import { AdminClComponent } from './admincl/admincl.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { TableViewComponent } from './table-view/table-view.component';
+import { ClinicComponent } from './clinic/clinic.component';
+import { DoctorComponent } from './doctor/doctor.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { TableViewComponent } from './table-view/table-view.component';
     MainPageComponent,
     LoginComponent,
     TableViewComponent,
+    ClinicComponent,
+    DoctorComponent,
   ],
   imports: [
     BrowserModule,

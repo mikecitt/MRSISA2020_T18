@@ -3,12 +3,11 @@ import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-admincl',
-  templateUrl: './admincl.component.html',
-  styleUrls: ['./admincl.component.css']
+  selector: 'app-doctor',
+  templateUrl: './doctor.component.html',
+  styleUrls: ['./doctor.component.css']
 })
-
-export class AdminClComponent implements OnInit {
+export class DoctorComponent implements OnInit {
 
   firstname:string = '';
   lastname:string = '';
@@ -21,13 +20,12 @@ export class AdminClComponent implements OnInit {
   jmbg:string = '';
   contact:string = '';
   message:string = null;
-  alertType:string = null;
 
   constructor(private http:HttpClient) { }
 
   ngOnInit() { }
 
-  addAdmin() {
+  addDoctor() {
     var formData = {
       "firstName"   : this.firstname,
       "lastName"    : this.lastname,
@@ -46,20 +44,16 @@ export class AdminClComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else if(this.password == this.repeat)
-      return this.http.post<any>('http://localhost:8080/admincl/add', formData).subscribe(data => {
+      return this.http.post<any>('http://localhost:8080/doctor/add', formData).subscribe(data => {
         if(data['message'] == "true") {
-          this.message = "Admin klinike uspesno dodat."
-          this.alertType = "success"
+          this.message = "Lekar uspesno dodat."
         }
         else {
-          this.message = "Admin klinike vec postoji."
-          this.alertType = "danger"
+          this.message = "Lekar vec postoji."
         }
       });
     else {
       this.message = "Lozinke se ne poklapaju."
-      this.alertType = "warning"
     }
   }
-
 }

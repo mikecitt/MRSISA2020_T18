@@ -1,56 +1,58 @@
-<div class="w-50">
-  <h2>Dodavanje lekara</h2>
+<div class="container mb-4 mt-4">
   <form>
-    <div class="form-group">
-      <label for="">Email adresa</label>
-      <input type="email" class="form-control" name="email" [(ngModel)]="email">
-    </div>
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">Šifra</label>
-        <input type="password" class="form-control" name="password" [(ngModel)]="password">
+      <div class="col-md-3 mb-3">
+        <label for="firstNameInput">Ime</label>
+        <input type="text" class="form-control" id="firstNameInput" name="firstname" [(ngModel)]="firstname">
       </div>
-      <div class="form-group col-md-6">
-        <label for="">Potvrdite šifru</label>
-        <input type="password" class="form-control" name="repeat" [(ngModel)]="repeat">
+      <div class="col-md-4 mb-3">
+        <label for="lastNameInput">Prezime</label>
+        <input type="text" class="form-control" id="lastNameInput" name="lastname" [(ngModel)]="lastname">
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">Ime</label>
-        <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="">Prezime</label>
-        <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname">
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group col-md-5">
-        <label for="">Adresa</label>
-        <input type="text" class="form-control" name="address" [(ngModel)]="address">
-      </div>
-      <div class="form-group col-md-4">
-        <label for="">Grad</label>
-        <input type="text" class="form-control" name="city" [(ngModel)]="city">
-      </div>
-      <div class="form-group col-md-3">
-        <label for="">Država</label>
-        <input type="text" class="form-control" name="country" [(ngModel)]="country">
+      <div class="col-md-5 mb-3">
+        <label for="jmbgInput">JMBG</label>
+        <input type="text" class="form-control" id="jmbgInput" name="jmbg" [(ngModel)]="jmbg">
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">JMBG</label>
-        <input type="text" class="form-control" name="jmbg" [(ngModel)]="jmbg">
+      <div class="col-md-4 mb-3">
+        <label for="addressInput">Adresa</label>
+        <input type="text" class="form-control" id="addressInput" name="address" [(ngModel)]="address">
       </div>
-      <div class="form-group col-md-6">
-        <label for="">Kontakt telefon</label>
-        <input type="text" class="form-control" name="contact" [(ngModel)]="contact">
+      <div class="col-md-4 mb-3">
+        <label for="cityInput">Grad</label>
+        <input type="text" class="form-control" id="cityInput" name="city" [(ngModel)]="city">
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="countryInput">Država</label>
+        <input type="text" class="form-control" id="countryInput" name="contry" [(ngModel)]="country">
       </div>
     </div>
-    <button (click)="addDoctor()" class="btn btn-primary" type="button">Dodaj</button>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="contactInput">Kontakt telefon</label>
+        <input type="text" class="form-control" id="contactInput" name="contact" [(ngModel)]="contact">
+      </div>
+      <div class="col-md-5 mb-3">
+        <label for="emailInput">Email adresa</label>
+        <input type="email" class="form-control" id="emailInput" name="email" [(ngModel)]="email">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="passwordInput">Lozinka</label>
+        <input type="password" class="form-control" id="passwordInput" name="password" [(ngModel)]="password">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label for="repeatInput">Ponovite lozinku</label>
+        <input type="password" class="form-control" id="repeatInput" name="repeat" [(ngModel)]="repeat">
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary col-md-2" (click)="addAdmin()">Prihvati</button>
   </form>
-  <p *ngIf="message">{{message}}</p>
+  <div *ngIf="alertType" class="alert alert-{{alertType}} mt-2 text-center" role="alert">
+    <p *ngIf="message">{{message}}</p>
+  </div>
 </div>
