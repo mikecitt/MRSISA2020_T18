@@ -1,22 +1,36 @@
 package com.tim18.bolnicar.testers;
 
-import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.DoctorRepository;
+import com.tim18.bolnicar.repository.MedicalReportRepository;
+import com.tim18.bolnicar.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
 
 @Component
 public class DataLoader implements ApplicationRunner {
 
     private DoctorRepository doctorRepository;
+    private PatientRepository patientRepository;
+    private AppointmentRepository appointmentRepository;
+    private MedicalReportRepository medicalReportRepository;
 
     @Autowired
-    public DataLoader(DoctorRepository doctorRepository) {
+    public DataLoader(DoctorRepository doctorRepository,
+                      PatientRepository patientRepository,
+                      AppointmentRepository appointmentRepository,
+                      MedicalReportRepository medicalReportRepository) {
         this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.medicalReportRepository = medicalReportRepository;
     }
 
     @Override
@@ -48,5 +62,49 @@ public class DataLoader implements ApplicationRunner {
         doctor2.setActive(true);
 
         doctorRepository.save(doctor2);
+
+        // patient
+        Patient patient = new Patient();
+        patient.setEmailAddress("prototype@gmail.com");
+        patient.setPassword("hippopotamus");
+        patient.setFirstName("Prototype");
+        patient.setLastName("Proton");
+        patient.setAddress("adress");
+        patient.setCity("Beograd");
+        patient.setCountry("Srbija");
+        patient.setContact("123-321");
+        patient.setJmbg("322111223");
+        patient.setActive(true);
+
+        patientRepository.save(patient);
+
+        Appointment ap1 = new Appointment();
+        ap1.setDiscount(0.0);
+        ap1.setDatetime(new Date());
+        ap1.setPatient(patient);
+
+        appointmentRepository.save(ap1);
+
+        MedicalReport mr1 = new MedicalReport();
+        mr1.setAppointment(ap1);
+        mr1.setDescription("Description first report");
+
+        MedicalReport mr2 = new MedicalReport();
+        mr2.setAppointment(ap1);
+        mr2.setDescription("Description second report");
+
+        medicalReportRepository.save(mr1);
+        medicalReportRepository.save(mr2);
+
+        Set<MedicalReport> mrs = patient.getMedicalRecord();
+        mrs.add(mr1);
+        mrs.add(mr2);
+
+        // ??
+        patient.setMedicalRecord(mrs);
+
+        System.out.println(patient.getMedicalRecord().size());
+
+        // patientRepository.save(patient);
     }
 }

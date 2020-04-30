@@ -1,11 +1,17 @@
 package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.UserDTO;
+import com.tim18.bolnicar.model.MedicalReport;
 import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.repository.PatientRepository;
 import com.tim18.bolnicar.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -35,5 +41,15 @@ public class PatientServiceImpl implements PatientService {
         }
 
         return false;
+    }
+
+    @Override
+    public Set<MedicalReport> getMedicalRecord(Integer patientId) {
+        Optional<Patient> patient = this.patientRepository.findById(patientId);
+
+        if (patient.isEmpty())
+            return null;
+
+        return patient.get().getMedicalRecord();
     }
 }
