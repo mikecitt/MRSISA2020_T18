@@ -1,0 +1,21 @@
+<div class="container mb-4 mt-4 col-md-5">
+  <form>
+    <div class="form-row">
+      <div class="col-md-12 mb-3">
+        <label for="nameInput">Naziv</label>
+        <input type="text" class="form-control" id="nameInput" name="name" [(ngModel)]="name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="typeField">Izaberi kategoriju šifarnika</label>
+      <select class="form-control" id="typeField" name="typeCode" [(ngModel)]="typeCode">
+        <option value="drugs">Lekovi</option>
+        <option value="diagnosis">Dijagnoze</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary col-lg-2" (click)="add()">Prihvati</button>
+  </form>
+  <div *ngIf="alertType" class="alert alert-{{alertType}} mt-2 text-center" role="alert">
+    <p *ngIf="message">{{message}}</p>
+  </div>
+</div>
