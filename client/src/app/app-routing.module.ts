@@ -5,6 +5,9 @@ import { AdminClComponent } from './admincl/admincl.component';
 import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { ClinicComponent } from './clinic/clinic.component';
+import { RoomComponent } from './room/room.component';
+import { ExaminationTypeComponent } from './examination-type/examination-type.component';
+import { CodebookComponent } from './codebook/codebook.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -15,7 +18,10 @@ const routes: Routes = [
     { path: 'admin', component: AdminComponent },
     { path: 'admincl', component: AdminClComponent },
     { path: 'doctor', component: DoctorComponent },
-    { path: 'clinic', component: ClinicComponent }
+    { path: 'clinic', component: ClinicComponent },
+    { path: 'room', component: RoomComponent },
+    { path: 'examination-type', component: ExaminationTypeComponent },
+    { path: 'codebook', component: CodebookComponent }
   ]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent }
