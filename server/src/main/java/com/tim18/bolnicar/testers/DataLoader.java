@@ -1,22 +1,33 @@
 package com.tim18.bolnicar.testers;
 
+import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.Patient;
+import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.DoctorRepository;
+import com.tim18.bolnicar.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
+import java.util.Date;
 
 @Component
 public class DataLoader implements ApplicationRunner {
 
     private DoctorRepository doctorRepository;
+    private PatientRepository patientRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
-    public DataLoader(DoctorRepository doctorRepository) {
+    public DataLoader(DoctorRepository doctorRepository,
+                      PatientRepository patientRepository,
+                      AppointmentRepository appointmentRepository) {
         this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @Override
@@ -48,5 +59,27 @@ public class DataLoader implements ApplicationRunner {
         doctor2.setActive(true);
 
         doctorRepository.save(doctor2);
+
+        // patient
+        Patient patient = new Patient();
+        patient.setEmailAddress("prototype@gmail.com");
+        patient.setPassword("frog");
+        patient.setFirstName("Prototype");
+        patient.setLastName("Prototype");
+        patient.setAddress("moja adresa");
+        patient.setCity("Novi Sad");
+        patient.setCountry("Srbija");
+        patient.setContact("123-321");
+        patient.setJmbg("123456789");
+        patient.setActive(true);
+
+        patientRepository.save(patient);
+
+        Appointment app = new Appointment();
+        // app.setPatient(patient);
+        app.setDiscount(0.0);
+        app.setDatetime(new Date());
+
+        appointmentRepository.save(app);
     }
 }
