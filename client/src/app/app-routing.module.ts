@@ -5,6 +5,7 @@ import { AdminClComponent } from './admincl/admincl.component';
 import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { ClinicComponent } from './clinic/clinic.component';
+import { RoomComponent } from './room/room.component';
 import { CodebookComponent } from './codebook/codebook.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
     { path: 'admincl', component: AdminClComponent },
     { path: 'doctor', component: DoctorComponent },
     { path: 'clinic', component: ClinicComponent },
+    { path: 'room', component: RoomComponent }
     { path: 'codebook', component: CodebookComponent }
   ]},
   { path: 'login', component: LoginComponent },

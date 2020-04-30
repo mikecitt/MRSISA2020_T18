@@ -17,6 +17,7 @@ import { ClinicComponent } from './clinic/clinic.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { RegisterComponent } from './register/register.component';
 import { CodebookComponent } from './codebook/codebook.component';
+import { RoomComponent } from './room/room.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CodebookComponent } from './codebook/codebook.component';
     DoctorComponent,
     RegisterComponent,
     CodebookComponent,
+    RoomComponent
   ],
   imports: [
     BrowserModule,
