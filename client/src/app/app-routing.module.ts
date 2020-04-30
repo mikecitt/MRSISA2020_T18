@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: 'admincl', component: AdminClComponent },
     { path: 'doctor', component: DoctorComponent },
     { path: 'clinic', component: ClinicComponent },
-    { path: 'room', component: RoomComponent }
+    { path: 'room', component: RoomComponent },
     { path: 'codebook', component: CodebookComponent }
   ]},
   { path: 'login', component: LoginComponent },
