@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -38,8 +40,11 @@ public class PatientController {
     }
 
     //TODO: get patient id from session token
-    @GetMapping(path = "/medicalRecord/{id}", consumes = "application/json")
-    public ResponseEntity<List<MedicalReportDTO>> getMedicalReport(@PathVariable Integer id) {
-        return new ResponseEntity<>(this.patientService.getMedicalRecord(id), HttpStatus.OK);
+    @GetMapping("/medicalRecord/{id}")
+    public ResponseEntity<Map<String, List<MedicalReportDTO>>> getMedicalReport(@PathVariable Integer id) {
+        //TODO: replace with MedicalRecordDTO
+        HashMap<String, List<MedicalReportDTO>> data = new HashMap<>();
+        data.put("data", this.patientService.getMedicalRecord(id));
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }
