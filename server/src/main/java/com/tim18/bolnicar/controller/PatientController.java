@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.MedicalReportDTO;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.UserDTO;
 import com.tim18.bolnicar.model.MedicalReport;
@@ -38,7 +39,7 @@ public class PatientController {
 
     //TODO: get patient id from session token
     @GetMapping(path = "/medicalRecord/{id}", consumes = "application/json")
-    public ResponseEntity<Set<MedicalReport>> getMedicalReport(@PathVariable Integer id) {
+    public ResponseEntity<List<MedicalReportDTO>> getMedicalReport(@PathVariable Integer id) {
         return new ResponseEntity<>(this.patientService.getMedicalRecord(id), HttpStatus.OK);
     }
 }

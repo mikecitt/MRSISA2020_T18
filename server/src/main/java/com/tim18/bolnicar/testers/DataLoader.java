@@ -11,7 +11,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -34,6 +36,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     @Override
+    @Transactional
     public void run(ApplicationArguments args) throws Exception {
         Doctor doctor1 = new Doctor();
         doctor1.setEmailAddress("zdravko.dugi@gmail.com");
@@ -83,28 +86,28 @@ public class DataLoader implements ApplicationRunner {
         ap1.setDatetime(new Date());
         ap1.setPatient(patient);
 
+        Appointment ap2 = new Appointment();
+        ap2.setDiscount(0.0);
+        ap2.setDatetime(new Date());
+        ap2.setPatient(patient);
+
         appointmentRepository.save(ap1);
+        appointmentRepository.save(ap2);
 
         MedicalReport mr1 = new MedicalReport();
         mr1.setAppointment(ap1);
         mr1.setDescription("Description first report");
 
         MedicalReport mr2 = new MedicalReport();
-        mr2.setAppointment(ap1);
+        mr2.setAppointment(ap2);
         mr2.setDescription("Description second report");
 
-        medicalReportRepository.save(mr1);
-        medicalReportRepository.save(mr2);
-
-        Set<MedicalReport> mrs = patient.getMedicalRecord();
+        Set<MedicalReport> mrs = new HashSet<MedicalReport>();
         mrs.add(mr1);
         mrs.add(mr2);
 
-        // ??
         patient.setMedicalRecord(mrs);
 
-        System.out.println(patient.getMedicalRecord().size());
-
-        // patientRepository.save(patient);
+        patientRepository.save(patient);
     }
 }
