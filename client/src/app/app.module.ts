@@ -16,6 +16,7 @@ import { TableViewComponent } from './table-view/table-view.component';
 import { ClinicComponent } from './clinic/clinic.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { RegisterComponent } from './register/register.component';
+import { MedicalRecordComponent } from './medical-record/medical-record.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RegisterComponent } from './register/register.component';
     ClinicComponent,
     DoctorComponent,
     RegisterComponent,
+    MedicalRecordComponent,
   ],
   imports: [
     BrowserModule,
