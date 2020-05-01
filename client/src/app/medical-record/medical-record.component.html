@@ -1,0 +1,22 @@
+<hr>
+<p>Medical record</p>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Report ID</th>
+    <th scope="col">Description</th>
+    <th scope="col">Appointment</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let r of medicalRecord">
+    <th scope="row">{{ r.id }}</th>
+    <td>
+     	{{ r.description }}
+    </td>
+    <td>
+    	{{ r.appointmentId }}
+    </td>
+  </tr>
+  </tbody>
+</table>

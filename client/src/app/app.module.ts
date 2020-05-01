@@ -19,6 +19,8 @@ import { RegisterComponent } from './register/register.component';
 import { CodebookComponent } from './codebook/codebook.component';
 import { RoomComponent } from './room/room.component';
 import { ExaminationTypeComponent } from './examination-type/examination-type.component';
+import { MedicalRecordComponent } from './medical-record/medical-record.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ExaminationTypeComponent } from './examination-type/examination-type.co
     RegisterComponent,
     CodebookComponent,
     RoomComponent,
-    ExaminationTypeComponent
+    ExaminationTypeComponent,
+    MedicalRecordComponent,
   ],
   imports: [
     BrowserModule,

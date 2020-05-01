@@ -2,17 +2,23 @@ package com.tim18.bolnicar.testers;
 
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.MedicalReport;
 import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.DoctorRepository;
+
+import com.tim18.bolnicar.repository.MedicalReportRepository;
 import com.tim18.bolnicar.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -20,17 +26,21 @@ public class DataLoader implements ApplicationRunner {
     private DoctorRepository doctorRepository;
     private PatientRepository patientRepository;
     private AppointmentRepository appointmentRepository;
+    private MedicalReportRepository medicalReportRepository;
 
     @Autowired
     public DataLoader(DoctorRepository doctorRepository,
                       PatientRepository patientRepository,
-                      AppointmentRepository appointmentRepository) {
+                      AppointmentRepository appointmentRepository,
+                      MedicalReportRepository medicalReportRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
+        this.medicalReportRepository = medicalReportRepository;
     }
 
     @Override
+    @Transactional
     public void run(ApplicationArguments args) throws Exception {
         Doctor doctor1 = new Doctor();
         doctor1.setEmailAddress("zdravko.dugi@gmail.com");
@@ -63,6 +73,7 @@ public class DataLoader implements ApplicationRunner {
         // patient
         Patient patient = new Patient();
         patient.setEmailAddress("prototype@gmail.com");
+
         patient.setPassword("frog");
         patient.setFirstName("Prototype");
         patient.setLastName("Prototype");
@@ -71,15 +82,38 @@ public class DataLoader implements ApplicationRunner {
         patient.setCountry("Srbija");
         patient.setContact("123-321");
         patient.setJmbg("123456789");
+
         patient.setActive(true);
 
         patientRepository.save(patient);
 
-        Appointment app = new Appointment();
-        // app.setPatient(patient);
-        app.setDiscount(0.0);
-        app.setDatetime(new Date());
+        Appointment ap1 = new Appointment();
+        ap1.setDiscount(0.0);
+        ap1.setDatetime(new Date());
+        ap1.setPatient(patient);
 
-        appointmentRepository.save(app);
+        Appointment ap2 = new Appointment();
+        ap2.setDiscount(0.0);
+        ap2.setDatetime(new Date());
+        ap2.setPatient(patient);
+
+        appointmentRepository.save(ap1);
+        appointmentRepository.save(ap2);
+
+        MedicalReport mr1 = new MedicalReport();
+        mr1.setAppointment(ap1);
+        mr1.setDescription("Description first report");
+
+        MedicalReport mr2 = new MedicalReport();
+        mr2.setAppointment(ap2);
+        mr2.setDescription("Description second report");
+
+        Set<MedicalReport> mrs = new HashSet<MedicalReport>();
+        mrs.add(mr1);
+        mrs.add(mr2);
+
+        patient.setMedicalRecord(mrs);
+
+        patientRepository.save(patient);
     }
 }
