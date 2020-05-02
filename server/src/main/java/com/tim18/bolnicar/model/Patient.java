@@ -41,8 +41,9 @@ public class Patient extends User {
     //TODO: make better
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.out.println("Utvrdjujem rolu pacijenta");
         List<Authority> authorityList = new ArrayList<>();
-        authorityList.add(new Authority("PATIENT"));
+        authorityList.add(new Authority("ROLE_PATIENT"));
         return authorityList;
     }
 }

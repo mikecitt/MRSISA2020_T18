@@ -26,7 +26,7 @@ public class Nurse extends MedicalWorker {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Authority> authorityList = new ArrayList<>();
-        authorityList.add(new Authority("NURSE"));
+        authorityList.add(new Authority("ROLE_NURSE"));
         return authorityList;
     }
 }

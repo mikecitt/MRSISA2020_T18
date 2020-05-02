@@ -43,7 +43,7 @@ public class Doctor extends MedicalWorker {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Authority> authorityList = new ArrayList<>();
-        authorityList.add(new Authority("DOCTOR"));
+        authorityList.add(new Authority("ROLE_DOCTOR"));
         return authorityList;
     }
 }
