@@ -6,9 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Patient extends User {
@@ -38,5 +36,13 @@ public class Patient extends User {
 
     public void setAppointments(Set<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    //TODO: make better
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Authority> authorityList = new ArrayList<>();
+        authorityList.add(new Authority("PATIENT"));
+        return authorityList;
     }
 }

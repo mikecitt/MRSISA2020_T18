@@ -1,11 +1,12 @@
 package com.tim18.bolnicar.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @DiscriminatorValue("DO")
@@ -36,5 +37,13 @@ public class Doctor extends MedicalWorker {
                 ", jmbg='" + jmbg + '\'' +
                 ", active=" + active +
                 '}';
+    }
+
+    //TODO: make better
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Authority> authorityList = new ArrayList<>();
+        authorityList.add(new Authority("DOCTOR"));
+        return authorityList;
     }
 }
