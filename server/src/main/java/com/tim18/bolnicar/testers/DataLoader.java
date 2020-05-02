@@ -12,6 +12,7 @@ import com.tim18.bolnicar.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class DataLoader implements ApplicationRunner {
     private MedicalReportRepository medicalReportRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public DataLoader(DoctorRepository doctorRepository,
                       PatientRepository patientRepository,
                       AppointmentRepository appointmentRepository,
@@ -44,7 +48,7 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Doctor doctor1 = new Doctor();
         doctor1.setEmailAddress("zdravko.dugi@gmail.com");
-        doctor1.setPassword("frog");
+        doctor1.setPassword(passwordEncoder.encode("frog"));
         doctor1.setFirstName("Zdravko");
         doctor1.setLastName("Dugonjic");
         doctor1.setAddress("moja adresa");
@@ -57,8 +61,8 @@ public class DataLoader implements ApplicationRunner {
         doctorRepository.save(doctor1);
 
         Doctor doctor2 = new Doctor();
-        doctor2.setEmailAddress("goja@gmail.com");
-        doctor2.setPassword("hippopotamus");
+        doctor2.setEmailAddress("gojko@gmail.com");
+        doctor2.setPassword(passwordEncoder.encode("hippopotamus"));
         doctor2.setFirstName("Gojko");
         doctor2.setLastName("Gojkovic");
         doctor2.setAddress("moja adresa");
@@ -74,7 +78,7 @@ public class DataLoader implements ApplicationRunner {
         Patient patient = new Patient();
         patient.setEmailAddress("prototype@gmail.com");
 
-        patient.setPassword("frog");
+        patient.setPassword(passwordEncoder.encode("frog"));
         patient.setFirstName("Prototype");
         patient.setLastName("Prototype");
         patient.setAddress("moja adresa");
