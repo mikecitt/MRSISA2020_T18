@@ -1,6 +1,9 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.model.User;
+import com.tim18.bolnicar.repository.UserRepository;
 import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,12 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.LocalTime;
 import java.util.HashMap;
 
 @RestController
 @CrossOrigin
 public class EchoController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/echo")
     public ResponseEntity<HashMap<String, String>> echo() {
@@ -31,5 +38,10 @@ public class EchoController {
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<String> echoPatient() {
         return ResponseEntity.ok("hie patient!");
+    }
+
+    @GetMapping("/whoami")
+    public User user(Principal user) {
+        return this.userRepository.findByEmailAddress(user.getName());
     }
 }
