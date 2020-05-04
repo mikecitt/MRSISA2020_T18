@@ -24,6 +24,6 @@ export class PatientService {
   // specify type?
   getMedicalRecord() {
   	//TODO: hardcoded
-  	return this.http.get<any>('http://localhost:8080/patient/medicalRecord/3')
+  	return this.http.get<any>('http://localhost:8080/patient/medicalRecord')
   }
 }

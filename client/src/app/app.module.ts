@@ -21,6 +21,10 @@ import { RoomComponent } from './room/room.component';
 import { ExaminationTypeComponent } from './examination-type/examination-type.component';
 import { MedicalRecordComponent } from './medical-record/medical-record.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './token.interceptor';
+
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -48,7 +52,14 @@ import { MedicalRecordComponent } from './medical-record/medical-record.componen
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
+  },
+  CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
