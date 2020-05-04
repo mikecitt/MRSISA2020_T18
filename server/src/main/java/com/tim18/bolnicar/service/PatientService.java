@@ -10,4 +10,5 @@ import java.util.Set;
 public interface PatientService {
     boolean registerPatient(UserDTO user);
     List<MedicalReportDTO> getMedicalRecord(Integer patientId);
+    List<MedicalReportDTO> getMedicalRecord(String patientEmail);
 }

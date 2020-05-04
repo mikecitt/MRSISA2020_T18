@@ -8,6 +8,7 @@ import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.repository.PatientRepository;
 import com.tim18.bolnicar.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,13 +19,16 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     //TODO: make annotation call of email notification
     @Override
     public boolean registerPatient(UserDTO user) {
         Patient patient = new Patient();
 
         patient.setEmailAddress(user.getEmailAddress());
-        patient.setPassword(user.getPassword()); //TODO: hash!
+        patient.setPassword(passwordEncoder.encode(user.getPassword()));
         patient.setFirstName(user.getFirstName());
         patient.setLastName(user.getLastName());
         patient.setAddress(user.getAddress());
@@ -32,7 +36,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setCountry(user.getCountry());
         patient.setContact(user.getContact());
         patient.setJmbg(user.getJmbg());
-        patient.setActive(false);
+        patient.setActive(true); // disable later
 
         try {
             patientRepository.save(patient);
@@ -44,7 +48,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    @Transactional
+    // @Transactional
     public List<MedicalReportDTO> getMedicalRecord(Integer patientId) {
         Optional<Patient> patient = this.patientRepository.findById(patientId);
 
@@ -52,6 +56,28 @@ public class PatientServiceImpl implements PatientService {
             return null;
 
         Set<MedicalReport> record = patient.get().getMedicalRecord();
+        List<MedicalReportDTO> res = new ArrayList<MedicalReportDTO>();
+
+        for (MedicalReport mr : record)
+            res.add(new MedicalReportDTO(
+                    mr.getId(),
+                    mr.getDescription(),
+                    mr.getDiagnoses(),
+                    mr.getAppointment().getId()
+            ));
+
+        return res;
+    }
+
+    @Override
+    // @Transactional
+    public List<MedicalReportDTO> getMedicalRecord(String patientEmail) {
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+
+        if (patient == null)
+            return null;
+
+        Set<MedicalReport> record = patient.getMedicalRecord();
         List<MedicalReportDTO> res = new ArrayList<MedicalReportDTO>();
 
         for (MedicalReport mr : record)
