@@ -1,0 +1,30 @@
+<p>List of Examination Types</p>
+
+<form>
+  <div class="form-group form-inline">
+      Search <input class="form-control ml-2" type="text" [formControl]="filter"/>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let type of examinationTypes | async; index as i">
+    <th scope="row">
+      <ngb-highlight [result]="type.id" [term]="filter.value"></ngb-highlight>
+    </th>
+    <td>
+      <ngb-highlight [result]="type.name" [term]="filter.value"></ngb-highlight>
+    </td>
+    <td>
+      <ngb-highlight [result]="type.price" [term]="filter.value"></ngb-highlight>
+    </td>
+  </tr>
+  </tbody>
+</table>
