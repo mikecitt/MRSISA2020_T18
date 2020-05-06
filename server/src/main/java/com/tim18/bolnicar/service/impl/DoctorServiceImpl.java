@@ -4,6 +4,7 @@ import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.repository.DoctorRepository;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Autowired
     private DoctorRepository doctorRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Doctor> findAll() {
@@ -26,6 +30,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor save(Doctor doctor) {
+        //TODO: make better
+        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+        doctor.setActive(true); //TODO: change
         return doctorRepository.save(doctor);
     }
 
