@@ -23,6 +23,8 @@ public class DataLoader implements ApplicationRunner {
     private AppointmentRepository appointmentRepository;
     private MedicalReportRepository medicalReportRepository;
     private ExaminationTypeRepository examinationTypeRepository;
+    private ClinicCenterAdminRepository clinicCenterAdminRepository;
+    private ClinicAdminRepository clinicAdminRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,12 +34,16 @@ public class DataLoader implements ApplicationRunner {
                       PatientRepository patientRepository,
                       AppointmentRepository appointmentRepository,
                       MedicalReportRepository medicalReportRepository,
-                      ExaminationTypeRepository examinationTypeRepository) {
+                      ExaminationTypeRepository examinationTypeRepository,
+                      ClinicCenterAdminRepository clinicCenterAdminRepository,
+                      ClinicAdminRepository clinicAdminRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
         this.medicalReportRepository = medicalReportRepository;
         this.examinationTypeRepository = examinationTypeRepository;
+        this.clinicAdminRepository = clinicAdminRepository;
+        this.clinicCenterAdminRepository = clinicCenterAdminRepository;
     }
 
     @Override
@@ -73,7 +79,7 @@ public class DataLoader implements ApplicationRunner {
 
         // patient
         Patient patient = new Patient();
-        patient.setEmailAddress("prototype@gmail.com");
+        patient.setEmailAddress("patient@gmail.com");
 
         patient.setPassword(passwordEncoder.encode("frog"));
         patient.setFirstName("Prototype");
@@ -101,7 +107,7 @@ public class DataLoader implements ApplicationRunner {
         patient2.setContact("123-321");
         patient2.setJmbg("123456789321");
 
-        patient.setActive(true);
+        patient2.setActive(true);
 
         patientRepository.save(patient2);
 
@@ -140,5 +146,34 @@ public class DataLoader implements ApplicationRunner {
         et1.setPrice(20000.00);
 
         examinationTypeRepository.save(et1);
+
+        // more
+        ClinicCenterAdmin cca = new ClinicCenterAdmin();
+        cca.setEmailAddress("ccadmin@gmail.com");
+        cca.setPassword(passwordEncoder.encode("frog"));
+        cca.setFirstName("Zdravko");
+        cca.setLastName("Dugonjic");
+        cca.setAddress("moja adresa");
+        cca.setCity("Novi Sad");
+        cca.setCountry("Srbija");
+        cca.setContact("123-321");
+        cca.setJmbg("1234456789");
+        cca.setActive(true);
+
+        clinicCenterAdminRepository.save(cca);
+
+        ClinicAdmin ca = new ClinicAdmin();
+        ca.setEmailAddress("cadmin@gmail.com");
+        ca.setPassword(passwordEncoder.encode("frog"));
+        ca.setFirstName("Zdravko");
+        ca.setLastName("Dugonjic");
+        ca.setAddress("moja adresa");
+        ca.setCity("Novi Sad");
+        ca.setCountry("Srbija");
+        ca.setContact("123-321");
+        ca.setJmbg("123445675389");
+        ca.setActive(true);
+
+        clinicAdminRepository.save(ca);
     }
 }
