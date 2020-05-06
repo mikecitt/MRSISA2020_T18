@@ -14,9 +14,8 @@ interface ExaminationType {
 
 function search(text:string, pipe: PipeTransform, data: ExaminationType[]): ExaminationType[] {
   return data.filter(examinationType => {
-    const term = text.toLowerCase();2
-    return examinationType.name.toLowerCase().includes(term)
-        || examinationType.id.includes(term);
+    const term = text.toLowerCase();
+    return examinationType.name.toLowerCase().includes(term);
   });
 }
 
