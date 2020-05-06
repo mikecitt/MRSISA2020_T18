@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 import { trigger, state, style, transition, animate, keyframes} from '@angular/animations';
 
@@ -23,13 +24,19 @@ export class MainPageComponent implements OnInit {
   public isSideBarCollapsed = false
   public isMenuCollapsed = true
   public is
-  constructor() { }
+
+  authority;
+
+  constructor(private service: AuthService) { }
 
   toggle() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
   }
 
   ngOnInit(): void {
+    this.service.whoAmI().subscribe(data => {
+      this.authority = data['authorities'][0]['authority'];
+    })
   }
 
 }

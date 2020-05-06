@@ -70,4 +70,8 @@ export class AuthService {
   getToken() {
     return this.access_token;
   }
+
+  whoAmI() {
+  	return this.http.get<any>('http://localhost:8080/whoami')
+  }
 }
