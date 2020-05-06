@@ -25,6 +25,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
 
 import { CookieService } from 'ngx-cookie-service';
+import { PatientsTableComponent } from './patients-table/patients-table.component';
+import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { CookieService } from 'ngx-cookie-service';
     RoomComponent,
     ExaminationTypeComponent,
     MedicalRecordComponent,
+    PatientsTableComponent,
+    NursePanelComponent,
   ],
   imports: [
     BrowserModule,
