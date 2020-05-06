@@ -1,14 +1,8 @@
 package com.tim18.bolnicar.testers;
 
-import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.model.Doctor;
-import com.tim18.bolnicar.model.MedicalReport;
-import com.tim18.bolnicar.model.Patient;
-import com.tim18.bolnicar.repository.AppointmentRepository;
-import com.tim18.bolnicar.repository.DoctorRepository;
+import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.repository.*;
 
-import com.tim18.bolnicar.repository.MedicalReportRepository;
-import com.tim18.bolnicar.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -28,6 +22,7 @@ public class DataLoader implements ApplicationRunner {
     private PatientRepository patientRepository;
     private AppointmentRepository appointmentRepository;
     private MedicalReportRepository medicalReportRepository;
+    private ExaminationTypeRepository examinationTypeRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,11 +31,13 @@ public class DataLoader implements ApplicationRunner {
     public DataLoader(DoctorRepository doctorRepository,
                       PatientRepository patientRepository,
                       AppointmentRepository appointmentRepository,
-                      MedicalReportRepository medicalReportRepository) {
+                      MedicalReportRepository medicalReportRepository,
+                      ExaminationTypeRepository examinationTypeRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
         this.medicalReportRepository = medicalReportRepository;
+        this.examinationTypeRepository = examinationTypeRepository;
     }
 
     @Override
@@ -119,5 +116,12 @@ public class DataLoader implements ApplicationRunner {
         patient.setMedicalRecord(mrs);
 
         patientRepository.save(patient);
+
+        ExaminationType et1 = new ExaminationType();
+        et1.setId(101);
+        et1.setName("Testiranje na COVID-19");
+        et1.setPrice(20000.00);
+
+        examinationTypeRepository.save(et1);
     }
 }
