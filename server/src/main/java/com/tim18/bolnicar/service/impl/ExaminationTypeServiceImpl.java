@@ -6,6 +6,8 @@ import com.tim18.bolnicar.service.ExaminationTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExaminationTypeServiceImpl implements ExaminationTypeService {
 
@@ -15,5 +17,10 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     @Override
     public ExaminationType save(ExaminationType examinationType) {
         return examinationTypeRepository.save(examinationType);
+    }
+
+    @Override
+    public List<ExaminationType> findAll() {
+        return (List<ExaminationType>) examinationTypeRepository.findAll();
     }
 }

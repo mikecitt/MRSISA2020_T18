@@ -13,7 +13,7 @@ interface Doctor {
 
 function search(text: string, pipe: PipeTransform, data: Doctor[]): Doctor[] {
   return data.filter(doctor => {
-    const term = text.toLowerCase();2
+    const term = text.toLowerCase();
     return doctor.firstName.toLowerCase().includes(term)
         || doctor.lastName.toLowerCase().includes(term);
   });
@@ -36,13 +36,13 @@ export class TableViewComponent implements OnInit {
 
 	pipe: DecimalPipe;
 
-  constructor(private doctorService: DoctorService, pipe: DecimalPipe) { 
+  constructor(private doctorService: DoctorService, pipe: DecimalPipe) {
   	this.pipe = pipe;
   }
 
   ngOnInit(): void {
   	this.doctorService.getDoctors().subscribe(data => {
-  		for (let e in data) 
+  		for (let e in data)
   			this.data.push({firstName: data[e].firstName, lastName: data[e].lastName});
 
   		// why not in constructor?
