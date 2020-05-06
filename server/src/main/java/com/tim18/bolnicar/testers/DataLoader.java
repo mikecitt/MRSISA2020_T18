@@ -85,11 +85,28 @@ public class DataLoader implements ApplicationRunner {
         patient.setCity("Novi Sad");
         patient.setCountry("Srbija");
         patient.setContact("123-321");
-        patient.setJmbg("123456789");
+        patient.setJmbg("5431134431234");
 
         patient.setActive(true);
 
         patientRepository.save(patient);
+
+        // patient
+        Patient patient2 = new Patient();
+        patient2.setEmailAddress("pacijent@gmail.com");
+
+        patient2.setPassword(passwordEncoder.encode("frog"));
+        patient2.setFirstName("Pacijent");
+        patient2.setLastName("Pacijentovic");
+        patient2.setAddress("moja adresa");
+        patient2.setCity("Novi Sad");
+        patient2.setCountry("Srbija");
+        patient2.setContact("123-321");
+        patient2.setJmbg("123456789321");
+
+        patient.setActive(true);
+
+        patientRepository.save(patient2);
 
         Appointment ap1 = new Appointment();
         ap1.setDiscount(0.0);
