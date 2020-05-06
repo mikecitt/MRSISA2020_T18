@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-doctor',
@@ -8,6 +9,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./doctor.component.css']
 })
 export class DoctorComponent implements OnInit {
+
+  eventsSubject: Subject<void> = new Subject<void>();
 
   firstname:string = '';
   lastname:string = '';
@@ -47,6 +50,7 @@ export class DoctorComponent implements OnInit {
       return this.http.post<any>('http://localhost:8080/doctor/add', formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Lekar uspesno dodat."
+          this.eventsSubject.next();
         }
         else {
           this.message = "Lekar vec postoji."

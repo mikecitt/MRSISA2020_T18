@@ -47,12 +47,9 @@ import { ExaminationTypeViewComponent } from './examination-type-view/examinatio
     RoomComponent,
     ExaminationTypeComponent,
     MedicalRecordComponent,
-<<<<<<< HEAD
     PatientsTableComponent,
     NursePanelComponent,
-=======
     ExaminationTypeViewComponent,
->>>>>>> 9429a37f5c581f9171ef4d1908335b1d2ec6a885
   ],
   imports: [
     BrowserModule,

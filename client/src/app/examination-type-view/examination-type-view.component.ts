@@ -3,7 +3,7 @@ import { ExaminationTypeService } from '../examination-type.service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 interface ExaminationType {
@@ -29,6 +29,10 @@ export class ExaminationTypeViewComponent implements OnInit {
   @Input() endpoint: string;
   @Input() fieldsList: string[];
 
+  private eventsSubscription: Subscription;
+
+  @Input() events: Observable<void>;
+
   data: ExaminationType[] = [];
 
   examinationTypes: Observable<ExaminationType[]>;
@@ -42,6 +46,12 @@ export class ExaminationTypeViewComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.eventsSubscription = this.events.subscribe(() => this.initTable());
+    this.initTable();
+  }
+
+  initTable(): void {
+    this.data.length = 0;
     this.examinationTypeService.getExaminationTypes().subscribe(data => {
       for (let e in data)
         this.data.push({id: data[e].id, name: data[e].name, price: data[e].price});
@@ -51,5 +61,9 @@ export class ExaminationTypeViewComponent implements OnInit {
           map(text => search(text, this.pipe, this.data))
         )
     })
+  }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
   }
 }

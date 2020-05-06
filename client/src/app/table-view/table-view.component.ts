@@ -3,7 +3,7 @@ import { DoctorService } from '../doctor.service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 interface Doctor {
@@ -29,6 +29,10 @@ export class TableViewComponent implements OnInit {
 	@Input() endpoint: string;
 	@Input() fieldsList: string[];
 
+  private eventsSubscription: Subscription;
+
+  @Input() events: Observable<void>;
+
 	data: Doctor[] = [];
 
 	doctors: Observable<Doctor[]>;
@@ -40,17 +44,27 @@ export class TableViewComponent implements OnInit {
   	this.pipe = pipe;
   }
 
-  ngOnInit(): void {
-  	this.doctorService.getDoctors().subscribe(data => {
-  		for (let e in data)
-  			this.data.push({firstName: data[e].firstName, lastName: data[e].lastName});
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
+  }
 
-  		// why not in constructor?
-  			this.doctors = this.filter.valueChanges.pipe(
-		  		startWith(''),
-		  		map(text => search(text, this.pipe, this.data))
-	  		)
-  	})
+  ngOnInit(): void {
+  	this.initTable();
+    this.eventsSubscription = this.events.subscribe(() => this.initTable());
+  }
+
+  initTable(): void {
+    this.data.length = 0;
+    this.doctorService.getDoctors().subscribe(data => {
+      for (let e in data)
+        this.data.push({firstName: data[e].firstName, lastName: data[e].lastName});
+
+      // why not in constructor?
+        this.doctors = this.filter.valueChanges.pipe(
+          startWith(''),
+          map(text => search(text, this.pipe, this.data))
+        )
+    })
   }
 
 }
