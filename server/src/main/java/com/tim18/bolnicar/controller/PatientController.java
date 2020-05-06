@@ -1,9 +1,11 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.MedicalReportDTO;
+import com.tim18.bolnicar.dto.PatientDTO;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.UserDTO;
 import com.tim18.bolnicar.model.MedicalReport;
+import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.service.PatientService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,13 @@ public class PatientController {
         HashMap<String, List<MedicalReportDTO>> data = new HashMap<>();
         data.put("data", this.patientService.getMedicalRecord(user.getName()));
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
+    public ResponseEntity<Map<String, List<PatientDTO>>> getPatients() {
+        HashMap<String, List<PatientDTO>> data = new HashMap<>();
+        data.put("data", this.patientService.getPatients());
+        return ResponseEntity.ok(data);
     }
 }

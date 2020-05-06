@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.MedicalReportDTO;
+import com.tim18.bolnicar.dto.PatientDTO;
 import com.tim18.bolnicar.dto.UserDTO;
 import com.tim18.bolnicar.model.MedicalDiagnosis;
 import com.tim18.bolnicar.model.MedicalReport;
@@ -90,4 +91,21 @@ public class PatientServiceImpl implements PatientService {
 
         return res;
     }
+
+    @Override
+    public List<PatientDTO> getPatients() {
+        List<PatientDTO> patients = new ArrayList<>();
+
+        for (Patient p : this.patientRepository.findAll()) {
+            PatientDTO patient = new PatientDTO();
+            patient.setFirstName(p.getFirstName());
+            patient.setLastName(p.getLastName());
+            patient.setJmbg(p.getJmbg());
+            patients.add(patient);
+        }
+
+        return patients;
+    }
+
+
 }
