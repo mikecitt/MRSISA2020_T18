@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { EchoService } from './echo.service'
+import { EchoService } from './service'
 
 @Component({
   selector: 'app-root',

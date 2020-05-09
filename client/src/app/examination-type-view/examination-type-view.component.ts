@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { ExaminationTypeService } from '../examination-type.service';
+import { ExaminationTypeService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 

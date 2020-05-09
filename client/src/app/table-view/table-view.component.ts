@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { DoctorService } from '../doctor.service';
+import { DoctorService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 

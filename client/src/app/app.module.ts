@@ -22,7 +22,7 @@ import { ExaminationTypeComponent } from './examination-type/examination-type.co
 import { MedicalRecordComponent } from './medical-record/medical-record.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './token.interceptor';
+import { TokenInterceptor } from './interceptor/token.interceptor';
 
 import { CookieService } from 'ngx-cookie-service';
 

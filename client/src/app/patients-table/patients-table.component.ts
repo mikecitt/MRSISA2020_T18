@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { PatientService } from '../patient.service';
+import { PatientService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
@@ -39,7 +39,7 @@ export class PatientsTableComponent implements OnInit {
 
   ngOnInit(): void {
   	this.patientService.getPatients().subscribe(data => {
-  		for (let e in data['data']) 
+  		for (let e in data['data'])
   			this.data.push({firstName: data['data'][e].firstName, lastName: data['data'][e].lastName, jmbg: data['data'][e].jmbg});
 
   		// why not in constructor?
