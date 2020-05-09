@@ -53,12 +53,12 @@ export class AuthService {
       'username' : user.email,
       'password' : user.password
     };
-    
+
     return this.http.post('http://localhost:8080/auth/login', body)
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
-        this.cookieService.set(COOKIE_NAME, this.access_token)
+        this.cookieService.set(COOKIE_NAME, this.access_token, res['expiresIn'])
         this.router.navigate(['/']);
       }));
 	}

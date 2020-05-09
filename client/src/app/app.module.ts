@@ -25,6 +25,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 
 import { CookieService } from 'ngx-cookie-service';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
@@ -58,7 +59,8 @@ import { ExaminationTypeViewComponent } from './examination-type-view/examinatio
     FormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StorageServiceModule
   ],
   providers: [
   {

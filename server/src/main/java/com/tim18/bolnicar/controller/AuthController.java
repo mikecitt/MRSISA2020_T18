@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -74,6 +75,24 @@ public class AuthController {
         return new ResponseEntity<>(
                 new ResponseReport("error", "Invalid input."),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
+
+        String token = tokenUtils.getToken(request);
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        User user = (User) this.userDetailsService.loadUserByUsername(username);
+
+        if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = tokenUtils.refreshToken(token);
+            int expiresIn = tokenUtils.getExpiredIn();
+
+            return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
+        } else {
+            UserTokenState userTokenState = new UserTokenState();
+            return ResponseEntity.badRequest().body(userTokenState);
+        }
     }
 
     @PostMapping("/hoho")
