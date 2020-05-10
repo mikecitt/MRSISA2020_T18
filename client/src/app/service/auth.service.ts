@@ -3,6 +3,7 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders, Http
 import {map} from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
 
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -32,6 +33,7 @@ export class AuthService {
 	private access_token = null;
 
 	constructor(
+	  private userService:UserService,
 		private http:HttpClient,
 		private cookieService: CookieService,
 		private router: Router,
@@ -58,8 +60,12 @@ export class AuthService {
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
-        this.cookieService.set(COOKIE_NAME, this.access_token, res['expiresIn'])
-        this.router.navigate(['/']);
+        const dateNow = new Date();
+        dateNow.setMinutes(dateNow.getMinutes() + (res['expiresIn'] / 60));
+        this.cookieService.set(COOKIE_NAME, this.access_token);
+        this.userService.getMyInfo().subscribe(() => {
+          this.router.navigate(['/']);
+        });
       }));
 	}
 

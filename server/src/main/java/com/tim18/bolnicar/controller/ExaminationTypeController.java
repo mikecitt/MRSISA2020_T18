@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,6 +31,7 @@ public class ExaminationTypeController {
             consumes = { MediaType.APPLICATION_JSON_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Map<String, String>> addExaminationType(@RequestBody ExaminationType newExaminationType) {
         HashMap<String, String> response = new HashMap<>();
 

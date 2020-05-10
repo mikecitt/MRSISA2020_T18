@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthService } from '../service';
 import { Observable } from 'rxjs';
-import { UserService } from '../service';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +14,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: AuthService,
-    private userService: UserService
+    private service: AuthService
   ) {
   	this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
@@ -32,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   	this.service.login(this.form.value)
   	.subscribe(data => {
-          this.userService.getMyInfo().subscribe();
+
         },
         error => {
           //this.submitted = false;
