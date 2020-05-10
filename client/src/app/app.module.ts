@@ -30,6 +30,7 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 import { ExaminationTypeViewComponent } from './examination-type-view/examination-type-view.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ExaminationTypeViewComponent } from './examination-type-view/examinatio
     PatientsTableComponent,
     NursePanelComponent,
     ExaminationTypeViewComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,

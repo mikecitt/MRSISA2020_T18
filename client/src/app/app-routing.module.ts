@@ -12,27 +12,29 @@ import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { LoginGuard, MainPageGuard } from './guard';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
 import { Router } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '', component: MainPageComponent,
     children: [
-      { path: 'patient', component: PatientComponent },
-      { path: 'admin', component: AdminComponent },
-      { path: 'admincl', component: AdminClComponent },
-      { path: 'doctor', component: DoctorComponent },
-      { path: 'clinic', component: ClinicComponent },
-      { path: 'room', component: RoomComponent },
-      { path: 'examination-type', component: ExaminationTypeComponent },
-      { path: 'codebook', component: CodebookComponent },
-      { path: 'nurse', component: NursePanelComponent }
+      { path: 'patient', component: PatientComponent, canActivate: [PatientGuard] },
+      { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+      { path: 'admincl', component: AdminClComponent, canActivate: [AdminGuard] },
+      { path: 'doctor', component: DoctorComponent, canActivate: [AdminclGuard] },
+      { path: 'clinic', component: ClinicComponent, canActivate: [AdminGuard] },
+      { path: 'room', component: RoomComponent, canActivate: [AdminclGuard] },
+      { path: 'examination-type', component: ExaminationTypeComponent, canActivate: [AdminclGuard] },
+      { path: 'codebook', component: CodebookComponent, canActivate: [AdminGuard] },
+      { path: 'nurse', component: NursePanelComponent, canActivate: [MedicalGuard] }
     ],
     canActivate: [MainPageGuard]
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
-  { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] }
+  { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+  { path: '403', component: ForbiddenComponent }
 ];
 
 @NgModule({
