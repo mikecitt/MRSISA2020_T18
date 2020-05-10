@@ -39,4 +39,9 @@ export class MainPageComponent implements OnInit {
     })
   }
 
+  onLogout(): void {
+    this.authority = null;
+    this.service.logout();
+  }
+
 }

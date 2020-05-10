@@ -33,8 +33,15 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Klinički centar <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
+          <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-right">
+            <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="dropdownConfig" role="button">
+              Nalog
+            </a>
+            <div ngbDropdownMenu aria-labelledby="dropdownConfig" class="dropdown-menu">
+              <a href="#" ngbDropdownItem>Profil</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" ngbDropdownItem (click)="onLogout()">Odjavi se</a>
+            </div>
           </li>
         </ul>
       </div>
