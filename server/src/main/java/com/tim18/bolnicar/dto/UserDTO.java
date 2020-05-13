@@ -1,5 +1,7 @@
 package com.tim18.bolnicar.dto;
 
+import com.tim18.bolnicar.model.User;
+
 import javax.persistence.Column;
 
 public class UserDTO {
@@ -14,6 +16,18 @@ public class UserDTO {
     private String jmbg;
 
     public UserDTO() {
+    }
+
+    public UserDTO(User user) {
+        this.emailAddress = user.getEmailAddress();
+        //WARNING: no password!! (hash)
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.address = user.getAddress();
+        this.city = user.getCity();
+        this.country = user.getCountry();
+        this.contact = user.getContact();
+        this.jmbg = user.getJmbg();
     }
 
     public String getEmailAddress() {
