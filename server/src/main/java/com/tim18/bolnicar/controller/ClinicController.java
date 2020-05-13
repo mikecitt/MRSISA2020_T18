@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.ClinicDTO;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,5 +40,18 @@ public class ClinicController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyRole('PATIENT', 'CENTER_ADMIN')")
+    public ResponseEntity<List<ClinicDTO>> getClinics() {
+        //TODO: optimise?
+        List<Clinic> clinics = this.clinicService.findAll();
+        List<ClinicDTO> response = new ArrayList<>();
+
+        for (Clinic clinic : clinics)
+            response.add(new ClinicDTO(clinic));
+
+        return ResponseEntity.ok(response);
     }
 }

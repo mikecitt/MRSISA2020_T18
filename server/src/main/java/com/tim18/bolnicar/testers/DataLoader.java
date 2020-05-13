@@ -25,6 +25,7 @@ public class DataLoader implements ApplicationRunner {
     private ExaminationTypeRepository examinationTypeRepository;
     private ClinicCenterAdminRepository clinicCenterAdminRepository;
     private ClinicAdminRepository clinicAdminRepository;
+    private ClinicRepository clinicRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,7 +37,8 @@ public class DataLoader implements ApplicationRunner {
                       MedicalReportRepository medicalReportRepository,
                       ExaminationTypeRepository examinationTypeRepository,
                       ClinicCenterAdminRepository clinicCenterAdminRepository,
-                      ClinicAdminRepository clinicAdminRepository) {
+                      ClinicAdminRepository clinicAdminRepository,
+                      ClinicRepository clinicRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
@@ -44,6 +46,7 @@ public class DataLoader implements ApplicationRunner {
         this.examinationTypeRepository = examinationTypeRepository;
         this.clinicAdminRepository = clinicAdminRepository;
         this.clinicCenterAdminRepository = clinicCenterAdminRepository;
+        this.clinicRepository = clinicRepository;
     }
 
     @Override
@@ -175,5 +178,25 @@ public class DataLoader implements ApplicationRunner {
         ca.setActive(true);
 
         clinicAdminRepository.save(ca);
+
+        // clinics
+        Clinic clinicA = new Clinic();
+        clinicA.setAddress("Address1");
+        clinicA.setName("Clinic A");
+        clinicA.setDescription("Clinic A Description");
+
+        Clinic clinicB = new Clinic();
+        clinicB.setAddress("Address2");
+        clinicB.setName("Clinic B");
+        clinicB.setDescription("Clinic B Description");
+
+        Clinic clinicC = new Clinic();
+        clinicC.setAddress("Address3");
+        clinicC.setName("Clinic A3");
+        clinicC.setDescription("Clinic A3 Description");
+
+        this.clinicRepository.save(clinicA);
+        this.clinicRepository.save(clinicB);
+        this.clinicRepository.save(clinicC);
     }
 }
