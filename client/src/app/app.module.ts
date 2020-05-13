@@ -32,6 +32,9 @@ import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 import { ExaminationTypeViewComponent } from './examination-type-view/examination-type-view.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ClinicTableComponent } from './clinic-table/clinic-table.component';
+
+import { NgbdSortableHeader } from './clinic-table/clinic-table.component';
 
 
 @NgModule({
@@ -55,6 +58,8 @@ import { ProfileComponent } from './profile/profile.component';
     ExaminationTypeViewComponent,
     ForbiddenComponent,
     ProfileComponent,
+    ClinicTableComponent,
+    NgbdSortableHeader,
   ],
   imports: [
     BrowserModule,
