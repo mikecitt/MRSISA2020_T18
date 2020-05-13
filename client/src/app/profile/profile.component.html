@@ -1,0 +1,53 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Profile</h5>
+</div>
+<div class="modal-body">
+<form [formGroup]="profileForm">
+  <div class="form-group">
+  	<label>Email</label>
+    <input type="text" class="form-control-plaintext" readonly disabled formControlName="emailAddress">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" formControlName="password" placeholder="New Password">
+  </div>
+  <div class="form-group">
+    <label>Confirm Password</label>
+    <input type="password" class="form-control" formControlName="rePassword" placeholder="New Password">
+  </div>
+  <div class="form-group">
+  	<label>First Name</label>
+    <input type="text" class="form-control" formControlName="firstName">
+  </div>
+  <div class="form-group">
+  	<label>Last Name</label>
+    <input type="text" class="form-control" formControlName="lastName">
+  </div>
+  <div class="form-group">
+  	<label>Address</label>
+    <input type="text" class="form-control" formControlName="address">
+  </div>
+  <div class="form-group">
+  	<label>City</label>
+    <input type="text" class="form-control" formControlName="city">
+  </div>
+  <div class="form-group">
+  	<label>Country</label>
+    <input type="text" class="form-control" formControlName="country">
+  </div>
+  <div class="form-group">
+  	<label>Contact</label>
+    <input type="text" class="form-control" formControlName="contact">
+  </div>
+  <div class="form-group">
+  	<label>JMBG</label>
+    <input type="text" class="form-control-plaintext" disabled readonly="" formControlName="jmbg">
+  </div>
+</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" ngbAutofocus class="btn btn-primary" (click)="updateProfile()">Primeni</button>
+</div>
+</div>

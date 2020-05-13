@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from '../profile/profile.component';
 
 import { trigger, state, style, transition, animate, keyframes} from '@angular/animations';
 
@@ -27,7 +29,7 @@ export class MainPageComponent implements OnInit {
 
   authority;
 
-  constructor(private service: AuthService) { }
+  constructor(private service: AuthService, private modalService: NgbModal) { }
 
   toggle() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
@@ -44,4 +46,7 @@ export class MainPageComponent implements OnInit {
     this.service.logout();
   }
 
+  openProfile(): void {
+    this.modalService.open(ProfileComponent, { size: 'lg' });
+  }
 }

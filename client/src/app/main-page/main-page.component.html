@@ -38,7 +38,7 @@
               Nalog
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownConfig" class="dropdown-menu">
-              <a href="#" ngbDropdownItem>Profil</a>
+              <a href="#" (click)="openProfile()" ngbDropdownItem>Profil</a>
               <div class="dropdown-divider"></div>
               <a href="#" ngbDropdownItem (click)="onLogout()">Odjavi se</a>
             </div>

@@ -5,6 +5,17 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 const STORAGE_KEY = 'currUser';
 
+export interface Profile {
+  emailAddress: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  country: string;
+  contact: string;
+  jmbg: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,5 +53,13 @@ export class UserService {
         this.setupUser(user);
         return user;
       }));
+  }
+
+  getProfile() {
+    return this.http.get<Profile>('http://localhost:8080/user/profile');
+  }
+
+  updateProfile(payload) {
+    return this.http.put('http://localhost:8080/user/profile', payload);
   }
 }
