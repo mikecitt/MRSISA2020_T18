@@ -44,4 +44,12 @@ public class PatientController {
         data.put("data", this.patientService.getPatients());
         return ResponseEntity.ok(data);
     }
+
+    @GetMapping("/unregistered")
+    @PreAuthorize("hasRole('CENTER_ADMIN')")
+    public ResponseEntity<Map<String, List<PatientDTO>>> getUnregistered() {
+        HashMap<String, List<PatientDTO>> data = new HashMap<>();
+        data.put("unregistered", this.patientService.getUnregistered());
+        return ResponseEntity.ok(data);
+    }
 }

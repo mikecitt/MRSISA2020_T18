@@ -1,8 +1,10 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.Acceptance;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.UserDTO;
 import com.tim18.bolnicar.dto.UserTokenState;
+import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.model.User;
 import com.tim18.bolnicar.security.TokenUtils;
 import com.tim18.bolnicar.security.auth.JwtAuthenticationRequest;
@@ -98,5 +100,23 @@ public class AuthController {
     @PostMapping("/hoho")
     public ResponseEntity<String> get() {
         return ResponseEntity.ok("Poruka");
+    }
+
+    @PostMapping("/acceptance")
+    public ResponseEntity<ResponseReport> resolveRegistrationRequest(@RequestBody Acceptance acceptance) {
+        Patient patient = this.patientService.getPatient(acceptance.getUserJmbg());
+        if(patient != null) {
+            patient.setActive(acceptance.isAccept());
+            this.patientService.save(patient);
+
+            return new ResponseEntity<>(
+                    new ResponseReport("ok", "Patient is successfully processed."),
+                    HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(
+                    new ResponseReport("error", "Something went wrong."),
+                    HttpStatus.OK);
+        }
     }
 }

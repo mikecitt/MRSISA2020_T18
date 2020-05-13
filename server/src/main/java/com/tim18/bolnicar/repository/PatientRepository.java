@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PatientRepository extends CrudRepository<Patient, Integer> {
     Patient findByEmailAddress(String email);
+    Patient findByJmbg(String jmbg);
+    Iterable<Patient> findAllByActive(Boolean active);
 }
