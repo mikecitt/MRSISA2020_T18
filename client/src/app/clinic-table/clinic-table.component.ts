@@ -1,7 +1,8 @@
 import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Subject, Observable, Subscription, of } from 'rxjs';
 import { ClinicService, Clinic } from '../service';
 import { map, startWith } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 export type SortColumn = keyof Clinic | '';
 export type SortDirection = 'asc' | 'desc' | '';
@@ -40,14 +41,15 @@ export class NgbdSortableHeader {
 })
 export class ClinicTableComponent implements OnInit {
 
-	tableData: Clinic[];
+	//tableData: Clinic[];
 	data: Clinic[];
 
 	@ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-  onSort({column, direction}: SortEvent) {
-  	console.log('trigger')
+	tableData: Clinic[];
+	filter = new FormControl('');
 
+  onSort({column, direction}: SortEvent) {
     // resetting other headers
     this.headers.forEach(header => {
       if (header.sortable !== column) {
@@ -57,16 +59,26 @@ export class ClinicTableComponent implements OnInit {
 
     // sorting tableData
     if (direction === '' || column === '') {
-      this.tableData = this.data;
+      this.tableData = this.tableData;
     } else {
-      this.tableData = [...this.data].sort((a, b) => {
+      this.tableData = [...this.tableData].sort((a, b) => {
         const res = compare(`${a[column]}`, `${b[column]}`);
         return direction === 'asc' ? res : -res;
       });
     }
+
   }
 
-  constructor(private service: ClinicService) { }
+  constructor(private service: ClinicService) { 
+  	this.filter.valueChanges.subscribe(val => {
+  		this.tableData = this.data.filter(entity => {
+				const term = val.toLowerCase();
+	    	return entity.name.toLowerCase().includes(term)
+	        || entity.address.toLowerCase().includes(term)
+	        || entity.description.toLowerCase().includes(term);
+  		})
+  	})
+  }
 
   ngOnInit(): void {
   	this.service.getClinics().subscribe(result => {

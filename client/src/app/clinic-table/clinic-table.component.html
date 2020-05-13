@@ -1,10 +1,15 @@
+<form>
+  <div class="form-group form-inline">
+      Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
+  </div>
+</form>
 <table class="table table-striped">
   <thead>
   <tr>
     <th scope="col">#</th>
-    <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
-    <th scope="col" sortable="address" (sort)="onSort($event)">Address</th>
-    <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+    <th scope="col" sortable="name" (sort)="onSort($event)">Naziv</th>
+    <th scope="col" sortable="address" (sort)="onSort($event)">Adresa</th>
+    <th scope="col" sortable="description" (sort)="onSort($event)">Opis</th>
   </tr>
   </thead>
   <tbody>
