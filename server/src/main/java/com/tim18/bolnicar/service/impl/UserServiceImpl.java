@@ -5,12 +5,16 @@ import com.tim18.bolnicar.model.User;
 import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO getProfile(String emailAddress) {
@@ -26,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
         userCurrent.setFirstName(user.getFirstName());
         userCurrent.setLastName(user.getLastName());
+        userCurrent.setPassword(user.getPassword() == null ? userCurrent.getPassword() : passwordEncoder.encode(user.getPassword()));
         userCurrent.setAddress(user.getAddress());
         userCurrent.setCity(user.getCity());
         userCurrent.setCountry(user.getCountry());
