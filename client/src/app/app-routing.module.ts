@@ -13,6 +13,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { RegistrationReqComponent } from './registration-req/registration-req.component'
 import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
 import { Router } from '@angular/router';
 
@@ -28,7 +29,8 @@ const routes: Routes = [
       { path: 'room', component: RoomComponent, canActivate: [AdminclGuard] },
       { path: 'examination-type', component: ExaminationTypeComponent, canActivate: [AdminclGuard] },
       { path: 'codebook', component: CodebookComponent, canActivate: [AdminGuard] },
-      { path: 'nurse', component: NursePanelComponent, canActivate: [MedicalGuard] }
+      { path: 'nurse', component: NursePanelComponent, canActivate: [MedicalGuard] },
+      { path: 'registration-req', component: RegistrationReqComponent, canActivate: [AdminGuard]}
     ],
     canActivate: [MainPageGuard]
   },

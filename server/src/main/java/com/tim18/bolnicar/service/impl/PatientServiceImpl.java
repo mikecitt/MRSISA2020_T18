@@ -37,7 +37,7 @@ public class PatientServiceImpl implements PatientService {
         patient.setCountry(user.getCountry());
         patient.setContact(user.getContact());
         patient.setJmbg(user.getJmbg());
-        patient.setActive(true); // disable later
+        patient.setActive(null);
 
         try {
             patientRepository.save(patient);
@@ -107,5 +107,26 @@ public class PatientServiceImpl implements PatientService {
         return patients;
     }
 
+    @Override
+    public List<PatientDTO> getUnregistered() {
+        List<PatientDTO> patients = new ArrayList<>();
 
+        for(Patient p : this.patientRepository.findAllByActive(null)) {
+            PatientDTO patient = new PatientDTO();
+            patient.setFirstName(p.getFirstName());
+            patient.setLastName(p.getLastName());
+            patient.setJmbg(p.getJmbg());
+            patients.add(patient);
+        }
+
+        return patients;
+    }
+
+    public Patient getPatient(String patientJmbg) {
+        return this.patientRepository.findByJmbg(patientJmbg);
+    }
+
+    public Patient save(Patient patient) {
+        return this.patientRepository.save(patient);
+    }
 }
