@@ -14,7 +14,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let doctor of doctors | async; index as i">
-    <th scope="row">{{ i + 1 }}</th>
+    <th><ngb-highlight [result]="doctor.id" [term]="filter.value"></ngb-highlight></th>
     <td>
       <ngb-highlight [result]="doctor.firstName" [term]="filter.value"></ngb-highlight>
     </td>

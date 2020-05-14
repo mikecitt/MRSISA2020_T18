@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.DoctorDTO;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +24,14 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @GetMapping(path="/")
-    public ResponseEntity<List<Doctor>> getDoctors() {
-        return new ResponseEntity<>(doctorService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<DoctorDTO>> getDoctors() {
+        List<Doctor> doctors = this.doctorService.findAll();
+        List<DoctorDTO> response = new ArrayList<>();
+
+        for (Doctor doctor : doctors) {
+            response.add(new DoctorDTO(doctor));
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping(

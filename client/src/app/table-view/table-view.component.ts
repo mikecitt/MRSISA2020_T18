@@ -7,6 +7,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 interface Doctor {
+	id: string;
 	firstName: string;
 	lastName: string;
 }
@@ -57,7 +58,7 @@ export class TableViewComponent implements OnInit {
     this.data.length = 0;
     this.doctorService.getDoctors().subscribe(data => {
       for (let e in data)
-        this.data.push({firstName: data[e].firstName, lastName: data[e].lastName});
+        this.data.push({id: data[e].id, firstName: data[e].firstName, lastName: data[e].lastName});
 
       // why not in constructor?
         this.doctors = this.filter.valueChanges.pipe(
