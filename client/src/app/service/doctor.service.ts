@@ -17,4 +17,8 @@ export class DoctorService {
   getDoctors() {
   	return this.http.get('http://localhost:8080/doctor/')
   }
+
+	removeDoctor(id) {
+		return this.http.delete('http://localhost:8080/doctor/'+id)
+	}
 }

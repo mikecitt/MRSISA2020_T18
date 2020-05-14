@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <form>
   <div class="form-group form-inline">
       Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
@@ -10,15 +11,23 @@
     <th scope="col">#</th>
     <th scope="col">Ime</th>
     <th scope="col">Prezime</th>
+    <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let doctor of doctors | async; index as i">
-    <th><ngb-highlight [result]="doctor.id" [term]="filter.value"></ngb-highlight></th>
+    <th>
+      <ngb-highlight [result]="doctor.id" [term]="filter.value"></ngb-highlight>
+    </th>
     <td>
       <ngb-highlight [result]="doctor.firstName" [term]="filter.value"></ngb-highlight>
     </td>
-    <td><ngb-highlight [result]="doctor.lastName" [term]="filter.value"></ngb-highlight></td>
+    <td>
+      <ngb-highlight [result]="doctor.lastName" [term]="filter.value"></ngb-highlight>
+    </td>
+    <td>
+      <i (click)="removeDoctor(doctor.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
+    </td>
   </tr>
   </tbody>
 </table>

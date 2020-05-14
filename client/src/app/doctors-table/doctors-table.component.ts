@@ -68,4 +68,11 @@ export class DoctorsTableComponent implements OnInit {
     })
   }
 
+	removeDoctor(id) {
+		console.log(id);
+		this.doctorService.removeDoctor(id).subscribe(data => {
+			this.initTable();
+		});
+	}
+
 }

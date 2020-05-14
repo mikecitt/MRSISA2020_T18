@@ -56,6 +56,7 @@ public class DoctorController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Void> deleteDoctor(@PathVariable int id) {
         Doctor doctor = doctorService.findOne(id);
 
