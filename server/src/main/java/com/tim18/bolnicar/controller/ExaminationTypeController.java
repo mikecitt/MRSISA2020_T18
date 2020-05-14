@@ -23,7 +23,9 @@ public class ExaminationTypeController {
 
     @GetMapping
     private ResponseEntity<List<ExaminationType>> getExaminationTypes() {
-        return new ResponseEntity<>(examinationTypeService.findAll(), HttpStatus.OK);
+        List<ExaminationType> a = examinationTypeService.findAll();
+
+        return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
     @PostMapping(

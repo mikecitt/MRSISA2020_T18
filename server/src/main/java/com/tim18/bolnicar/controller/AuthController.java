@@ -14,6 +14,7 @@ import com.tim18.bolnicar.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -108,13 +109,17 @@ public class AuthController {
     }
 
     @PostMapping("/acceptance")
+    @PreAuthorize("hasRole('CENTER_ADMIN')")
     public ResponseEntity<ResponseReport> resolveRegistrationRequest(@RequestBody Acceptance acceptance) {
-        //this.emailService.sendMessage("zdravko.dugi@gmail.com", "system-info", "text");
         Patient patient = this.patientService.getPatient(acceptance.getUserJmbg());
         if(patient != null) {
             patient.setActive(acceptance.isAccept());
             this.patientService.save(patient);
-
+            this.emailService.sendMessage(
+                    patient.getEmailAddress(),
+                    "system-info",
+                    acceptance.getMessage()
+            );
             return new ResponseEntity<>(
                     new ResponseReport("ok", "Patient is successfully processed."),
                     HttpStatus.OK);

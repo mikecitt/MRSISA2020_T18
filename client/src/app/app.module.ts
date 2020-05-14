@@ -31,6 +31,7 @@ import { PatientsTableComponent } from './patients-table/patients-table.componen
 import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 import { ExaminationTypeViewComponent } from './examination-type-view/examination-type-view.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { RegistrationReqComponent } from './registration-req/registration-req.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
     NursePanelComponent,
     ExaminationTypeViewComponent,
     ForbiddenComponent,
+    RegistrationReqComponent,
   ],
   imports: [
     BrowserModule,
