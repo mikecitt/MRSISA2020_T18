@@ -23,4 +23,14 @@ public class ExaminationTypeServiceImpl implements ExaminationTypeService {
     public List<ExaminationType> findAll() {
         return (List<ExaminationType>) examinationTypeRepository.findAll();
     }
+
+    @Override
+    public ExaminationType findOne(int id) {
+        return examinationTypeRepository.findById(id).orElseGet(null);
+    }
+
+    @Override
+    public void remove(int id) {
+        examinationTypeRepository.deleteById(id);
+    }
 }

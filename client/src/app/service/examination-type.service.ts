@@ -17,4 +17,8 @@ export class ExaminationTypeService {
   getExaminationTypes() {
   	return this.http.get('http://localhost:8080/examination-type/')
   }
+
+	removeExaminationType(id) {
+		return this.http.delete('http://localhost:8080/examination-type/'+id)
+	}
 }

@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.ExaminationType;
 import com.tim18.bolnicar.service.ExaminationTypeService;
 import org.hibernate.service.spi.InjectService;
@@ -45,5 +46,18 @@ public class ExaminationTypeController {
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Void> deleteExaminationType(@PathVariable int id) {
+        ExaminationType examinationType = examinationTypeService.findOne(id);
+
+        if (examinationType != null) {
+            examinationTypeService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

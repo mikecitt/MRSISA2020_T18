@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h3>Lista tipova pregleda</h3>
 
 <form>
@@ -12,6 +13,7 @@
     <th scope="col">#</th>
     <th scope="col">Naziv</th>
     <th scope="col">Cena</th>
+    <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
@@ -24,6 +26,9 @@
     </td>
     <td>
       <ngb-highlight [result]="type.price" [term]="filter.value"></ngb-highlight>
+    </td>
+    <td>
+      <i (click)="removeExaminationType(type.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
     </td>
   </tr>
   </tbody>

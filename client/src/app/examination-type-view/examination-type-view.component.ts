@@ -66,4 +66,10 @@ export class ExaminationTypeViewComponent implements OnInit {
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
   }
+
+  removeExaminationType(id) {
+    this.examinationTypeService.removeExaminationType(id).subscribe(data => {
+      this.initTable();
+    });
+  }
 }
