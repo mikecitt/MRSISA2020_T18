@@ -12,7 +12,7 @@ import { PatientComponent } from './patient/patient.component';
 import { AdminClComponent } from './admincl/admincl.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
-import { TableViewComponent } from './table-view/table-view.component';
+import { DoctorsTableComponent } from './doctors-table/doctors-table.component';
 import { ClinicComponent } from './clinic/clinic.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { RegisterComponent } from './register/register.component';
@@ -45,7 +45,7 @@ import { NgbdSortableHeader } from './clinic-table/clinic-table.component';
     PatientComponent,
     MainPageComponent,
     LoginComponent,
-    TableViewComponent,
+    DoctorsTableComponent,
     ClinicComponent,
     DoctorComponent,
     RegisterComponent,

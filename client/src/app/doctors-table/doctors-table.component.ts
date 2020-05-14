@@ -21,12 +21,12 @@ function search(text: string, pipe: PipeTransform, data: Doctor[]): Doctor[] {
 }
 
 @Component({
-  selector: 'app-table-view',
-  templateUrl: './table-view.component.html',
-  styleUrls: ['./table-view.component.css'],
+  selector: 'app-doctors-table',
+  templateUrl: './doctors-table.component.html',
+  styleUrls: ['./doctors-table.component.css'],
   providers: [DecimalPipe]
 })
-export class TableViewComponent implements OnInit {
+export class DoctorsTableComponent implements OnInit {
 	@Input() endpoint: string;
 	@Input() fieldsList: string[];
 
