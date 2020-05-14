@@ -54,4 +54,16 @@ public class DoctorController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteDoctor(@PathVariable int id) {
+        Doctor doctor = doctorService.findOne(id);
+
+        if (doctor != null) {
+            doctorService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
