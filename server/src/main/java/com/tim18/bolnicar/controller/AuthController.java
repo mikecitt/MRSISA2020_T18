@@ -8,6 +8,7 @@ import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.model.User;
 import com.tim18.bolnicar.security.TokenUtils;
 import com.tim18.bolnicar.security.auth.JwtAuthenticationRequest;
+import com.tim18.bolnicar.service.EmailService;
 import com.tim18.bolnicar.service.PatientService;
 import com.tim18.bolnicar.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private EmailService emailService;
 
     // Prvi endpoint koji pogadja korisnik kada se loguje.
     // Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
@@ -99,11 +103,13 @@ public class AuthController {
 
     @PostMapping("/hoho")
     public ResponseEntity<String> get() {
+        this.emailService.sendMessage("zdravko.dugi@gmail.com", "system-info", "text");
         return ResponseEntity.ok("Poruka");
     }
 
     @PostMapping("/acceptance")
     public ResponseEntity<ResponseReport> resolveRegistrationRequest(@RequestBody Acceptance acceptance) {
+        //this.emailService.sendMessage("zdravko.dugi@gmail.com", "system-info", "text");
         Patient patient = this.patientService.getPatient(acceptance.getUserJmbg());
         if(patient != null) {
             patient.setActive(acceptance.isAccept());
