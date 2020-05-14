@@ -1,7 +1,8 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.model.ExaminationType;
-import com.tim18.bolnicar.service.impl.ExaminationTypeServiceImpl;
+import com.tim18.bolnicar.service.ExaminationTypeService;
+import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,10 +20,10 @@ import java.util.Map;
 public class ExaminationTypeController {
 
     @Autowired
-    private ExaminationTypeServiceImpl examinationTypeService;
+    ExaminationTypeService examinationTypeService;
 
     @GetMapping
-    private ResponseEntity<List<ExaminationType>> getExaminationTypes() {
+    public ResponseEntity<List<ExaminationType>> getExaminationTypes() {
         return new ResponseEntity<>(examinationTypeService.findAll(), HttpStatus.OK);
     }
 
