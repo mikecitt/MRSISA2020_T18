@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-room',
@@ -8,6 +9,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
+
+  eventsSubject: Subject<void> = new Subject<void>();
 
   roomNumber:string = '';
   roomType:string = null;

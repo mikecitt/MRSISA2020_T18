@@ -36,6 +36,7 @@ import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 
 import { NgbdSortableHeader } from './clinic-table/clinic-table.component';
 import { RegistrationReqComponent } from './registration-req/registration-req.component';
+import { RoomsTableComponent } from './rooms-table/rooms-table.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { RegistrationReqComponent } from './registration-req/registration-req.co
     ClinicTableComponent,
     NgbdSortableHeader,
     RegistrationReqComponent,
+    RoomsTableComponent,
   ],
   imports: [
     BrowserModule,

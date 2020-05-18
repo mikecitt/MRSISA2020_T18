@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<h3>Lista sala</h3>
+
+<form>
+  <div class="form-group form-inline">
+      Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
+  </div>
+</form>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Tip sale</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let room of rooms | async; index as i">
+    <th scope="row">
+      <ngb-highlight [result]="room.roomNumber" [term]="filter.value"></ngb-highlight>
+    </th>
+    <td>
+      <ngb-highlight [result]="room.type" [term]="filter.value"></ngb-highlight>
+    </td>
+  </tr>
+  </tbody>
+</table>
