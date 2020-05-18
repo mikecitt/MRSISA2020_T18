@@ -26,6 +26,7 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
 
 import { CookieService } from 'ngx-cookie-service';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
@@ -37,6 +38,7 @@ import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 import { NgbdSortableHeader } from './clinic-table/clinic-table.component';
 import { RegistrationReqComponent } from './registration-req/registration-req.component';
 import { RoomsTableComponent } from './rooms-table/rooms-table.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 
 @NgModule({
@@ -64,6 +66,7 @@ import { RoomsTableComponent } from './rooms-table/rooms-table.component';
     NgbdSortableHeader,
     RegistrationReqComponent,
     RoomsTableComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,8 @@ import { RoomsTableComponent } from './rooms-table/rooms-table.component';
     NgbModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    StorageServiceModule
+    StorageServiceModule,
+    FullCalendarModule
   ],
   providers: [
   {
