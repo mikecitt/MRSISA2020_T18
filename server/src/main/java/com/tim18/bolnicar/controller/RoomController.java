@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -19,6 +20,12 @@ public class RoomController {
 
     @Autowired
     private RoomServiceImpl roomService;
+
+    @GetMapping(path = "/")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<Room>> getRooms() {
+        return new ResponseEntity<>(roomService.findAll(), HttpStatus.OK);
+    }
 
     @PostMapping(
             path = "/add",
