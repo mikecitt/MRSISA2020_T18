@@ -16,9 +16,9 @@
   </thead>
   <tbody>
   <tr *ngFor="let room of rooms | async; index as i">
-    <th scope="row">
+    <td scope="row">
       <ngb-highlight [result]="room.roomNumber" [term]="filter.value"></ngb-highlight>
-    </th>
+    </td>
     <td>
       <ngb-highlight [result]="room.type" [term]="filter.value"></ngb-highlight>
     </td>

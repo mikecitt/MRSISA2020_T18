@@ -14,7 +14,7 @@ interface Room {
 function search(text:string, pipe: PipeTransform, data: Room[]): Room[] {
   return data.filter(room => {
     const term = text.toLowerCase();
-    return room.type.toLowerCase().includes(term);
+    return room.type.toLowerCase().includes(term) || String(room.roomNumber).includes(term);
   });
 }
 
@@ -54,7 +54,7 @@ export class RoomsTableComponent implements OnInit {
     this.roomService.getRooms().subscribe(data => {
       console.log(data);
       for (let e in data)
-        this.data.push({roomNumber: data[e].roomNumber, type: data[e].type});
+        this.data.push({roomNumber: data[e].roomNumber, type: (data[e].type == "OPERATION" ? "Operaciona" : "Sala za preglede")});
 
         this.rooms = this.filter.valueChanges.pipe(
           startWith(''),

@@ -33,10 +33,11 @@ export class RoomComponent implements OnInit {
     else {
       return this.http.post<any>('http://localhost:8080/room/add', formData).subscribe(data => {
         if(data['message'] == "true") {
-          this.message = "Sala uspešno dodata."
+          this.message = "Sala uspešno dodata.";
+          this.eventsSubject.next();
         }
         else {
-          this.message = "Sala već postoji."
+          this.message = "Sala već postoji.";
         }
       });
     }
