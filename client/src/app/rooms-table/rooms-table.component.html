@@ -12,6 +12,7 @@
   <tr>
     <th scope="col">#</th>
     <th scope="col">Tip sale</th>
+    <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
@@ -21,6 +22,9 @@
     </td>
     <td>
       <ngb-highlight [result]="room.type" [term]="filter.value"></ngb-highlight>
+    </td>
+    <td>
+      <i (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
     </td>
   </tr>
   </tbody>

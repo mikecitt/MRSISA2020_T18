@@ -52,7 +52,6 @@ export class RoomsTableComponent implements OnInit {
   initTable(): void {
     this.data.length = 0;
     this.roomService.getRooms().subscribe(data => {
-      console.log(data);
       for (let e in data)
         this.data.push({roomNumber: data[e].roomNumber, type: (data[e].type == "OPERATION" ? "Operaciona" : "Sala za preglede")});
 
@@ -65,5 +64,11 @@ export class RoomsTableComponent implements OnInit {
 
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
+  }
+
+  removeRoom(id) {
+    this.roomService.removeRoom(id).subscribe(data => {
+      this.initTable();
+    });
   }
 }
