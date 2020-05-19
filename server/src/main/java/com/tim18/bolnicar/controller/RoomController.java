@@ -46,4 +46,17 @@ public class RoomController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public  ResponseEntity<Void> deleteRoom(@PathVariable int id) {
+        Room room = roomService.findOne(id);
+
+        if(room != null) {
+            roomService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
