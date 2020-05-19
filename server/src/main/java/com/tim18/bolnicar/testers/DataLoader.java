@@ -54,7 +54,7 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Doctor doctor1 = new Doctor();
         doctor1.setEmailAddress("zdravko.dugi@gmail.com");
-        doctor1.setPassword(passwordEncoder.encode("frog"));
+        doctor1.setPassword(passwordEncoder.encode("frogfrog"));
         doctor1.setFirstName("Zdravko");
         doctor1.setLastName("Dugonjic");
         doctor1.setAddress("moja adresa");
@@ -84,7 +84,7 @@ public class DataLoader implements ApplicationRunner {
         Patient patient = new Patient();
         patient.setEmailAddress("patient@gmail.com");
 
-        patient.setPassword(passwordEncoder.encode("frog"));
+        patient.setPassword(passwordEncoder.encode("frogfrog"));
         patient.setFirstName("Prototype");
         patient.setLastName("Prototype");
         patient.setAddress("moja adresa");
@@ -101,7 +101,7 @@ public class DataLoader implements ApplicationRunner {
         Patient patient2 = new Patient();
         patient2.setEmailAddress("pacijent@gmail.com");
 
-        patient2.setPassword(passwordEncoder.encode("frog"));
+        patient2.setPassword(passwordEncoder.encode("frogfrog"));
         patient2.setFirstName("Pacijent");
         patient2.setLastName("Pacijentovic");
         patient2.setAddress("moja adresa");
@@ -153,7 +153,7 @@ public class DataLoader implements ApplicationRunner {
         // more
         ClinicCenterAdmin cca = new ClinicCenterAdmin();
         cca.setEmailAddress("ccadmin@gmail.com");
-        cca.setPassword(passwordEncoder.encode("frog"));
+        cca.setPassword(passwordEncoder.encode("frogfrog"));
         cca.setFirstName("Zdravko");
         cca.setLastName("Dugonjic");
         cca.setAddress("moja adresa");
@@ -187,7 +187,7 @@ public class DataLoader implements ApplicationRunner {
 
         ClinicAdmin ca = new ClinicAdmin();
         ca.setEmailAddress("cadmin@gmail.com");
-        ca.setPassword(passwordEncoder.encode("frog"));
+        ca.setPassword(passwordEncoder.encode("frogfrog"));
         ca.setFirstName("Zdravko");
         ca.setLastName("Dugonjic");
         ca.setAddress("moja adresa");
