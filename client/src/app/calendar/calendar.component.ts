@@ -15,11 +15,28 @@ export class CalendarComponent implements OnInit {
   calendarPlugins = [dayGridPlugin, timeGridPlugin, momentPlugin, bootstrapPlugin];
   locales = [srLocale];
   @Input() calendarEvents = [];
-  @Input() grayDays = [];
+  @Input() grayDays = {};
 
   constructor() {}
 
   ngOnInit(): void {
+  }
+
+  renderDaysOff(dayRenderInfo) {
+    var currentCellDate = new Date(dayRenderInfo.date);
+    var currentStart = new Date(dayRenderInfo.view.currentStart);
+    var currentEnd = new Date(dayRenderInfo.view.currentEnd);
+
+    if (currentCellDate >= currentEnd || currentCellDate < currentStart){
+      dayRenderInfo.el.classList.add("out-of-range");
+    }
+
+    var grayStart = new Date(this.grayDays['startDate']);
+    var grayEnd = new Date(this.grayDays['endDate']);
+    console.log(grayStart, currentCellDate)
+    if(currentCellDate >= grayStart && currentCellDate <= grayEnd) {
+      dayRenderInfo.el.classList.add("days-off");
+    }
   }
 
   addEvent() {

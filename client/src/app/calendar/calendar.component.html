@@ -18,6 +18,8 @@
     }"
     eventTimeFormat="HH:mm"
     slotLabelFormat="HH:mm"
+    [fixedWeekCount]="false"
+    (dayRender)="renderDaysOff($event);"
     [header]="{
         center: 'title',
         left: 'dayGridMonth,timeGridWeek,timeGridDay',
