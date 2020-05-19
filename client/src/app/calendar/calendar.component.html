@@ -1,4 +1,11 @@
-<full-calendar
-  defaultView="dayGridMonth"
-  [plugins]="calendarPlugins"
-  [locales]="locales"></full-calendar>
+<div class="container mt-4 col-sm-7">
+  <full-calendar
+    defaultView="dayGridMonth"
+    themeSystem="bootstrap"
+    titleFormat="MMMM YYYY."
+    columnHeaderFormat="ddd"
+    eventTimeFormat="HH:mm"
+    [plugins]="calendarPlugins"
+    [events]="calendarEvents"
+    [locales]="locales"></full-calendar>
+</div>

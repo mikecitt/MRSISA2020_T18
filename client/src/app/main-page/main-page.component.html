@@ -50,7 +50,7 @@
 
     <div class="container-fluid">
       <router-outlet></router-outlet>
-      <app-calendar></app-calendar>
+      <app-calendar *ngIf="authority != 'ROLE_PATIENT'"></app-calendar>
     </div>
   </div>
 </div>

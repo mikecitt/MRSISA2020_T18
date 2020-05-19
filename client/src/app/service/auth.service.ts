@@ -64,8 +64,9 @@ export class AuthService {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
         const dateNow = new Date();
-        dateNow.setMinutes(dateNow.getMinutes() + (res['expiresIn'] / 60));
+        dateNow.setMinutes(dateNow.getMinutes() + (res['expiresIn'] / 60000));
         this.cookieService.set(COOKIE_NAME, this.access_token, dateNow);
+        console.log(dateNow);
         this.userService.getMyInfo().subscribe(() => {
           this.router.navigate(['/']);
         });
