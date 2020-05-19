@@ -165,20 +165,6 @@ public class DataLoader implements ApplicationRunner {
 
         clinicCenterAdminRepository.save(cca);
 
-        ClinicAdmin ca = new ClinicAdmin();
-        ca.setEmailAddress("cadmin@gmail.com");
-        ca.setPassword(passwordEncoder.encode("frog"));
-        ca.setFirstName("Zdravko");
-        ca.setLastName("Dugonjic");
-        ca.setAddress("moja adresa");
-        ca.setCity("Novi Sad");
-        ca.setCountry("Srbija");
-        ca.setContact("123-321");
-        ca.setJmbg("123445675389");
-        ca.setActive(true);
-
-        clinicAdminRepository.save(ca);
-
         // clinics
         Clinic clinicA = new Clinic();
         clinicA.setAddress("Address1");
@@ -198,5 +184,20 @@ public class DataLoader implements ApplicationRunner {
         this.clinicRepository.save(clinicA);
         this.clinicRepository.save(clinicB);
         this.clinicRepository.save(clinicC);
+
+        ClinicAdmin ca = new ClinicAdmin();
+        ca.setEmailAddress("cadmin@gmail.com");
+        ca.setPassword(passwordEncoder.encode("frog"));
+        ca.setFirstName("Zdravko");
+        ca.setLastName("Dugonjic");
+        ca.setAddress("moja adresa");
+        ca.setCity("Novi Sad");
+        ca.setCountry("Srbija");
+        ca.setContact("123-321");
+        ca.setJmbg("123445675389");
+        ca.setActive(true);
+        ca.setClinic(clinicA);
+
+        clinicAdminRepository.save(ca);
     }
 }
