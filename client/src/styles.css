@@ -6,7 +6,7 @@
 @import '~@fullcalendar/bootstrap/main.css';
 
 .out-of-range{
-  background-color: #cccccc;
+  background-color: #f2f3f6;
 }
 
 .days-off {

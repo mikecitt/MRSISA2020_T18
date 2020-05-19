@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../service';
+import { AuthService, MedicalService } from '../service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from '../profile/profile.component';
 import { ClinicProfileComponent } from '../clinic-profile/clinic-profile.component';
@@ -28,9 +28,11 @@ export class MainPageComponent implements OnInit {
   public isMenuCollapsed = true
   public is
 
+  daysOff = null;
   authority;
 
-  constructor(private service: AuthService, private modalService: NgbModal) { }
+  constructor(private service: AuthService, private modalService: NgbModal,
+              private medicalService: MedicalService) { }
 
   toggle() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
@@ -39,6 +41,14 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     this.service.whoAmI().subscribe(data => {
       this.authority = data['authorities'][0]['authority'];
+      if(this.authority == 'ROLE_NURSE' || this.authority == 'ROLE_DOCTOR' ) {
+        this.medicalService.getTimeOffs(this.authority).subscribe(data => {
+          this.daysOff = data['data'];
+        });
+      }
+      else {
+        this.daysOff = [];
+      }
     })
   }
 

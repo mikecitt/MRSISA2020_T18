@@ -14,8 +14,8 @@ export class CalendarComponent implements OnInit {
 
   calendarPlugins = [dayGridPlugin, timeGridPlugin, momentPlugin, bootstrapPlugin];
   locales = [srLocale];
-  @Input() calendarEvents = [];
-  @Input() grayDays = {};
+  @Input() calendarEvents;
+  @Input() grayDays: any;
 
   constructor() {}
 
@@ -30,12 +30,14 @@ export class CalendarComponent implements OnInit {
     if (currentCellDate >= currentEnd || currentCellDate < currentStart){
       dayRenderInfo.el.classList.add("out-of-range");
     }
+    console.log(this.grayDays)
+    for(let grayDay of this.grayDays) {
+      var grayStart = new Date(grayDay['startDate']);
+      var grayEnd = new Date(grayDay['endDate']);
 
-    var grayStart = new Date(this.grayDays['startDate']);
-    var grayEnd = new Date(this.grayDays['endDate']);
-    console.log(grayStart, currentCellDate)
-    if(currentCellDate >= grayStart && currentCellDate <= grayEnd) {
-      dayRenderInfo.el.classList.add("days-off");
+      if(currentCellDate >= grayStart && currentCellDate <= grayEnd) {
+        dayRenderInfo.el.classList.add("days-off");
+      }
     }
   }
 

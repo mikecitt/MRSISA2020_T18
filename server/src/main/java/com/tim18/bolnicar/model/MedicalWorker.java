@@ -10,7 +10,7 @@ public abstract class MedicalWorker extends User {
     @ManyToOne
     protected Clinic clinic;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     protected Set<TimeOff> calendar; // change name...
 
     public Clinic getClinic() {

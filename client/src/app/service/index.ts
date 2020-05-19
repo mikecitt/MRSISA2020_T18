@@ -7,3 +7,4 @@ export * from './user.service';
 export * from './clinic.service';
 export * from './ccadmin.service';
 export * from './room.service';
+export * from './medical.service';

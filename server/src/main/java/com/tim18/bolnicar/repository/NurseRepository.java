@@ -4,4 +4,5 @@ import com.tim18.bolnicar.model.Nurse;
 import org.springframework.data.repository.CrudRepository;
 
 public interface NurseRepository extends CrudRepository<Nurse, Integer> {
+    Nurse findByEmailAddress(String emailAddress);
 }

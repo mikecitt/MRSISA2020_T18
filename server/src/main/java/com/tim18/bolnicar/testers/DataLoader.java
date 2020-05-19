@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class DataLoader implements ApplicationRunner {
     private ClinicCenterAdminRepository clinicCenterAdminRepository;
     private ClinicAdminRepository clinicAdminRepository;
     private ClinicRepository clinicRepository;
+    private NurseRepository nurseRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -38,7 +40,8 @@ public class DataLoader implements ApplicationRunner {
                       ExaminationTypeRepository examinationTypeRepository,
                       ClinicCenterAdminRepository clinicCenterAdminRepository,
                       ClinicAdminRepository clinicAdminRepository,
-                      ClinicRepository clinicRepository) {
+                      ClinicRepository clinicRepository,
+                      NurseRepository nurseRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
@@ -47,6 +50,7 @@ public class DataLoader implements ApplicationRunner {
         this.clinicAdminRepository = clinicAdminRepository;
         this.clinicCenterAdminRepository = clinicCenterAdminRepository;
         this.clinicRepository = clinicRepository;
+        this.nurseRepository = nurseRepository;
     }
 
     @Override
@@ -78,7 +82,51 @@ public class DataLoader implements ApplicationRunner {
         doctor2.setJmbg("322111223");
         doctor2.setActive(true);
 
+        TimeOff t1 = new TimeOff();
+        t1.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
+        t1.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+
+        TimeOff t2 = new TimeOff();
+        t2.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-10"));
+        t2.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-12"));
+
+        Set<TimeOff> calendar = new HashSet<TimeOff>();
+        calendar.add(t1);
+        calendar.add(t2);
+
+        doctor2.setCalendar(calendar);
+
         doctorRepository.save(doctor2);
+
+        // nurse
+
+        Nurse nurse1 = new Nurse();
+        nurse1.setEmailAddress("nevena@gmail.com");
+        nurse1.setPassword(passwordEncoder.encode("leopard"));
+        nurse1.setFirstName("Nevena");
+        nurse1.setLastName("Nevenic");
+        nurse1.setAddress("moja adresa");
+        nurse1.setCity("Beograd");
+        nurse1.setCountry("Srbija");
+        nurse1.setContact("123-341");
+        nurse1.setJmbg("151251241214");
+        nurse1.setActive(true);
+
+        TimeOff t21 = new TimeOff();
+        t21.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
+        t21.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+
+        TimeOff t22 = new TimeOff();
+        t22.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-10"));
+        t22.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-12"));
+
+        Set<TimeOff> calendar2 = new HashSet<TimeOff>();
+        calendar2.add(t21);
+        calendar2.add(t22);
+
+        nurse1.setCalendar(calendar2);
+
+        nurseRepository.save(nurse1);
 
         // patient
         Patient patient = new Patient();

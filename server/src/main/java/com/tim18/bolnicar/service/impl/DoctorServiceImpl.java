@@ -29,6 +29,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public Doctor findOne(String emailAddress) {
+        return doctorRepository.findByEmailAddress(emailAddress);
+    }
+
+    @Override
     public Doctor save(Doctor doctor) {
         //TODO: make better
         doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
