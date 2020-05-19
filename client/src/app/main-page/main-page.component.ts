@@ -46,6 +46,10 @@ export class MainPageComponent implements OnInit {
     this.service.logout();
   }
 
+  isHomePage(): boolean {
+    return this.service.getCurrentRoute() == '/';
+  }
+
   openProfile(): void {
     this.modalService.open(ProfileComponent, { size: 'lg' });
   }

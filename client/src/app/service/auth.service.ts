@@ -91,4 +91,8 @@ export class AuthService {
   whoAmI() {
   	return this.http.get<any>('http://localhost:8080/whoami')
   }
+
+  getCurrentRoute() {
+    return this.router.url;
+  }
 }

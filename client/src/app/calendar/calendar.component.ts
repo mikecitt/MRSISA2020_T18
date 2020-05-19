@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import momentPlugin from '@fullcalendar/moment';
 import srLocale from '@fullcalendar/core/locales/sr';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -11,22 +12,18 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 })
 export class CalendarComponent implements OnInit {
 
-  calendarPlugins = [dayGridPlugin, momentPlugin, bootstrapPlugin];
+  calendarPlugins = [dayGridPlugin, timeGridPlugin, momentPlugin, bootstrapPlugin];
   locales = [srLocale];
-  calendarEvents = [];
+  @Input() calendarEvents = [];
+  @Input() grayDays = [];
 
-  constructor() {
-    console.log(momentPlugin, dayGridPlugin)
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.addEvent(); // temporary
   }
 
   addEvent() {
-    this.calendarEvents = this.calendarEvents.concat( // creates a new array!
-      { title: 'event 2', date: '2020-05-02' }
-    );
+    // { title: 'event 2', date: '2020-05-02' } format of events for calendar
   }
 
 }

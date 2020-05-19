@@ -49,8 +49,12 @@
     </nav>
 
     <div class="container-fluid">
+      <app-calendar
+        *ngIf="authority != 'ROLE_PATIENT' && isHomePage()"
+        [calendarEvents]="[]"
+        [grayDays]="[]">
+      </app-calendar>
       <router-outlet></router-outlet>
-      <app-calendar *ngIf="authority != 'ROLE_PATIENT'"></app-calendar>
     </div>
   </div>
 </div>

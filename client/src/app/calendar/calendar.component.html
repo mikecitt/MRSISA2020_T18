@@ -1,10 +1,28 @@
-<div class="container mt-4 col-sm-7">
+<div class="container mt-4 mb-4">
   <full-calendar
     defaultView="dayGridMonth"
     themeSystem="bootstrap"
-    titleFormat="MMMM YYYY."
-    columnHeaderFormat="ddd"
+    [views]="{
+      month: {
+        titleFormat: 'MMMM, YYYY',
+        columnHeaderFormat: 'ddd'
+      },
+      week: {
+        titleFormat: '{MMMM {D}}, YYYY',
+        columnHeaderFormat: 'ddd D/M'
+      },
+      day: {
+        titleFormat: '{MMMM {D}}, YYYY',
+        columnHeaderFormat: 'dddd'
+      }
+    }"
     eventTimeFormat="HH:mm"
+    slotLabelFormat="HH:mm"
+    [header]="{
+        center: 'title',
+        left: 'dayGridMonth,timeGridWeek,timeGridDay',
+        right: 'prev,next,today'
+    }"
     [plugins]="calendarPlugins"
     [events]="calendarEvents"
     [locales]="locales"></full-calendar>

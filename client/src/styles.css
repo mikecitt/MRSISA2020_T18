@@ -2,6 +2,7 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
+@import '~@fullcalendar/timegrid/main.css';
 @import '~@fullcalendar/bootstrap/main.css';
 
 .fc-sun, .fc-sat { background-color:#e6e6e6; }
