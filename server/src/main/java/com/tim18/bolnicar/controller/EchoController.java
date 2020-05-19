@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.WhoDTO;
 import com.tim18.bolnicar.model.User;
 import com.tim18.bolnicar.repository.UserRepository;
 import org.apache.coyote.Response;
@@ -41,7 +42,7 @@ public class EchoController {
     }
 
     @GetMapping("/whoami")
-    public User user(Principal user) {
-        return this.userRepository.findByEmailAddress(user.getName());
+    public WhoDTO user(Principal user) {
+        return new WhoDTO(this.userRepository.findByEmailAddress(user.getName()));
     }
 }
