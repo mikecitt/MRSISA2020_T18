@@ -23,4 +23,12 @@ export class ClinicService {
   getClinics() {
   	return this.http.get<Clinic[]>('http://localhost:8080/clinic');
   }
+
+	getClinicProfile() {
+    return this.http.get<Clinic>('http://localhost:8080/clinic/profile');
+  }
+
+	updateClinicProfile(payload) {
+    return this.http.put('http://localhost:8080/clinic/profile', payload);
+  }
 }

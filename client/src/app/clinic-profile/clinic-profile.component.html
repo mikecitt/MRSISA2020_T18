@@ -1,1 +1,29 @@
-<p>clinic-profile works!</p>
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Profil klinike</h5>
+</div>
+<div class="modal-body">
+<form [formGroup]="clinicProfileForm">
+  <div class="form-group">
+  	<label>Id</label>
+    <input type="text" class="form-control-plaintext" readonly disabled formControlName="id">
+  </div>
+  <div class="form-group">
+  	<label>Naziv</label>
+    <input type="text" class="form-control" formControlName="name">
+  </div>
+  <div class="form-group">
+  	<label>Adresa</label>
+    <input type="text" class="form-control" formControlName="address">
+  </div>
+  <div class="form-group">
+  	<label>Opis</label>
+    <input type="text" class="form-control" formControlName="description">
+  </div>
+</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" ngbAutofocus class="btn btn-primary" (click)="updateClinicProfile()">Primeni</button>
+</div>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from '../profile/profile.component';
+import { ClinicProfileComponent } from '../clinic-profile/clinic-profile.component';
 
 import { trigger, state, style, transition, animate, keyframes} from '@angular/animations';
 
@@ -48,5 +49,9 @@ export class MainPageComponent implements OnInit {
 
   openProfile(): void {
     this.modalService.open(ProfileComponent, { size: 'lg' });
+  }
+
+  openClinicProfile(): void {
+    this.modalService.open(ClinicProfileComponent, { size: 'lg' });
   }
 }

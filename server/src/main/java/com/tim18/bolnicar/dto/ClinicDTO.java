@@ -17,6 +17,9 @@ public class ClinicDTO {
         this.description = clinic.getDescription();
     }
 
+    public ClinicDTO() {
+    }
+
     public Integer getId() {
         return id;
     }

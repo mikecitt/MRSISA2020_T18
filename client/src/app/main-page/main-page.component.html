@@ -40,6 +40,7 @@
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownConfig" class="dropdown-menu">
               <a href="#" (click)="openProfile()" ngbDropdownItem>Profil</a>
+              <a href="#" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" (click)="openClinicProfile()" ngbDropdownItem>Profil klinike</a>
               <div class="dropdown-divider"></div>
               <a href="#" ngbDropdownItem (click)="onLogout()">Odjavi se</a>
             </div>

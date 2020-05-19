@@ -1,7 +1,12 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.ClinicDTO;
+import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Clinic;
+import com.tim18.bolnicar.model.ClinicAdmin;
+import com.tim18.bolnicar.model.User;
+import com.tim18.bolnicar.service.ClinicAdminService;
+import com.tim18.bolnicar.service.UserService;
 import com.tim18.bolnicar.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +28,9 @@ public class ClinicController {
 
     @Autowired
     private ClinicServiceImpl clinicService;
+
+    @Autowired
+    private ClinicAdminService clinicAdminService;
 
     @PostMapping(
             path="/add",
@@ -53,5 +62,31 @@ public class ClinicController {
             response.add(new ClinicDTO(clinic));
 
         return ResponseEntity.ok(response);
+    }
+
+    //TODO: prava pristupa
+    @GetMapping(path = "/profile")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ClinicDTO> getClinicProfile(Principal user) {
+        return ResponseEntity.ok(this.clinicService.getClinicProfile(this.clinicAdminService.findSingle(user.getName()).getClinic().getId()));
+    }
+
+    @PutMapping(path = "/profile")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ResponseReport> updateClinicProfile(@RequestBody ClinicDTO clinicProfileUpdates, Principal user) {
+        ResponseReport report = new ResponseReport("error", "Forbidden action, contact admin.");
+
+        if(!clinicProfileUpdates.getId().equals(this.clinicAdminService.findSingle(user.getName()).getClinic().getId()))
+            return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
+
+        if(this.clinicService.updateClinicProfile(this.clinicAdminService.findSingle(user.getName()).getClinic().getId(), clinicProfileUpdates)) {
+            report.setStatus("ok");
+            report.setMessage("Profile successfully updated.");
+            return ResponseEntity.ok(report);
+        }
+
+        report.setMessage(null);
+
+        return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
     }
 }
