@@ -64,8 +64,8 @@ public class DataLoader implements ApplicationRunner {
         doctor1.setAddress("moja adresa");
         doctor1.setCity("Novi Sad");
         doctor1.setCountry("Srbija");
-        doctor1.setContact("123-321");
-        doctor1.setJmbg("123456789");
+        doctor1.setContact("123321");
+        doctor1.setJmbg("1928374657483");
         doctor1.setActive(true);
 
         doctorRepository.save(doctor1);
@@ -78,8 +78,8 @@ public class DataLoader implements ApplicationRunner {
         doctor2.setAddress("moja adresa");
         doctor2.setCity("Beograd");
         doctor2.setCountry("Srbija");
-        doctor2.setContact("123-321");
-        doctor2.setJmbg("322111223");
+        doctor2.setContact("123321");
+        doctor2.setJmbg("9685748574634");
         doctor2.setActive(true);
 
         TimeOff t1 = new TimeOff();
@@ -108,8 +108,8 @@ public class DataLoader implements ApplicationRunner {
         nurse1.setAddress("moja adresa");
         nurse1.setCity("Beograd");
         nurse1.setCountry("Srbija");
-        nurse1.setContact("123-341");
-        nurse1.setJmbg("151251241214");
+        nurse1.setContact("123341");
+        nurse1.setJmbg("1928375467384");
         nurse1.setActive(true);
 
         TimeOff t21 = new TimeOff();
@@ -138,8 +138,8 @@ public class DataLoader implements ApplicationRunner {
         patient.setAddress("moja adresa");
         patient.setCity("Novi Sad");
         patient.setCountry("Srbija");
-        patient.setContact("123-321");
-        patient.setJmbg("5431134431234");
+        patient.setContact("123321");
+        patient.setJmbg("5948374857463");
 
         patient.setActive(true);
 
@@ -155,8 +155,8 @@ public class DataLoader implements ApplicationRunner {
         patient2.setAddress("moja adresa");
         patient2.setCity("Novi Sad");
         patient2.setCountry("Srbija");
-        patient2.setContact("123-321");
-        patient2.setJmbg("123456789321");
+        patient2.setContact("123321");
+        patient2.setJmbg("1223211234543");
 
         patient2.setActive(true);
 
@@ -211,8 +211,8 @@ public class DataLoader implements ApplicationRunner {
         cca.setAddress("moja adresa");
         cca.setCity("Novi Sad");
         cca.setCountry("Srbija");
-        cca.setContact("123-321");
-        cca.setJmbg("1234456789");
+        cca.setContact("123321");
+        cca.setJmbg("1123324567897");
         cca.setActive(true);
 
         clinicCenterAdminRepository.save(cca);
@@ -245,8 +245,8 @@ public class DataLoader implements ApplicationRunner {
         ca.setAddress("moja adresa");
         ca.setCity("Novi Sad");
         ca.setCountry("Srbija");
-        ca.setContact("123-321");
-        ca.setJmbg("123445675389");
+        ca.setContact("123321");
+        ca.setJmbg("4439827548374");
         ca.setActive(true);
         ca.setClinic(clinicA);
 

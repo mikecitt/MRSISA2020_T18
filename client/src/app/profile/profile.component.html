@@ -4,45 +4,67 @@
 </div>
 <div class="modal-body">
 <form [formGroup]="profileForm">
-  <div class="form-group">
-  	<label>Email</label>
-    <input type="text" class="form-control-plaintext" readonly disabled formControlName="emailAddress">
+  <div class="form-group row">
+  	<label class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" readonly disabled formControlName="emailAddress">
+    </div>
   </div>
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" formControlName="password" placeholder="New Password">
+  <div class="form-group row">
+    <label class="col-sm-2">Lozinka</label>
+    <div class="col">
+      <input type="password" [class.is-invalid]="profileForm.get('password').invalid" class="form-control" formControlName="password">
+      <small>Mora da sadrži više od 7 karaktera.</small>
+    </div>
   </div>
-  <div class="form-group">
-    <label>Confirm Password</label>
-    <input type="password" class="form-control" formControlName="rePassword" placeholder="New Password">
+  <div class="form-group row">
+    <label class="col-sm-2">Potvrda</label>
+    <div class="col">
+      <input type="password" [class.is-invalid]="errorRePassword" class="form-control" formControlName="rePassword">
+      <small *ngIf="errorRePassword" class="text-danger">Lozinke se ne poklapaju.</small>
+    </div>
   </div>
-  <div class="form-group">
-  	<label>First Name</label>
-    <input type="text" class="form-control" formControlName="firstName">
+  <div class="form-group row">
+  	<label class="col-sm-2">Ime</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('firstName').invalid" class="form-control" formControlName="firstName">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>Last Name</label>
-    <input type="text" class="form-control" formControlName="lastName">
+  <div class="form-group row">
+  	<label class="col-sm-2">Prezime</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('lastName').invalid" class="form-control" formControlName="lastName">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>Address</label>
-    <input type="text" class="form-control" formControlName="address">
+  <div class="form-group row">
+  	<label class="col-sm-2">Adresa</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('address').invalid" class="form-control" formControlName="address">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>City</label>
-    <input type="text" class="form-control" formControlName="city">
+  <div class="form-group row">
+  	<label class="col-sm-2">Grad</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('city').invalid" class="form-control" formControlName="city">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>Country</label>
-    <input type="text" class="form-control" formControlName="country">
+  <div class="form-group row">
+  	<label class="col-sm-2">Država</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('country').invalid" class="form-control" formControlName="country">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>Contact</label>
-    <input type="text" class="form-control" formControlName="contact">
+  <div class="form-group row">
+  	<label class="col-sm-2">Kontakt</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('contact').invalid" class="form-control" formControlName="contact">
+    </div>
   </div>
-  <div class="form-group">
-  	<label>JMBG</label>
-    <input type="text" class="form-control-plaintext" disabled readonly="" formControlName="jmbg">
+  <div class="form-group row">
+  	<label class="col-sm-2">JMBG</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('jmbg').invalid" class="form-control" disabled readonly="" formControlName="jmbg">
+    </div>
   </div>
 </form>
 </div>
