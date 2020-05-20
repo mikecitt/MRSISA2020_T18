@@ -41,4 +41,9 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public User findByJmbg(String jmbg) {
+        return this.userRepository.findByJmbg(jmbg);
+    }
+
 }

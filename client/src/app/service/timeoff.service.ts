@@ -11,4 +11,12 @@ export class TimeoffService {
   getTimeOffs() {
     return this.http.get<any>('http://localhost:8080/admincl/vacations/');
   }
+
+  solveTimeOff(accept) {
+    return this.http.post<any>('http://localhost:8080/admincl/vacation/', accept);
+  }
+
+  postAcceptance(acceptance) {
+    return this.http.post<any>('http://localhost:8080/admincl/acceptance', acceptance);
+  }
 }

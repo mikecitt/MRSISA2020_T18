@@ -109,7 +109,7 @@ public class AuthController {
     }
 
     @PostMapping("/acceptance")
-    @PreAuthorize("hasRole('CENTER_ADMIN')")
+    @PreAuthorize("hasAnyRole('CENTER_ADMIN', 'CLINIC_ADMIN')")
     public ResponseEntity<ResponseReport> resolveRegistrationRequest(@RequestBody Acceptance acceptance) {
         Patient patient = this.patientService.getPatient(acceptance.getUserJmbg());
         if(patient != null) {

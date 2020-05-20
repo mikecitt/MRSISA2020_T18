@@ -1,5 +1,5 @@
 <div class="mt-4 mb-4 row">
-  <div class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>
+  <div *ngIf="isMedical();" class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>
   <div class="col-sm-10">
     <full-calendar
       defaultView="dayGridMonth"

@@ -3,11 +3,20 @@ package com.tim18.bolnicar.dto;
 import java.util.Date;
 
 public class VacationRequest {
+    private String id;
     private String firstName;
     private String lastName;
     private String jmbg;
     private Date startDate;
     private Date endDate;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

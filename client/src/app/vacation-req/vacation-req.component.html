@@ -4,6 +4,7 @@
   <table class="table table-hover">
     <thead>
     <tr>
+      <th scope="col">#</th>
       <th scope="col">JMBG</th>
       <th scope="col">Ime</th>
       <th scope="col">Prezime</th>
@@ -12,7 +13,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let req of data">
+    <tr *ngFor="let req of data" (click)="rowSelected(req);">
+      <th>
+        <ngb-highlight [result]="req.id"></ngb-highlight>
+      </th>
       <td>
         <ngb-highlight [result]="req.jmbg"></ngb-highlight>
       </td>
@@ -26,6 +30,29 @@
         <ngb-highlight [result]="req.startDate"></ngb-highlight>
       </td>
       <td><ngb-highlight [result]="req.endDate"></ngb-highlight></td>
+      <td>
+
+      </td>
     </tr>
     </tbody>
   </table>
+
+  <form>
+    <div class="form-group">
+      <label for="jmbgInput">#</label>
+      <input type="text" class="form-control" id="idInput" [disabled]="true" name="id" [(ngModel)]="id">
+      <!-- TODO: Resiti drugacije slanje jmbg -->
+      <input type="text" hidden class="form-control" id="jmbgInput" [disabled]="true" name="jmbg" [(ngModel)]="jmbg">
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="acceptBox" name="accept" [(ngModel)]="accept">
+      <label class="form-check-label" for="acceptBox">Odobren</label>
+    </div>
+    <div class="form-group">
+      <label for="messageField">Poruka</label>
+      <textarea class="form-control" id="messageField" rows="6"
+                name="message" [(ngModel)]="message"></textarea>
+    </div>
+    <button type="button" class="btn btn-primary col-md-2" (click)="processVacation();">Pošalji</button>
+  </form>
+</div>

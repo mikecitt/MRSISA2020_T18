@@ -38,6 +38,10 @@ public class TimeOff {
         return active;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public void setActive(Boolean active) {
         this.active = active;
     }

@@ -110,7 +110,7 @@ public class DataLoader implements ApplicationRunner {
 
         Doctor doctor2 = new Doctor();
         doctor2.setEmailAddress("gojko@gmail.com");
-        doctor2.setPassword(passwordEncoder.encode("hippopotamus"));
+        doctor2.setPassword(passwordEncoder.encode("frogfrog"));
         doctor2.setFirstName("Gojko");
         doctor2.setLastName("Gojkovic");
         doctor2.setAddress("moja adresa");
