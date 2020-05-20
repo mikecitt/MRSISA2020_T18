@@ -1,8 +1,10 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.DoctorDTO;
+import com.tim18.bolnicar.dto.Event;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.TimeOff;
+import com.tim18.bolnicar.service.AppointmentService;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping(path="/")
     public ResponseEntity<List<DoctorDTO>> getDoctors() {
@@ -81,5 +86,19 @@ public class DoctorController {
             timeOffs.put("data", new ArrayList<TimeOff>(doctor.getCalendar()));
         }
         return ResponseEntity.ok(timeOffs);
+    }
+
+    @GetMapping(value = "/events")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Map<String, List<Event>>> getEvents(Principal user) {
+        HashMap<String, List<Event>> events = new HashMap<String, List<Event>>();
+
+        Doctor doctor = doctorService.findOne(user.getName());
+
+        if(doctor != null) {
+            events.put("events", Event.convertToEvents(
+                    appointmentService.findDoctorsAppointments(doctor)));
+        }
+        return ResponseEntity.ok(events);
     }
 }

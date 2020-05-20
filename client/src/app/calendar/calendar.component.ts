@@ -30,7 +30,7 @@ export class CalendarComponent implements OnInit {
     if (currentCellDate >= currentEnd || currentCellDate < currentStart){
       dayRenderInfo.el.classList.add("out-of-range");
     }
-    console.log(this.grayDays)
+
     for(let grayDay of this.grayDays) {
       var grayStart = new Date(grayDay['startDate']);
       var grayEnd = new Date(grayDay['endDate']);

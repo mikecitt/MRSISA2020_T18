@@ -18,4 +18,10 @@ export class MedicalService {
     else
       return null;
   }
+
+  getEvents(authority) {
+    if(authority == 'ROLE_DOCTOR') {
+      return this.http.get<any>('http://localhost:8080/doctor/events');
+    }
+  }
 }

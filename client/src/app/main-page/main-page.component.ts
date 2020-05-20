@@ -29,6 +29,7 @@ export class MainPageComponent implements OnInit {
   public is
 
   daysOff = null;
+  events = null;
   authority;
 
   constructor(private service: AuthService, private modalService: NgbModal,
@@ -44,10 +45,20 @@ export class MainPageComponent implements OnInit {
       if(this.authority == 'ROLE_NURSE' || this.authority == 'ROLE_DOCTOR' ) {
         this.medicalService.getTimeOffs(this.authority).subscribe(data => {
           this.daysOff = data['data'];
+
+          if(this.authority == 'ROLE_DOCTOR') {
+            this.medicalService.getEvents(this.authority).subscribe(data => {
+              this.events = data['events'];
+            });
+          }
+          else {
+            this.events = [];
+          }
         });
       }
       else {
         this.daysOff = [];
+        this.events = []
       }
     })
   }
