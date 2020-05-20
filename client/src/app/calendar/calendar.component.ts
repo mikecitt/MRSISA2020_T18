@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DateIntervalComponent } from '../date-interval/date-interval.component';
+import { UserService } from '../service';
+
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import momentPlugin from '@fullcalendar/moment';
 import srLocale from '@fullcalendar/core/locales/sr';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
@@ -12,14 +16,28 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 })
 export class CalendarComponent implements OnInit {
 
-  calendarPlugins = [dayGridPlugin, timeGridPlugin, momentPlugin, bootstrapPlugin];
+  calendarPlugins = [
+    dayGridPlugin,
+    timeGridPlugin,
+    momentPlugin,
+    bootstrapPlugin,
+    interactionPlugin
+  ];
   locales = [srLocale];
   @Input() calendarEvents;
   @Input() grayDays: any;
 
-  constructor() {}
+  selectionEnabled = false;
+  dateSelection = null;
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    let authorities = JSON.stringify(this.userService.currentUser.authorities);
+    if(authorities.search('ROLE_DOCTOR') !== -1 ||
+       authorities.search('ROLE_NURSE') !== -1) {
+      this.selectionEnabled = true;
+    }
   }
 
   renderDaysOff(dayRenderInfo) {
@@ -39,6 +57,16 @@ export class CalendarComponent implements OnInit {
         dayRenderInfo.el.classList.add("days-off");
       }
     }
+  }
+
+  setSelection(selectionInfo) {
+    console.log(selectionInfo);
+    this.dateSelection = selectionInfo;
+  }
+
+  inRange(selectInfo): boolean {
+    console.log(selectInfo);
+    return true;
   }
 
   addEvent() {

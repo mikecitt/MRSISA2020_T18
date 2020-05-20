@@ -51,9 +51,9 @@
     </nav>
 
     <div class="container-fluid">
-      <div *ngIf="daysOff && events">
+      <div *ngIf="authority != 'ROLE_PATIENT' && isHomePage()">
         <app-calendar
-          *ngIf="authority != 'ROLE_PATIENT' && isHomePage()"
+          *ngIf="daysOff && events"
           [calendarEvents]="events"
           [grayDays]="daysOff">
         </app-calendar>

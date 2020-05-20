@@ -24,4 +24,6 @@ export class MedicalService {
       return this.http.get<any>('http://localhost:8080/doctor/events');
     }
   }
+
+
 }

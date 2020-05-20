@@ -1,31 +1,38 @@
-<div class="container mt-4 mb-4">
-  <full-calendar
-    defaultView="dayGridMonth"
-    themeSystem="bootstrap"
-    [views]="{
-      month: {
-        titleFormat: 'MMMM, YYYY',
-        columnHeaderFormat: 'ddd'
-      },
-      week: {
-        titleFormat: '{MMMM {D}}, YYYY',
-        columnHeaderFormat: 'ddd D/M'
-      },
-      day: {
-        titleFormat: '{MMMM {D}}, YYYY',
-        columnHeaderFormat: 'dddd'
-      }
-    }"
-    eventTimeFormat="HH:mm"
-    slotLabelFormat="HH:mm"
-    [fixedWeekCount]="false"
-    (dayRender)="renderDaysOff($event);"
-    [header]="{
-        center: 'title',
-        left: 'dayGridMonth,timeGridWeek,timeGridDay',
-        right: 'prev,next,today'
-    }"
-    [plugins]="calendarPlugins"
-    [events]="calendarEvents"
-    [locales]="locales"></full-calendar>
+<div class="mt-4 mb-4 row">
+  <div class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>
+  <div class="col-sm-10">
+    <full-calendar
+      defaultView="dayGridMonth"
+      themeSystem="bootstrap"
+      aspectRatio="2"
+      [views]="{
+        month: {
+          titleFormat: 'MMMM, YYYY',
+          columnHeaderFormat: 'ddd'
+        },
+        week: {
+          titleFormat: '{MMMM {D}}, YYYY',
+          columnHeaderFormat: 'ddd D/M'
+        },
+        day: {
+          titleFormat: '{MMMM {D}}, YYYY',
+          columnHeaderFormat: 'dddd'
+        }
+      }"
+      eventTimeFormat="HH:mm"
+      slotLabelFormat="HH:mm"
+      [selectable]="selectionEnabled"
+      [unselectAuto]="false"
+      [fixedWeekCount]="false"
+      (dayRender)="renderDaysOff($event);"
+      (select)="setSelection($event);"
+      (selectAllow)="inRange($event);"
+      [header]="{
+          center: 'title',
+          left: 'dayGridMonth,timeGridWeek,timeGridDay',
+          right: 'prev,next,today'
+      }"
+      [plugins]="calendarPlugins"
+      [events]="calendarEvents"
+      [locales]="locales"></full-calendar></div>
 </div>

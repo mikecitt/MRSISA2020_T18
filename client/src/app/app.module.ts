@@ -41,6 +41,7 @@ import { RoomsTableComponent } from './rooms-table/rooms-table.component';
 import { ClinicProfileComponent } from './clinic-profile/clinic-profile.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { VacationReqComponent } from './vacation-req/vacation-req.component';
+import { DateIntervalComponent } from './date-interval/date-interval.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { VacationReqComponent } from './vacation-req/vacation-req.component';
     ClinicProfileComponent,
     CalendarComponent,
     VacationReqComponent,
+    DateIntervalComponent,
   ],
   imports: [
     BrowserModule,
