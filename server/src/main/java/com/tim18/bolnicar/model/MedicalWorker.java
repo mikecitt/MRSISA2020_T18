@@ -30,7 +30,7 @@ public abstract class MedicalWorker extends User {
         Set<TimeOff> active = new HashSet<TimeOff>();
 
         for(TimeOff timeOff : calendar) {
-            if(timeOff.isActive()) {
+            if(timeOff.isActive() != null && timeOff.isActive()) {
                 active.add(timeOff);
             }
         }

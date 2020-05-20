@@ -15,7 +15,7 @@ public class TimeOff {
     @Column(nullable = false)
     private Date endDate;
 
-    @Column(nullable = false)
+    @Column
     private Boolean active;
 
     public Date getStartDate() {

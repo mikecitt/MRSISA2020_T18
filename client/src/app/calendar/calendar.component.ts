@@ -33,11 +33,17 @@ export class CalendarComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    this.isMedical();
+  }
+
+  isMedical() {
     let authorities = JSON.stringify(this.userService.currentUser.authorities);
     if(authorities.search('ROLE_DOCTOR') !== -1 ||
        authorities.search('ROLE_NURSE') !== -1) {
       this.selectionEnabled = true;
+      return true;
     }
+    return false;
   }
 
   renderDaysOff(dayRenderInfo) {

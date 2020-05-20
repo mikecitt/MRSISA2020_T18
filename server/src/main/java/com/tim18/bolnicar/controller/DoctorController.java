@@ -2,7 +2,9 @@ package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.DoctorDTO;
 import com.tim18.bolnicar.dto.Event;
+import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.Nurse;
 import com.tim18.bolnicar.model.TimeOff;
 import com.tim18.bolnicar.service.AppointmentService;
 import com.tim18.bolnicar.service.DoctorService;
@@ -83,9 +85,35 @@ public class DoctorController {
         Doctor doctor = doctorService.findOne(user.getName());
 
         if(doctor != null) {
-            timeOffs.put("data", new ArrayList<TimeOff>(doctor.getCalendar()));
+            timeOffs.put("data", new ArrayList<TimeOff>(doctor.getActiveCalendar()));
         }
         return ResponseEntity.ok(timeOffs);
+    }
+
+    @PostMapping(path = "/timeoff")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<ResponseReport> postTimeOff(@RequestBody TimeOff timeOff,
+                                                      Principal user) {
+        Doctor doctor = this.doctorService.findOne(user.getName());
+
+        boolean flag = true;
+
+        try {
+            doctor.addTimeOff(timeOff);
+            this.doctorService.save(doctor);
+        } catch(Exception ex) {
+            flag = false;
+        }
+
+        if (flag) {
+            return new ResponseEntity<>(
+                    new ResponseReport("ok", "Your time off request is successfully created."),
+                    HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(
+                new ResponseReport("error", "Invalid input."),
+                HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/events")
