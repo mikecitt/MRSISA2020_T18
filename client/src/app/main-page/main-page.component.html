@@ -15,6 +15,7 @@
       <a routerLink="/examination-type" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Tipovi pregleda</a>
       <a routerLink="/codebook" *ngIf="authority == 'ROLE_CENTER_ADMIN'" class="list-group-item list-group-item-action">Šifarnik</a>
       <a routerLink="/registration-req" *ngIf="authority == 'ROLE_CENTER_ADMIN'" class="list-group-item list-group-item-action">Obrada registracija</a>
+      <a routerLink="/vacation-req" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Obrada zahteva za godišnji</a>
     </div>
   </div>
   <!-- /#sidebar-wrapper -->
@@ -40,7 +41,7 @@
             </a>
             <div ngbDropdownMenu aria-labelledby="dropdownConfig" class="dropdown-menu">
               <span class="btn btn-link" (click)="openProfile()" ngbDropdownItem>Profil</span>
-              <a href="#" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" (click)="openClinicProfile()" ngbDropdownItem>Profil klinike</a>
+              <span class="btn btn-link" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" (click)="openClinicProfile()" ngbDropdownItem>Profil klinike</span>
               <div class="dropdown-divider"></div>
               <a href="#" ngbDropdownItem (click)="onLogout()">Odjavi se</a>
             </div>

@@ -40,6 +40,7 @@ import { RegistrationReqComponent } from './registration-req/registration-req.co
 import { RoomsTableComponent } from './rooms-table/rooms-table.component';
 import { ClinicProfileComponent } from './clinic-profile/clinic-profile.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { VacationReqComponent } from './vacation-req/vacation-req.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     RoomsTableComponent,
     ClinicProfileComponent,
     CalendarComponent,
+    VacationReqComponent,
   ],
   imports: [
     BrowserModule,
