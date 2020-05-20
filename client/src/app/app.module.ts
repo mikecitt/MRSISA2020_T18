@@ -42,6 +42,7 @@ import { ClinicProfileComponent } from './clinic-profile/clinic-profile.componen
 import { CalendarComponent } from './calendar/calendar.component';
 import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { DateIntervalComponent } from './date-interval/date-interval.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { DateIntervalComponent } from './date-interval/date-interval.component';
     RoomsTableComponent,
     ClinicProfileComponent,
     CalendarComponent,
+    WelcomeComponent,
     VacationReqComponent,
     DateIntervalComponent,
   ],

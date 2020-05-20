@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { RegistrationReqComponent } from './registration-req/registration-req.component';
 import { VacationReqComponent } from './vacation-req/vacation-req.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
 import { Router } from '@angular/router';
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   {
     path: '', component: MainPageComponent,
     children: [
+      // { path: '', component: WelcomeComponent},
       { path: 'patient', component: PatientComponent, canActivate: [PatientGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
       { path: 'admincl', component: AdminClComponent, canActivate: [AdminGuard] },

@@ -73,7 +73,7 @@ export class MainPageComponent implements OnInit {
   }
 
   openProfile(): void {
-    this.modalService.open(ProfileComponent, { size: 'lg' });
+    this.modalService.open(ProfileComponent);
   }
 
   openClinicProfile(): void {
