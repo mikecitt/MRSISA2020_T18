@@ -1,1 +1,31 @@
-<p>vacation-req works!</p>
+<div class="container">
+  <h2>Zahtevi za godišnji odmor i odsustva</h2>
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">JMBG</th>
+      <th scope="col">Ime</th>
+      <th scope="col">Prezime</th>
+      <th scope="col">Početni datum</th>
+      <th scope="col">Krajnji datum</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let req of data">
+      <td>
+        <ngb-highlight [result]="req.jmbg"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="req.firstName"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="req.lastName"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="req.startDate"></ngb-highlight>
+      </td>
+      <td><ngb-highlight [result]="req.endDate"></ngb-highlight></td>
+    </tr>
+    </tbody>
+  </table>

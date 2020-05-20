@@ -15,6 +15,9 @@ public class TimeOff {
     @Column(nullable = false)
     private Date endDate;
 
+    @Column(nullable = false)
+    private boolean active;
+
     public Date getStartDate() {
         return startDate;
     }
@@ -29,5 +32,13 @@ public class TimeOff {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

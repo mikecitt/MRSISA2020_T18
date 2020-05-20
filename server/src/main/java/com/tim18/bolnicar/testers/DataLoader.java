@@ -28,6 +28,7 @@ public class DataLoader implements ApplicationRunner {
     private ClinicAdminRepository clinicAdminRepository;
     private ClinicRepository clinicRepository;
     private NurseRepository nurseRepository;
+    private TimeOffRepository timeOffRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -41,7 +42,8 @@ public class DataLoader implements ApplicationRunner {
                       ClinicCenterAdminRepository clinicCenterAdminRepository,
                       ClinicAdminRepository clinicAdminRepository,
                       ClinicRepository clinicRepository,
-                      NurseRepository nurseRepository) {
+                      NurseRepository nurseRepository,
+                      TimeOffRepository timeOffRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
@@ -51,11 +53,47 @@ public class DataLoader implements ApplicationRunner {
         this.clinicCenterAdminRepository = clinicCenterAdminRepository;
         this.clinicRepository = clinicRepository;
         this.nurseRepository = nurseRepository;
+        this.timeOffRepository = timeOffRepository;
     }
 
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
+        // clinics
+        Clinic clinicA = new Clinic();
+        clinicA.setAddress("Address1");
+        clinicA.setName("Clinic A");
+        clinicA.setDescription("Clinic A Description");
+
+        Clinic clinicB = new Clinic();
+        clinicB.setAddress("Address2");
+        clinicB.setName("Clinic B");
+        clinicB.setDescription("Clinic B Description");
+
+        Clinic clinicC = new Clinic();
+        clinicC.setAddress("Address3");
+        clinicC.setName("Clinic A3");
+        clinicC.setDescription("Clinic A3 Description");
+
+        this.clinicRepository.save(clinicA);
+        this.clinicRepository.save(clinicB);
+        this.clinicRepository.save(clinicC);
+
+        ClinicAdmin ca = new ClinicAdmin();
+        ca.setEmailAddress("cadmin@gmail.com");
+        ca.setPassword(passwordEncoder.encode("frogfrog"));
+        ca.setFirstName("Zdravko");
+        ca.setLastName("Dugonjic");
+        ca.setAddress("moja adresa");
+        ca.setCity("Novi Sad");
+        ca.setCountry("Srbija");
+        ca.setContact("123-321");
+        ca.setJmbg("123445675389");
+        ca.setActive(true);
+        ca.setClinic(clinicA);
+
+        clinicAdminRepository.save(ca);
+
         Doctor doctor1 = new Doctor();
         doctor1.setEmailAddress("zdravko.dugi@gmail.com");
         doctor1.setPassword(passwordEncoder.encode("frogfrog"));
@@ -81,14 +119,17 @@ public class DataLoader implements ApplicationRunner {
         doctor2.setContact("123-321");
         doctor2.setJmbg("322111223");
         doctor2.setActive(true);
+        doctor2.setClinic(clinicA);
 
         TimeOff t1 = new TimeOff();
         t1.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
         t1.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+        timeOffRepository.save(t1);
 
         TimeOff t2 = new TimeOff();
         t2.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-10"));
         t2.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-12"));
+        timeOffRepository.save(t2);
 
         Set<TimeOff> calendar = new HashSet<TimeOff>();
         calendar.add(t1);
@@ -111,14 +152,17 @@ public class DataLoader implements ApplicationRunner {
         nurse1.setContact("123-341");
         nurse1.setJmbg("151251241214");
         nurse1.setActive(true);
+        nurse1.setClinic(clinicA);
 
         TimeOff t21 = new TimeOff();
         t21.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
         t21.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+        timeOffRepository.save(t21);
 
         TimeOff t22 = new TimeOff();
         t22.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-10"));
         t22.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-12"));
+        timeOffRepository.save(t22);
 
         Set<TimeOff> calendar2 = new HashSet<TimeOff>();
         calendar2.add(t21);
@@ -216,40 +260,5 @@ public class DataLoader implements ApplicationRunner {
         cca.setActive(true);
 
         clinicCenterAdminRepository.save(cca);
-
-        // clinics
-        Clinic clinicA = new Clinic();
-        clinicA.setAddress("Address1");
-        clinicA.setName("Clinic A");
-        clinicA.setDescription("Clinic A Description");
-
-        Clinic clinicB = new Clinic();
-        clinicB.setAddress("Address2");
-        clinicB.setName("Clinic B");
-        clinicB.setDescription("Clinic B Description");
-
-        Clinic clinicC = new Clinic();
-        clinicC.setAddress("Address3");
-        clinicC.setName("Clinic A3");
-        clinicC.setDescription("Clinic A3 Description");
-
-        this.clinicRepository.save(clinicA);
-        this.clinicRepository.save(clinicB);
-        this.clinicRepository.save(clinicC);
-
-        ClinicAdmin ca = new ClinicAdmin();
-        ca.setEmailAddress("cadmin@gmail.com");
-        ca.setPassword(passwordEncoder.encode("frogfrog"));
-        ca.setFirstName("Zdravko");
-        ca.setLastName("Dugonjic");
-        ca.setAddress("moja adresa");
-        ca.setCity("Novi Sad");
-        ca.setCountry("Srbija");
-        ca.setContact("123-321");
-        ca.setJmbg("123445675389");
-        ca.setActive(true);
-        ca.setClinic(clinicA);
-
-        clinicAdminRepository.save(ca);
     }
 }
