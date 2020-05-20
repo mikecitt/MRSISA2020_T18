@@ -124,6 +124,7 @@ public class DataLoader implements ApplicationRunner {
         TimeOff t1 = new TimeOff();
         t1.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
         t1.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+        t1.setActive(true);
         timeOffRepository.save(t1);
 
         TimeOff t2 = new TimeOff();
@@ -143,7 +144,7 @@ public class DataLoader implements ApplicationRunner {
 
         Nurse nurse1 = new Nurse();
         nurse1.setEmailAddress("nevena@gmail.com");
-        nurse1.setPassword(passwordEncoder.encode("leopard"));
+        nurse1.setPassword(passwordEncoder.encode("12341234"));
         nurse1.setFirstName("Nevena");
         nurse1.setLastName("Nevenic");
         nurse1.setAddress("moja adresa");
@@ -157,11 +158,13 @@ public class DataLoader implements ApplicationRunner {
         TimeOff t21 = new TimeOff();
         t21.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
         t21.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
+        t21.setActive(true);
         timeOffRepository.save(t21);
 
         TimeOff t22 = new TimeOff();
         t22.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-10"));
         t22.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-06-12"));
+        t22.setActive(true);
         timeOffRepository.save(t22);
 
         Set<TimeOff> calendar2 = new HashSet<TimeOff>();

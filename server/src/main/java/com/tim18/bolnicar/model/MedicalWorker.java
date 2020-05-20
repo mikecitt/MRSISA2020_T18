@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,21 @@ public abstract class MedicalWorker extends User {
         return calendar;
     }
 
+    public Set<TimeOff> getActiveCalendar() {
+        Set<TimeOff> active = new HashSet<TimeOff>();
+
+        for(TimeOff timeOff : calendar) {
+            if(timeOff.isActive()) {
+                active.add(timeOff);
+            }
+        }
+
+        return active;
+    }
+
     public void setCalendar(Set<TimeOff> calendar) {
         this.calendar = calendar;
     }
+
+    public void addTimeOff(TimeOff timeOff) { this.calendar.add(timeOff); }
 }

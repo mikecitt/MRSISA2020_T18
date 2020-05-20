@@ -25,5 +25,12 @@ export class MedicalService {
     }
   }
 
-
+  sendVacationRequest(authority, timeOff) {
+    if(authority == 'ROLE_NURSE') {
+      return this.http.post<any>('http://localhost:8080/nurse/timeoff', timeOff);
+    }
+    else if(authority == 'ROLE_DOCTOR') {
+      return this.http.post<any>('http://localhost:8080/doctor/timeoff', timeOff);
+    }
+  }
 }
