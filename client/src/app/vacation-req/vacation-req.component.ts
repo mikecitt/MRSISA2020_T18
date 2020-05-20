@@ -30,7 +30,7 @@ export class VacationReqComponent implements OnInit {
   loadTimeOffs() {
     this.timeOffService.getTimeOffs().subscribe(data => {
       for (let e in data)
-        this.data.push({jmbg: data[e].jmbg, firstName: data[e].firstName, lastName: data[e].lastName, startDate: this.datepipe.transform(data[e].startDate, 'dd.MM.yyyy.'), endDate: this.datepipe.transform(data[e].endDate, 'dd.MM.yyyy.')});
+        this.data.push({id: '', jmbg: data[e].jmbg, firstName: data[e].firstName, lastName: data[e].lastName, startDate: this.datepipe.transform(data[e].startDate, 'dd.MM.yyyy.'), endDate: this.datepipe.transform(data[e].endDate, 'dd.MM.yyyy.')});
       console.log(data);
     });
   }
