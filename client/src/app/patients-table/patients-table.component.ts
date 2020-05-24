@@ -1,26 +1,38 @@
-import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { PatientService } from '../service';
-import { DecimalPipe } from '@angular/common';
+import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Subject, Observable, Subscription, of } from 'rxjs';
+import { PatientService, Patient } from '../service';
+import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+export type SortColumn = keyof Patient | '';
+export type SortDirection = 'asc' | 'desc' | '';
+const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
+const compare = (v1: string, v2: string) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-interface Patient {
-	firstName: string;
-	lastName: string;
-	jmbg: string;
+export interface SortEvent {
+	column: SortColumn;
+	direction: SortDirection;
 }
 
-function search(text: string, data: Patient[]): Patient[] {
-  return data.filter(patient => {
-    const term = text.toLowerCase();2
-    return patient.firstName.toLowerCase().includes(term)
-        || patient.lastName.toLowerCase().includes(term)
-        || patient.jmbg.toLowerCase().includes(term);
-  });
-}
+@Directive({
+  selector: 'th[sortable]',
+  host: {
+    '[class.asc]': 'direction === "asc"',
+    '[class.desc]': 'direction === "desc"',
+    '(click)': 'rotate()'
+  }
+})
+export class NgbdSortableHeader {
 
+  @Input() sortable: SortColumn = '';
+  @Input() direction: SortDirection = '';
+  @Output() sort = new EventEmitter<SortEvent>();
+
+  rotate() {
+    this.direction = rotate[this.direction];
+    this.sort.emit({column: this.sortable, direction: this.direction});
+  }
+}
 
 @Component({
   selector: 'app-patients-table',
@@ -29,26 +41,49 @@ function search(text: string, data: Patient[]): Patient[] {
 })
 export class PatientsTableComponent implements OnInit {
 
-  data: Patient[] = [];
+	//tableData: Patient[];
+  data: Patient[];
 
-	patients: Observable<Patient[]>;
+	@ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+
+	tableData: Patient[];
 	filter = new FormControl('');
 
+	onSort({column, direction}: SortEvent) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting tableData
+    if (direction === '' || column === '') {
+      this.tableData = this.tableData;
+    } else {
+      this.tableData = [...this.tableData].sort((a, b) => {
+        const res = compare(`${a[column]}`, `${b[column]}`);
+        return direction === 'asc' ? res : -res;
+      });
+    }
+
+  }
+
   constructor(private patientService: PatientService) {
+		this.filter.valueChanges.subscribe(val => {
+  		this.tableData = this.data.filter(entity => {
+				const term = val.toLowerCase();
+	    	return entity.jmbg.toLowerCase().includes(term)
+	        || entity.firstName.toLowerCase().includes(term)
+	        || entity.lastName.toLowerCase().includes(term);
+  		})
+  	})
   }
 
   ngOnInit(): void {
-  	this.patientService.getPatients().subscribe(data => {
-  		for (let e in data['data'])
-  			this.data.push({firstName: data['data'][e].firstName, lastName: data['data'][e].lastName, jmbg: data['data'][e].jmbg});
-
-  		// why not in constructor?
-  			this.patients = this.filter.valueChanges.pipe(
-		  		startWith(''),
-		  		map(text => search(text, this.data))
-	  		)
+  	this.patientService.getPatients().subscribe(result => {
+  		this.data = result;
+			this.tableData = result;
   	})
   }
 }
-
-

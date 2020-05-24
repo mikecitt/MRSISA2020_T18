@@ -42,8 +42,7 @@ public class PatientController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
-    public ResponseEntity<Map<String, List<PatientDTO>>> getPatients(Principal user) {
-        HashMap<String, List<PatientDTO>> data = new HashMap<>();
+    public ResponseEntity<List<PatientDTO>> getPatients(Principal user) {
         List<PatientDTO> patientDTOList = new ArrayList<>();
         MedicalWorker medicalWorker = (MedicalWorker) userService.findByEmailAddress(user.getName());
         for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
@@ -52,8 +51,7 @@ public class PatientController {
                 patientDTOList.add(patientDTO);
         }
 
-        data.put("data", patientDTOList);
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(patientDTOList);
     }
 
     @GetMapping("/unregistered")

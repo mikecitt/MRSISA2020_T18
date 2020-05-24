@@ -9,6 +9,12 @@ export interface MedicalReport {
 	appointmentId: number;
 }
 
+export interface Patient {
+	firstName: string;
+	lastName: string;
+	jmbg: string;
+}
+
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }

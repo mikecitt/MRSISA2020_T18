@@ -223,7 +223,7 @@ public class DataLoader implements ApplicationRunner {
         ap2.setDoctor(doctor2);
         ap2.setDuration(2);
         ap2.setClinic(clinicA);
-        ap2.setPatient(patient);
+        ap2.setPatient(patient2);
 
         appointmentRepository.save(ap1);
         appointmentRepository.save(ap2);

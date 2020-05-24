@@ -11,21 +11,17 @@
 		<thead>
 			<tr>
 				<th scope="col">#</th>
-				<th scope="col">JMBG</th>
-				<th scope="col">Ime</th>
-				<th scope="col">Prezime</th>
+				<th scope="col" sortable="jmbg" (sort)="onSort($event)">JMBG</th>
+				<th scope="col" sortable="firstName" (sort)="onSort($event)">Ime</th>
+				<th scope="col" sortable="lastName" (sort)="onSort($event)">Prezime</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let patient of patients | async; index as i">
+			<tr *ngFor="let patient of tableData; let i = index">
 				<th scope="row">{{ i + 1 }}</th>
-				<td>
-					<ngb-highlight [result]="patient.jmbg" [term]="filter.value"></ngb-highlight>
-				</td>
-				<td>
-					<ngb-highlight [result]="patient.firstName" [term]="filter.value"></ngb-highlight>
-				</td>
-				<td><ngb-highlight [result]="patient.lastName" [term]="filter.value"></ngb-highlight></td>
+				<td>{{ patient.jmbg }}</td>
+				<td>{{ patient.firstName }}</td>
+				<td>{{ patient.lastName }}</td>
 			</tr>
 		</tbody>
 	</table>
