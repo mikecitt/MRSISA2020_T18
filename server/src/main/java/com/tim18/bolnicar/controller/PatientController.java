@@ -45,11 +45,12 @@ public class PatientController {
     public ResponseEntity<List<PatientDTO>> getPatients(Principal user) {
         List<PatientDTO> patientDTOList = new ArrayList<>();
         MedicalWorker medicalWorker = (MedicalWorker) userService.findByEmailAddress(user.getName());
-        for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
-            PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
-            if(!patientDTOList.contains(patientDTO))
-                patientDTOList.add(patientDTO);
-        }
+        if(medicalWorker != null && medicalWorker.getClinic() != null)
+            for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
+                PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
+                if(!patientDTOList.contains(patientDTO))
+                    patientDTOList.add(patientDTO);
+            }
 
         return ResponseEntity.ok(patientDTOList);
     }
