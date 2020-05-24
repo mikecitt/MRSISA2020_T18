@@ -214,6 +214,7 @@ public class DataLoader implements ApplicationRunner {
         ap1.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-28 10:30"));
         ap1.setDoctor(doctor2);
         ap1.setDuration(1);
+        ap1.setClinic(clinicA);
         ap1.setPatient(patient);
 
         Appointment ap2 = new Appointment();
@@ -221,6 +222,7 @@ public class DataLoader implements ApplicationRunner {
         ap2.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-29 12:00"));
         ap2.setDoctor(doctor2);
         ap2.setDuration(2);
+        ap2.setClinic(clinicA);
         ap2.setPatient(patient);
 
         appointmentRepository.save(ap1);
