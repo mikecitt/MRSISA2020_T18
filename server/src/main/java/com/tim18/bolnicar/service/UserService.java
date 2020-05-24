@@ -7,4 +7,5 @@ public interface UserService {
     UserDTO getProfile(String emailAddress);
     boolean updateProfile(String emailAddress, UserDTO user);
     User findByJmbg(String jmbg);
+    User findByEmailAddress(String emailAddress);
 }

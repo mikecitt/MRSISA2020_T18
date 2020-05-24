@@ -2,11 +2,8 @@ package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.DoctorDTO;
 import com.tim18.bolnicar.dto.Event;
-import com.tim18.bolnicar.dto.PatientDTO;
 import com.tim18.bolnicar.dto.ResponseReport;
-import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Doctor;
-import com.tim18.bolnicar.model.Nurse;
 import com.tim18.bolnicar.model.TimeOff;
 import com.tim18.bolnicar.service.AppointmentService;
 import com.tim18.bolnicar.service.DoctorService;
@@ -127,19 +124,5 @@ public class DoctorController {
                     appointmentService.findDoctorsAppointments(doctor)));
         }
         return ResponseEntity.ok(events);
-    }
-
-    @GetMapping(value = "/patients")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<List<PatientDTO>> getPatients(Principal user) {
-        Doctor currentDoctor = doctorService.findOne(user.getName());
-        List<PatientDTO> patientDTOList = new ArrayList<>();
-        for (Appointment appointment : currentDoctor.getClinic().getAppointments()) {
-            PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
-            if(!patientDTOList.contains(patientDTO))
-                patientDTOList.add(patientDTO);
-        }
-
-        return ResponseEntity.ok(patientDTOList);
     }
 }

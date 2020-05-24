@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findByJmbg(jmbg);
     }
 
+    @Override
+    public User findByEmailAddress(String emailAddress) {
+        return this.userRepository.findByEmailAddress(emailAddress);
+    }
+
 }
