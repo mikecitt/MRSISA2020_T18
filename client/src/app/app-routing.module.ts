@@ -8,7 +8,7 @@ import { ClinicComponent } from './clinic/clinic.component';
 import { RoomComponent } from './room/room.component';
 import { ExaminationTypeComponent } from './examination-type/examination-type.component';
 import { CodebookComponent } from './codebook/codebook.component';
-import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
+import { PatientsTableComponent } from './patients-table/patients-table.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: 'room', component: RoomComponent, canActivate: [AdminclGuard] },
       { path: 'examination-type', component: ExaminationTypeComponent, canActivate: [AdminclGuard] },
       { path: 'codebook', component: CodebookComponent, canActivate: [AdminGuard] },
-      { path: 'nurse', component: NursePanelComponent, canActivate: [MedicalGuard] },
+      { path: 'patient-list', component: PatientsTableComponent, canActivate: [MedicalGuard] },
       { path: 'registration-req', component: RegistrationReqComponent, canActivate: [AdminGuard]},
       { path: 'vacation-req', component: VacationReqComponent, canActivate: [AdminclGuard]}
     ],

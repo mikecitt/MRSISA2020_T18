@@ -29,7 +29,6 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { PatientsTableComponent } from './patients-table/patients-table.component';
-import { NursePanelComponent } from './nurse-panel/nurse-panel.component';
 import { ExaminationTypeViewComponent } from './examination-type-view/examination-type-view.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -62,7 +61,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
     ExaminationTypeComponent,
     MedicalRecordComponent,
     PatientsTableComponent,
-    NursePanelComponent,
     ExaminationTypeViewComponent,
     ForbiddenComponent,
     ProfileComponent,
