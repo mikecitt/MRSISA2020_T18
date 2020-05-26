@@ -1,0 +1,26 @@
+form {
+	padding: 20px;
+}
+
+/* modal animation */
+.modal-content{
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+@keyframes example {
+  0%   {transform: scale(0.5)}
+  75%  {transform: scale(1.1)}
+  100% {transform: scale(1)}
+}
+
+.close-animation {
+	animation-name: examplea;
+	animation-duration: 0.3s;
+}
+
+@keyframes examplea {
+	0%   {transform: scale(1)}
+  75%  {transform: scale(1.1)}
+  100% {transform: scale(0.5)}
+}

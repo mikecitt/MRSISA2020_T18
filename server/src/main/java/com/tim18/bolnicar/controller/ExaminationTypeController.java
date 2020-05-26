@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.ExaminationType;
 import com.tim18.bolnicar.service.ExaminationTypeService;
@@ -59,5 +60,27 @@ public class ExaminationTypeController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ExaminationType> getExaminationType(@PathVariable int id) {
+        return new ResponseEntity<>(examinationTypeService.findOne(id), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ResponseReport> updateExaminationType(@RequestBody ExaminationType examinationTypeChanges) {
+        ResponseReport report = new ResponseReport("error", "Forbidden action, contact admin.");
+
+        if(this.examinationTypeService.save(examinationTypeChanges) != null) {
+            report.setStatus("ok");
+            report.setMessage("Profile successfully updated.");
+            return ResponseEntity.ok(report);
+        }
+
+        report.setMessage(null);
+
+        return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
     }
 }

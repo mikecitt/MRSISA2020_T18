@@ -18,7 +18,15 @@ export class ExaminationTypeService {
   	return this.http.get('http://localhost:8080/examination-type/')
   }
 
+	getExaminationType(id) {
+  	return this.http.get('http://localhost:8080/examination-type/' + id)
+  }
+
 	removeExaminationType(id) {
 		return this.http.delete('http://localhost:8080/examination-type/'+id)
 	}
+
+	updateExaminationType(payload) {
+    return this.http.put('http://localhost:8080/examination-type/', payload);
+  }
 }

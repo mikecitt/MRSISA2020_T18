@@ -43,6 +43,7 @@ import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { DateIntervalComponent } from './date-interval/date-interval.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RoomEditComponent } from './room-edit/room-edit.component';
+import { ExaminationTypeEditComponent } from './examination-type-edit/examination-type-edit.component';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { RoomEditComponent } from './room-edit/room-edit.component';
     VacationReqComponent,
     DateIntervalComponent,
     RoomEditComponent,
+    ExaminationTypeEditComponent,
   ],
   imports: [
     BrowserModule,

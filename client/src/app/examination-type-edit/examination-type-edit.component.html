@@ -1,0 +1,26 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Izmena tipa pregleda</h5>
+</div>
+<div class="modal-body">
+<form [formGroup]="examinationTypeEditForm">
+  <div class="form-group row">
+  	<label class="col-sm-3 col-form-label">Naziv</label>
+    <div class="col">
+			<input type="text" class="form-control" hidden formControlName="id"> <!-- skloniti nekako -->
+      <input type="text" class="form-control" [class.is-invalid]="examinationTypeEditForm.get('name').invalid" formControlName="name">
+    </div>
+  </div>
+  <div class="form-group row">
+  	<label class="col-sm-3 col-form-label">Cena</label>
+    <div class="col">
+      <input type="text" class="form-control" [class.is-invalid]="examinationTypeEditForm.get('price').invalid" formControlName="price">
+    </div>
+  </div>
+</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" ngbAutofocus class="btn btn-primary" (click)="updateExaminationType()">Primeni</button>
+</div>
+</div>

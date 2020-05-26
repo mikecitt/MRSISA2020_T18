@@ -28,6 +28,7 @@
       <ngb-highlight [result]="type.price" [term]="filter.value"></ngb-highlight>
     </td>
     <td>
+      <i (click)="openExaminationTypeEdit(type.id)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;
       <i (click)="removeExaminationType(type.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
     </td>
   </tr>

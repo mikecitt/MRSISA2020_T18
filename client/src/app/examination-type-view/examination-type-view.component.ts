@@ -2,6 +2,8 @@ import { Component, OnInit, Input, PipeTransform } from '@angular/core';
 import { ExaminationTypeService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExaminationTypeEditComponent } from '../examination-type-edit/examination-type-edit.component';
 
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -41,7 +43,7 @@ export class ExaminationTypeViewComponent implements OnInit {
   pipe: DecimalPipe;
 
   constructor(private examinationTypeService: ExaminationTypeService,
-    pipe: DecimalPipe) {
+    pipe: DecimalPipe, private modalService: NgbModal) {
       this.pipe = pipe;
     }
 
@@ -70,6 +72,16 @@ export class ExaminationTypeViewComponent implements OnInit {
   removeExaminationType(id) {
     this.examinationTypeService.removeExaminationType(id).subscribe(data => {
       this.initTable();
+    });
+  }
+
+  openExaminationTypeEdit(id): void {
+    const modalRef = this.modalService.open(ExaminationTypeEditComponent);
+    modalRef.componentInstance.id = id;
+
+    modalRef.result.then((data) => {
+    }, (reason) => {
+      this.initTable(); // TODO: make better
     });
   }
 }
