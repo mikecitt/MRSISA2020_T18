@@ -2,6 +2,9 @@ import { Component, OnInit, Input, PipeTransform } from '@angular/core';
 import { RoomService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RoomEditComponent } from '../room-edit/room-edit.component';
+
 
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -40,7 +43,7 @@ export class RoomsTableComponent implements OnInit {
   pipe: DecimalPipe;
 
   constructor(private roomService: RoomService,
-    pipe: DecimalPipe) {
+    pipe: DecimalPipe, private modalService: NgbModal) {
       this.pipe = pipe;
     }
 
@@ -69,6 +72,16 @@ export class RoomsTableComponent implements OnInit {
   removeRoom(id) {
     this.roomService.removeRoom(id).subscribe(data => {
       this.initTable();
+    });
+  }
+
+  openRoomEdit(id): void {
+    const modalRef = this.modalService.open(RoomEditComponent);
+    modalRef.componentInstance.id = id;
+
+    modalRef.result.then((data) => {
+    }, (reason) => {
+      this.initTable(); // TODO: make better
     });
   }
 }

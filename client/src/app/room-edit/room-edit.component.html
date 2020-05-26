@@ -1,19 +1,20 @@
 <div class="modal-content" [class.close-animation]="close">
 <div class="modal-header">
-	 <h5 class="modal-title">Sala</h5>
+	 <h5 class="modal-title">Izmena sale</h5>
 </div>
 <div class="modal-body">
 <form [formGroup]="roomEditForm">
   <div class="form-group row">
-  	<label class="col-sm-2">Broj sobe</label>
+  	<label class="col-sm-3 col-form-label">Broj sobe</label>
     <div class="col">
-      <input type="text" [class.is-invalid]="profileForm.get('roomNumber').invalid" class="form-control" formControlName="roomNumber">
+			<input type="text" class="form-control" hidden formControlName="id"> <!-- skloniti nekako -->
+      <input type="text" class="form-control" [class.is-invalid]="roomEditForm.get('roomNumber').invalid" formControlName="roomNumber">
     </div>
   </div>
   <div class="form-group row">
-  	<label class="col-sm-2">Tip sobe</label>
+  	<label class="col-sm-3 col-form-label">Tip sale</label>
     <div class="col">
-      <select class="form-control" name="roomType" [(ngModel)]="roomType">
+			<select class="form-control" formControlName="type" name="roomType">
         <option value="EXAMINATION">Sala za preglede</option>
         <option value="OPERATION">Operaciona sala</option>
       </select>

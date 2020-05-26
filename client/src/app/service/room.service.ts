@@ -25,4 +25,8 @@ export class RoomService {
 	removeRoom(id) {
 		return this.http.delete('http://localhost:8080/room/'+id)
 	}
+
+	updateRoom(payload) {
+    return this.http.put('http://localhost:8080/room/', payload);
+  }
 }

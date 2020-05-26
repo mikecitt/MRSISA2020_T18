@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,21 @@ public class RoomController {
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Room> getRoom(@PathVariable int roomNumber) {
         return new ResponseEntity<>(roomService.findByRoomNumber(roomNumber), HttpStatus.OK);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<ResponseReport> updateRoom(@RequestBody Room roomUpdates) {
+        ResponseReport report = new ResponseReport("error", "Forbidden action, contact admin.");
+
+        if(this.roomService.save(roomUpdates) != null) {
+            report.setStatus("ok");
+            report.setMessage("Profile successfully updated.");
+            return ResponseEntity.ok(report);
+        }
+
+        report.setMessage(null);
+
+        return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
     }
 }

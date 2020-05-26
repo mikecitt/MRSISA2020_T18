@@ -24,7 +24,8 @@
       <ngb-highlight [result]="room.type" [term]="filter.value"></ngb-highlight>
     </td>
     <td>
-      <i (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
+      <i title="Izmena" (click)="openRoomEdit(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;
+      <i title="Brisanje" (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
     </td>
   </tr>
   </tbody>
