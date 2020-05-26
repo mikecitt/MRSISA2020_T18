@@ -1,6 +1,7 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MedicalService, UserService } from '../service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-date-interval',
@@ -8,33 +9,29 @@ import { MedicalService, UserService } from '../service';
   templateUrl: './date-interval.component.html',
   styleUrls: ['./date-interval.component.css']
 })
-export class DateIntervalComponent implements OnInit, OnChanges {
+export class DateIntervalComponent implements OnInit {
 
   @Input() selection:any;
 
   start:string;
   end:string;
-  startDate:string;
-  endDate:string;
+  startDate:Date;
+  endDate:Date;
 
   constructor(private datepipe: DatePipe, private medicalService:MedicalService,
-              private userService:UserService) { }
+              private userService:UserService, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
-  }
-
-  ngOnChanges(changes) {
-    if(changes['selection']) {
-      if(this.selection) {
-        this.start = this.datepipe.transform(this.selection['start'], 'dd.MM.yyyy.');
-        this.end = this.datepipe.transform(this.selection['end'], 'dd.MM.yyyy.');
-        this.startDate = this.selection['start'];
-        this.endDate = this.selection['end'];
-      }
-      else {
-        this.start = '';
-        this.end = '';
-      }
+    if(this.selection) {
+      this.startDate = this.selection['start'];
+      this.endDate = this.selection['end'];
+      this.endDate.setMinutes(this.endDate.getMinutes() - 1)
+      this.start = this.datepipe.transform(this.startDate, 'dd.MM.yyyy.');
+      this.end = this.datepipe.transform(this.endDate, 'dd.MM.yyyy.');
+    }
+    else {
+      this.start = '';
+      this.end = '';
     }
   }
 

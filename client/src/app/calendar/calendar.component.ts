@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DateIntervalComponent } from '../date-interval/date-interval.component';
 import { UserService, MedicalService } from '../service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -87,6 +87,14 @@ export class CalendarComponent implements OnInit {
   setSelection(selectionInfo) {
     console.log(selectionInfo);
     this.dateSelection = selectionInfo;
+    const modelRef = this.modalService.open(DateIntervalComponent, {
+      size: 'md',
+      windowClass: 'modal-holder',
+      centered: true,
+      backdrop: false
+    });
+
+    modelRef.componentInstance.selection = this.dateSelection;
   }
 
   inRange(selectInfo): boolean {
