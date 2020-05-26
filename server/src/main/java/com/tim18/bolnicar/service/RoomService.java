@@ -9,4 +9,5 @@ public interface RoomService {
     List<Room> findAll();
     void remove(int id);
     Room findOne(int id);
+    Room findByRoomNumber(int roomNumber);
 }

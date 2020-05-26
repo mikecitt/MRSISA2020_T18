@@ -33,4 +33,9 @@ public class RoomServiceImpl implements RoomService {
     public Room findOne(int id) {
         return roomRepository.findById(id).orElseGet(null);
     }
+
+    @Override
+    public Room findByRoomNumber(int roomNumber) {
+        return roomRepository.findByRoomNumber(roomNumber);
+    }
 }
