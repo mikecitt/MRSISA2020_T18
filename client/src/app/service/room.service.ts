@@ -18,6 +18,10 @@ export class RoomService {
   	return this.http.get('http://localhost:8080/room/')
   }
 
+	getRoom(id) {
+		return this.http.get('http://localhost:8080/room/'+id)
+	}
+
 	removeRoom(id) {
 		return this.http.delete('http://localhost:8080/room/'+id)
 	}

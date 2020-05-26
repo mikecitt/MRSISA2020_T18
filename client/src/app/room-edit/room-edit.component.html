@@ -1,0 +1,28 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Sala</h5>
+</div>
+<div class="modal-body">
+<form [formGroup]="roomEditForm">
+  <div class="form-group row">
+  	<label class="col-sm-2">Broj sobe</label>
+    <div class="col">
+      <input type="text" [class.is-invalid]="profileForm.get('roomNumber').invalid" class="form-control" formControlName="roomNumber">
+    </div>
+  </div>
+  <div class="form-group row">
+  	<label class="col-sm-2">Tip sobe</label>
+    <div class="col">
+      <select class="form-control" name="roomType" [(ngModel)]="roomType">
+        <option value="EXAMINATION">Sala za preglede</option>
+        <option value="OPERATION">Operaciona sala</option>
+      </select>
+    </div>
+  </div>
+</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" ngbAutofocus class="btn btn-primary" (click)="updateRoom()">Primeni</button>
+</div>
+</div>

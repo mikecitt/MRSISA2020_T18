@@ -42,6 +42,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { DateIntervalComponent } from './date-interval/date-interval.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { RoomEditComponent } from './room-edit/room-edit.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     WelcomeComponent,
     VacationReqComponent,
     DateIntervalComponent,
+    RoomEditComponent,
   ],
   imports: [
     BrowserModule,

@@ -59,4 +59,10 @@ public class RoomController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/{roomNumber}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Room> getRoom(@PathVariable int roomNumber) {
+        return new ResponseEntity<>(roomService.findByRoomNumber(roomNumber), HttpStatus.OK);
+    }
 }
