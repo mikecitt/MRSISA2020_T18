@@ -12,7 +12,7 @@ export class MedicalService {
     return this.http.get<any>('http://localhost:8080/medical/timeoff');
   }
 
-  getEvents(authority) {
+  getEvents() {
     return this.http.get<any>('http://localhost:8080/doctor/events');
   }
 

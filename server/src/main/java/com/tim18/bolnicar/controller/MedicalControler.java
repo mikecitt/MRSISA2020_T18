@@ -25,7 +25,7 @@ public class MedicalControler {
     private MedicalWorkerService medicalWorkerService;
 
     @GetMapping(value = "/timeoff")
-    @PreAuthorize("hasRole('DOCTOR', 'NURSE')")
+    @PreAuthorize("hasAnyRole('DOCTOR', 'NURSE')")
     public ResponseEntity<Map<String, List<TimeOff>>> getTimeOffs(Principal user) {
         HashMap<String, List<TimeOff>> timeOffs = new HashMap<String, List<TimeOff>>();
 
@@ -38,7 +38,7 @@ public class MedicalControler {
     }
 
     @PostMapping(path = "/timeoff")
-    @PreAuthorize("hasRole('DOCTOR', 'NURSE')")
+    @PreAuthorize("hasAnyRole('DOCTOR', 'NURSE')")
     public ResponseEntity<ResponseReport> postTimeOff(@RequestBody TimeOff timeOff,
                                                       Principal user) {
         MedicalWorker medicalWorker = this.medicalWorkerService.findOne(user.getName());

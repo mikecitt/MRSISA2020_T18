@@ -1,9 +1,10 @@
 <div class="mt-4 mb-4 container">
 <!--  <div *ngIf="isMedical();" class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>-->
   <full-calendar
+      *ngIf="grayDays"
       defaultView="dayGridMonth"
       themeSystem="bootstrap"
-      aspectRatio="2"
+      aspectRatio="1.75"
       [views]="{
         month: {
           titleFormat: 'MMMM, YYYY',
@@ -21,7 +22,6 @@
       eventTimeFormat="HH:mm"
       slotLabelFormat="HH:mm"
       [selectable]="selectionEnabled"
-      [unselectAuto]="false"
       [fixedWeekCount]="false"
       (dayRender)="renderDaysOff($event);"
       (select)="setSelection($event);"
