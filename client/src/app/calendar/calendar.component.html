@@ -1,7 +1,6 @@
-<div class="mt-4 mb-4 row">
-  <div *ngIf="isMedical();" class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>
-  <div class="col-sm-10">
-    <full-calendar
+<div class="mt-4 mb-4 container">
+<!--  <div *ngIf="isMedical();" class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>-->
+  <full-calendar
       defaultView="dayGridMonth"
       themeSystem="bootstrap"
       aspectRatio="2"
@@ -34,5 +33,5 @@
       }"
       [plugins]="calendarPlugins"
       [events]="calendarEvents"
-      [locales]="locales"></full-calendar></div>
+      [locales]="locales"></full-calendar>
 </div>

@@ -1,3 +1,7 @@
-<div class="d-flex justify-content-center">
-	<img src="assets/logo.png">
+<div class="d-flex justify-content-center" id="welcome">
+  <img src="assets/logo.png" class="img-fluid">
+  <div id="calendar" *ngIf="showCalendar()">
+    <app-calendar>
+    </app-calendar>
+  </div>
 </div>

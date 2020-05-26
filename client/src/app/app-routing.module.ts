@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: '', component: MainPageComponent,
     children: [
-      // { path: '', component: WelcomeComponent},
+      { path: '', component: WelcomeComponent},
       { path: 'patient', component: PatientComponent, canActivate: [PatientGuard] },
       { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
       { path: 'admincl', component: AdminClComponent, canActivate: [AdminGuard] },

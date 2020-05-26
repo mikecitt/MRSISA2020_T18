@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DateIntervalComponent } from '../date-interval/date-interval.component';
-import { UserService } from '../service';
+import { UserService, MedicalService } from '../service';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -24,13 +24,14 @@ export class CalendarComponent implements OnInit {
     interactionPlugin
   ];
   locales = [srLocale];
-  @Input() calendarEvents;
-  @Input() grayDays: any;
+  calendarEvents: any;
+  grayDays: any;
 
   selectionEnabled = false;
   dateSelection = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private medicalService: MedicalService) {}
 
   ngOnInit(): void {
     this.isMedical();

@@ -24,8 +24,6 @@ export class UserService {
   currentUser;
 
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService, private http: HttpClient) {
-    // privremeno dok se ne uradi logout
-    //this.storage.set(STORAGE_KEY, undefined);
     this.currentUser = this.storage.get(STORAGE_KEY);
   }
 
@@ -61,5 +59,14 @@ export class UserService {
 
   updateProfile(payload) {
     return this.http.put('http://localhost:8080/user/profile', payload);
+  }
+
+  getRole() {
+    var role = null;
+    if(this.currentUser) {
+      role = this.currentUser['authorities'][0]['authority'];
+    }
+
+    return role;
   }
 }
