@@ -44,8 +44,7 @@ export class DateIntervalComponent implements OnInit, OnChanges {
       endDate: this.endDate
     };
     console.log(body);
-    var authority = this.userService.currentUser.authorities[0].authority;
-    this.medicalService.sendVacationRequest(authority, body).subscribe(data => {
+    this.medicalService.sendVacationRequest(body).subscribe(data => {
       window.location.reload();
     })
   }
