@@ -1,6 +1,5 @@
 <div class="mt-4 mb-4 container">
-<!--  <div *ngIf="isMedical();" class="col-sm-2"><app-date-interval [selection]="dateSelection"></app-date-interval></div>-->
-  <full-calendar
+  <full-calendar #fc
       *ngIf="grayDays"
       defaultView="dayGridMonth"
       themeSystem="bootstrap"
@@ -26,13 +25,15 @@
       [fixedWeekCount]="false"
       (dayRender)="renderDaysOff($event);"
       (select)="setSelection($event);"
-      (selectAllow)="inRange($event);"
       [header]="{
           center: 'title',
           left: 'dayGridMonth,timeGridWeek,timeGridDay',
-          right: 'prev,next,today'
+          right: 'prev,next,today,timeOffButton'
       }"
       [plugins]="calendarPlugins"
       [events]="calendarEvents"
       [locales]="locales"></full-calendar>
+  <button class="btn btn-primary mb-3 mt-2 col-sm-2 float-right"
+          *ngIf="isMedical();"
+          (click)="showTimeOffModal();">Zatraži odsustvo</button>
 </div>

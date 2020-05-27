@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Injectable, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Injectable, ViewChild, AfterViewInit, EventEmitter, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MedicalService, UserService } from '../service';
 import { NgbActiveModal, NgbDatepickerI18n, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
@@ -53,6 +53,9 @@ export class DateIntervalComponent implements OnInit, AfterViewInit {
   @ViewChild('d1') datepicker1: NgbDatepicker;
   @ViewChild('d2') datepicker2: NgbDatepicker;
 
+  @Output()
+  uploaded = new EventEmitter<any>();
+
   start:Date;
   end:Date;
   startDate:NgbDateStruct;
@@ -88,9 +91,17 @@ export class DateIntervalComponent implements OnInit, AfterViewInit {
       this.endDate = this.toNgbDateStruct(this.end);
     }
     else {
-      this.startDate = null;
-      this.endDate = null;
+      var date = this.toNgbDateStruct(new Date());
+      this.startDate = date;
+      this.endDate = date;
     }
+  }
+
+  emitDate() {
+    this.uploaded.emit({
+      start: this.toBasicDate(this.startDate),
+      end: this.toBasicDate(this.endDate)
+    });
   }
 
   ngAfterViewInit() {
