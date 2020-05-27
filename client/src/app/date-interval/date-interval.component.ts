@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Injectable } from '@angular/core';
+import { Component, OnInit, Input, Injectable, ViewChild, AfterViewInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MedicalService, UserService } from '../service';
-import { NgbActiveModal, NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDatepickerI18n, NgbDateStruct, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 
 const I18N_VALUES = {
   'sr': {
@@ -46,9 +46,12 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
   templateUrl: './date-interval.component.html',
   styleUrls: ['./date-interval.component.css']
 })
-export class DateIntervalComponent implements OnInit {
+export class DateIntervalComponent implements OnInit, AfterViewInit {
 
   @Input() selection:any;
+
+  @ViewChild('d1') datepicker1: NgbDatepicker;
+  @ViewChild('d2') datepicker2: NgbDatepicker;
 
   start:Date;
   end:Date;
@@ -88,6 +91,13 @@ export class DateIntervalComponent implements OnInit {
       this.startDate = null;
       this.endDate = null;
     }
+  }
+
+  ngAfterViewInit() {
+    var date1 = { year: this.startDate.year, month: this.startDate.month }
+    var date2 = { year: this.endDate.year, month: this.endDate.month }
+    this.datepicker1.navigateTo(date1);
+    this.datepicker2.navigateTo(date2);
   }
 
   postTimeOff() {
