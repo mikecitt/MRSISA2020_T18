@@ -6,7 +6,8 @@
 @import '~@fullcalendar/bootstrap/main.css';
 
 .out-of-range{
-  background-color: #f2f3f6;
+  opacity: .4;
+  background-color: grey;
 }
 
 .days-off {
@@ -18,4 +19,32 @@
       #465298 10px,
       #465298 20px
     );
+}
+
+.fc-view-container {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.fc td {
+  border-color: #737373 !important;
+}
+
+.fc-today {
+  opacity: .7;
+}
+
+.fc-highlight {
+  background-color: blue;
+}
+
+/* modal animation */
+.modal-content{
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+@keyframes example {
+  0%   {transform: scale(0.5)}
+  75%  {transform: scale(1.1)}
+  100% {transform: scale(1)}
 }

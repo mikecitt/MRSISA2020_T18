@@ -24,43 +24,4 @@ public class NurseController {
 
     @Autowired
     private NurseService nurseService;
-
-    @GetMapping(value = "/timeoff")
-    @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<Map<String, List<TimeOff>>> getTimeOffs(Principal user) {
-        HashMap<String, List<TimeOff>> timeOffs = new HashMap<String, List<TimeOff>>();
-
-        Nurse nurse = nurseService.findOne(user.getName());
-
-        if(nurse != null) {
-            timeOffs.put("data", new ArrayList<TimeOff>(nurse.getActiveCalendar()));
-        }
-        return ResponseEntity.ok(timeOffs);
-    }
-
-    @PostMapping(path = "/timeoff")
-    @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<ResponseReport> postTimeOff(@RequestBody TimeOff timeOff,
-                                                      Principal user) {
-        Nurse nurse = this.nurseService.findOne(user.getName());
-
-        boolean flag = true;
-
-        try {
-            nurse.addTimeOff(timeOff);
-            this.nurseService.save(nurse);
-        } catch(Exception ex) {
-            flag = false;
-        }
-
-        if (flag) {
-            return new ResponseEntity<>(
-                    new ResponseReport("ok", "Your time off request is successfully created."),
-                    HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(
-                new ResponseReport("error", "Invalid input."),
-                HttpStatus.BAD_REQUEST);
-    }
 }

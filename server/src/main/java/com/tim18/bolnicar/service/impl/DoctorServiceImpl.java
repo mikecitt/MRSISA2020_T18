@@ -19,6 +19,20 @@ public class DoctorServiceImpl implements DoctorService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public boolean register(Doctor doctor) {
+        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+        doctor.setActive(true);
+
+        try {
+            save(doctor);
+            return true;
+        } catch (Exception ex) {
+        }
+
+        return false;
+    }
+
+    @Override
     public List<Doctor> findAll() {
         return (List<Doctor>) doctorRepository.findAll();
     }
@@ -35,9 +49,6 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor save(Doctor doctor) {
-        //TODO: make better
-        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-        doctor.setActive(true); //TODO: change
         return doctorRepository.save(doctor);
     }
 

@@ -5,6 +5,7 @@ import com.tim18.bolnicar.model.Nurse;
 import java.util.List;
 
 public interface NurseService {
+    boolean register(Nurse nurse);
     Nurse findOne(int id);
     Nurse findOne(String emailAddress);
     List<Nurse> findAll();

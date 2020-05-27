@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../service';
 
 @Component({
   selector: 'app-welcome',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:AuthService) { }
 
   ngOnInit(): void {
   }
 
+  showCalendar(): boolean {
+    return this.service.hasRole('ROLE_DOCTOR', 'ROLE_NURSE', 'ROLE_CLINIC_ADMIN');
+  }
 }

@@ -48,12 +48,11 @@ public class DoctorController {
     public ResponseEntity<Map<String, String>> addDoctor(@RequestBody Doctor newDoctor) {
         HashMap<String, String> response = new HashMap<>();
         System.out.println(newDoctor);
-        Doctor doctor = new Doctor();
-        try {
-            doctor = doctorService.save(newDoctor);
-            response.put("message", "true");
 
-        } catch(Exception e) {
+        if(doctorService.register(newDoctor)) {
+            response.put("message", "true");
+        }
+        else {
             response.put("message", "false");
         }
 
@@ -71,45 +70,6 @@ public class DoctorController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @GetMapping(value = "/timeoff")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Map<String, List<TimeOff>>> getTimeOffs(Principal user) {
-        HashMap<String, List<TimeOff>> timeOffs = new HashMap<String, List<TimeOff>>();
-
-        Doctor doctor = doctorService.findOne(user.getName());
-
-        if(doctor != null) {
-            timeOffs.put("data", new ArrayList<TimeOff>(doctor.getActiveCalendar()));
-        }
-        return ResponseEntity.ok(timeOffs);
-    }
-
-    @PostMapping(path = "/timeoff")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<ResponseReport> postTimeOff(@RequestBody TimeOff timeOff,
-                                                      Principal user) {
-        Doctor doctor = this.doctorService.findOne(user.getName());
-
-        boolean flag = true;
-
-        try {
-            doctor.addTimeOff(timeOff);
-            this.doctorService.save(doctor);
-        } catch(Exception ex) {
-            flag = false;
-        }
-
-        if (flag) {
-            return new ResponseEntity<>(
-                    new ResponseReport("ok", "Your time off request is successfully created."),
-                    HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(
-                new ResponseReport("error", "Invalid input."),
-                HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/events")

@@ -95,4 +95,9 @@ export class AuthService {
   getCurrentRoute() {
     return this.router.url;
   }
+
+  hasRole(...roles: string[]): boolean {
+    var currentRole = this.userService.getRole();
+    return roles.includes(currentRole);
+  }
 }

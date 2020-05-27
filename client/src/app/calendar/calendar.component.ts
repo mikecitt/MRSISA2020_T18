@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DateIntervalComponent } from '../date-interval/date-interval.component';
-import { UserService } from '../service';
+import { UserService, MedicalService } from '../service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -16,6 +18,8 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 })
 export class CalendarComponent implements OnInit {
 
+  @ViewChild('fc') calendar: FullCalendarComponent;
+
   calendarPlugins = [
     dayGridPlugin,
     timeGridPlugin,
@@ -24,26 +28,47 @@ export class CalendarComponent implements OnInit {
     interactionPlugin
   ];
   locales = [srLocale];
-  @Input() calendarEvents;
-  @Input() grayDays: any;
+  calendarEvents: any[] = [];
+  grayDays: any[];
 
   selectionEnabled = false;
   dateSelection = null;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+              private medicalService: MedicalService,
+              private modalService: NgbModal) {
+  }
 
   ngOnInit(): void {
+    this.loadData();
+    this.selectionEnabled = false;
     this.isMedical();
   }
 
   isMedical() {
-    let authorities = JSON.stringify(this.userService.currentUser.authorities);
-    if(authorities.search('ROLE_DOCTOR') !== -1 ||
-       authorities.search('ROLE_NURSE') !== -1) {
+    let authority = this.userService.getRole();
+    if(authority === 'ROLE_DOCTOR' || authority === 'ROLE_NURSE') {
       this.selectionEnabled = true;
-      return true;
     }
-    return false;
+    return this.selectionEnabled;
+  }
+
+  loadData() {
+    var role = this.userService.getRole();
+    if(role === 'ROLE_DOCTOR' || role === 'ROLE_NURSE' ) {
+      this.medicalService.getTimeOffs().subscribe(data => {
+        this.grayDays = data['data'];
+
+        if(role == 'ROLE_DOCTOR') {
+          this.medicalService.getEvents().subscribe(data => {
+            this.calendarEvents = data['events'];
+          });
+        }
+      });
+    }
+    else {
+      this.grayDays = [];
+    }
   }
 
   renderDaysOff(dayRenderInfo) {
@@ -65,14 +90,29 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  setSelection(selectionInfo) {
-    console.log(selectionInfo);
-    this.dateSelection = selectionInfo;
+  showTimeOffModal(dateSelection=null) {
+    const modalRef = this.modalService.open(DateIntervalComponent, {
+      size: 'md',
+      windowClass: 'modal-holder',
+      centered: true,
+      backdrop: false
+    });
+    modalRef.componentInstance.selection = dateSelection;
+    modalRef.componentInstance.uploaded.subscribe((event) => {
+      this.changeSelection(event);
+    });
   }
 
-  inRange(selectInfo): boolean {
-    console.log(selectInfo);
-    return true;
+  changeSelection(event) {
+    console.log(event);
+    this.calendar.getApi().select(event.start, event.end);
+  }
+
+  setSelection(selectionInfo) {
+    //console.log(selectionInfo);
+    this.dateSelection = selectionInfo;
+    if(!this.modalService.hasOpenModals())
+      this.showTimeOffModal(this.dateSelection);
   }
 
   addEvent() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, MedicalService } from '../service';
+import { AuthService } from '../service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from '../profile/profile.component';
 import { ClinicProfileComponent } from '../clinic-profile/clinic-profile.component';
@@ -28,12 +28,9 @@ export class MainPageComponent implements OnInit {
   public isMenuCollapsed = true
   public is
 
-  daysOff = null;
-  events = null;
   authority;
 
-  constructor(private service: AuthService, private modalService: NgbModal,
-              private medicalService: MedicalService) { }
+  constructor(private service: AuthService, private modalService: NgbModal) { }
 
   toggle() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
@@ -42,34 +39,12 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     this.service.whoAmI().subscribe(data => {
       this.authority = data['authorities'][0]['authority'];
-      if(this.authority == 'ROLE_NURSE' || this.authority == 'ROLE_DOCTOR' ) {
-        this.medicalService.getTimeOffs(this.authority).subscribe(data => {
-          this.daysOff = data['data'];
-
-          if(this.authority == 'ROLE_DOCTOR') {
-            this.medicalService.getEvents(this.authority).subscribe(data => {
-              this.events = data['events'];
-            });
-          }
-          else {
-            this.events = [];
-          }
-        });
-      }
-      else {
-        this.daysOff = [];
-        this.events = []
-      }
     })
   }
 
   onLogout(): void {
     this.authority = null;
     this.service.logout();
-  }
-
-  isHomePage(): boolean {
-    return this.service.getCurrentRoute() == '/';
   }
 
   openProfile(): void {
