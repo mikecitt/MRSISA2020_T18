@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }
@@ -10,19 +9,15 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService {
+export class CodebookService {
 
   constructor(private http:HttpClient) { }
 
-  addDoctor(payload) {
-  	return this.http.post('http://localhost:8080/doctor/add', payload, httpOptions);
+  addDrug(payload) {
+  	return this.http.post<any>('http://localhost:8080/codebook/drug', payload, httpOptions)
   }
 
-  getDoctors() {
-  	return this.http.get('http://localhost:8080/doctor/');
+  addDiagnosis(payload) {
+  	return this.http.post<any>('http://localhost:8080/codebook/diagnosis', payload, httpOptions)
   }
-
-	removeDoctor(id) {
-		return this.http.delete('http://localhost:8080/doctor/'+id);
-	}
 }

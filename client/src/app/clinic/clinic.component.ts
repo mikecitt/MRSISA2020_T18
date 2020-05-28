@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ClinicService } from '../service';
 
 @Component({
   selector: 'app-clinic',
@@ -15,7 +15,7 @@ export class ClinicComponent implements OnInit {
   message:string = null;
   alertType:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:ClinicService) { }
 
   ngOnInit(): void {
   }
@@ -32,7 +32,7 @@ export class ClinicComponent implements OnInit {
       this.alertType = "warning"
     }
     else {
-      return this.http.post<any>('http://localhost:8080/clinic/add', formData).subscribe(data => {
+      return this.service.addClinic(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Klinika uspešno dodat."
           this.alertType = "success"

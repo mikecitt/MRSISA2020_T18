@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CodebookService } from '../service';
 
 @Component({
   selector: 'app-codebook',
@@ -14,7 +14,7 @@ export class CodebookComponent implements OnInit {
   message:string = null;
   alertType:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:CodebookService) { }
 
   ngOnInit(): void {
   }
@@ -25,7 +25,7 @@ export class CodebookComponent implements OnInit {
     }
 
     if(this.typeCode == 'drugs') {
-      return this.http.post<any>('http://localhost:8080/codebook/drug', formData).subscribe(data => {
+      return this.service.addDrug(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Lek uspešno dodat."
           this.alertType = "success"
@@ -37,7 +37,7 @@ export class CodebookComponent implements OnInit {
       });
     }
     else {
-      return this.http.post<any>('http://localhost:8080/codebook/diagnosis', formData).subscribe(data => {
+      return this.service.addDiagnosis(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Dijagnoza uspešno dodat."
           this.alertType = "success"

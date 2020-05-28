@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { RoomService } from '../service';
 
 @Component({
   selector: 'app-room',
@@ -16,7 +16,7 @@ export class RoomComponent implements OnInit {
   roomType:string = null;
   message:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:RoomService) { }
 
   ngOnInit(): void {
   }
@@ -31,7 +31,7 @@ export class RoomComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else {
-      return this.http.post<any>('http://localhost:8080/room/add', formData).subscribe(data => {
+      return this.service.addRoom(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Sala uspešno dodata.";
           this.eventsSubject.next();

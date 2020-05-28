@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { ExaminationTypeService } from '../service';
 
 @Component({
   selector: 'app-examination-type',
@@ -16,7 +16,7 @@ export class ExaminationTypeComponent implements OnInit {
   price:string = '';
   message:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:ExaminationTypeService) { }
 
   ngOnInit(): void {
   }
@@ -33,7 +33,7 @@ export class ExaminationTypeComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else {
-      return this.http.post<any>('http://localhost:8080/examination-type/add', formData).subscribe(data => {
+      return this.service.addExaminationType(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Tip pregleda uspešno dodat."
           this.eventsSubject.next();

@@ -29,6 +29,11 @@ export class ClinicService {
   }
 
 	updateClinicProfile(payload) {
-    return this.http.put('http://localhost:8080/clinic/profile', payload);
+    return this.http.put('http://localhost:8080/clinic/profile', payload, httpOptions);
   }
+
+  addClinic(payload) {
+    return this.http.post('http://localhost:8080/clinic/add', payload, httpOptions);
+  }
+  
 }

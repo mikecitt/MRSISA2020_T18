@@ -14,6 +14,10 @@ export class ExaminationTypeService {
 
   constructor(private http:HttpClient) { }
 
+  addExaminationType(payload) {
+    return this.http.post<any>('http://localhost:8080/examination-type/add', payload, httpOptions)
+  }
+
   getExaminationTypes() {
   	return this.http.get('http://localhost:8080/examination-type/')
   }

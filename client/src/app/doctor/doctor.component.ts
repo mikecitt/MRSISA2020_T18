@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { DoctorService } from '../service';
 
 @Component({
   selector: 'app-doctor',
@@ -24,7 +24,7 @@ export class DoctorComponent implements OnInit {
   contact:string = '';
   message:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:DoctorService) { }
 
   ngOnInit() { }
 
@@ -47,7 +47,7 @@ export class DoctorComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else if(this.password == this.repeat)
-      return this.http.post<any>('http://localhost:8080/doctor/add', formData).subscribe(data => {
+      return this.service.addDoctor(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Lekar uspesno dodat."
           this.eventsSubject.next();

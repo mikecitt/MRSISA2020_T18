@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CladminService } from '../service';
 
 @Component({
   selector: 'app-admincl',
@@ -23,7 +23,7 @@ export class AdminClComponent implements OnInit {
   message:string = null;
   alertType:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:CladminService) { }
 
   ngOnInit() { }
 
@@ -46,7 +46,7 @@ export class AdminClComponent implements OnInit {
       this.message = "Sva polja moraju biti popunjena.";
     }
     else if(this.password == this.repeat)
-      return this.http.post<any>('http://localhost:8080/admincl/add', formData).subscribe(data => {
+      return this.service.addClAdmin(formData).subscribe(data => {
         if(data['message'] == "true") {
           this.message = "Admin klinike uspesno dodat."
           this.alertType = "success"

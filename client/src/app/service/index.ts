@@ -9,3 +9,6 @@ export * from './ccadmin.service';
 export * from './room.service';
 export * from './medical.service';
 export * from './timeoff.service';
+export * from './admin.service';
+export * from './cladmin.service';
+export * from './codebook.service';

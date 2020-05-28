@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AdminService } from '../service';
 
 @Component({
   selector: 'app-admin',
@@ -23,7 +23,7 @@ export class AdminComponent implements OnInit {
   message:string = null;
   alertType:string = null;
 
-  constructor(private http:HttpClient) { }
+  constructor(private service:AdminService) { }
 
   ngOnInit() {}
 
@@ -41,6 +41,7 @@ export class AdminComponent implements OnInit {
     }
     console.log(formData);
     if(this.password == this.repeat)
+      /*
       return this.http.post<any>('http://localhost:8080/admin/add', formData).subscribe(data => {
             if(data['message'] == 'true') {
               this.message = "Admin uspešno dodat"
@@ -51,10 +52,21 @@ export class AdminComponent implements OnInit {
               this.alertType = "danger"
             }
           });
-    else {
-      this.message = "Lozinke se ne poklapaju"
-      this.alertType = "warning"
+      */
+      this.service.addAdmin(formData).subscribe(data => {
+        if(data['message'] == 'true') {
+          this.message = "Admin uspešno dodat"
+          this.alertType = "success"
+        }
+        else {
+          this.message = "Admin nije dodat ili već postojeći"
+          this.alertType = "danger"
+        }
+      });
+      else {
+        this.message = "Lozinke se ne poklapaju"
+        this.alertType = "warning"
+      }
     }
-  }
 
-}
+  }

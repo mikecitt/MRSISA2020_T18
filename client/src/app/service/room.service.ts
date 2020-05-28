@@ -14,6 +14,10 @@ export class RoomService {
 
   constructor(private http:HttpClient) { }
 
+  addRoom(payload) {
+  	return this.http.post<any>('http://localhost:8080/room/add', payload, httpOptions)
+  }
+
   getRooms() {
   	return this.http.get('http://localhost:8080/room/')
   }

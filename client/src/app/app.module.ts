@@ -33,8 +33,6 @@ import { ExaminationTypeViewComponent } from './examination-type-view/examinatio
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
-
-import { NgbdSortableHeader } from './clinic-table/clinic-table.component';
 import { RegistrationReqComponent } from './registration-req/registration-req.component';
 import { RoomsTableComponent } from './rooms-table/rooms-table.component';
 import { ClinicProfileComponent } from './clinic-profile/clinic-profile.component';
@@ -44,8 +42,9 @@ import { DateIntervalComponent } from './date-interval/date-interval.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RoomEditComponent } from './room-edit/room-edit.component';
 import { ExaminationTypeEditComponent } from './examination-type-edit/examination-type-edit.component';
+import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 
-import { AppointmentHistoryComponent, AppointmentSortableHeader } from './appointment-history/appointment-history.component';
+import { NgSortableHeader } from './sortable-table';
 
 
 @NgModule({
@@ -69,7 +68,6 @@ import { AppointmentHistoryComponent, AppointmentSortableHeader } from './appoin
     ForbiddenComponent,
     ProfileComponent,
     ClinicTableComponent,
-    NgbdSortableHeader,
     RegistrationReqComponent,
     RoomsTableComponent,
     ClinicProfileComponent,
@@ -80,7 +78,7 @@ import { AppointmentHistoryComponent, AppointmentSortableHeader } from './appoin
     RoomEditComponent,
     ExaminationTypeEditComponent,
     AppointmentHistoryComponent,
-    AppointmentSortableHeader,
+    NgSortableHeader
   ],
   imports: [
     BrowserModule,
