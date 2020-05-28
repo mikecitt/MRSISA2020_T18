@@ -15,15 +15,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let doctor of doctors | async; index as i">
+  <tr *ngFor="let doctor of tableData; index as i">
     <th>
-      <ngb-highlight [result]="doctor.id" [term]="filter.value"></ngb-highlight>
+      {{ doctor.id }}
     </th>
     <td>
-      <ngb-highlight [result]="doctor.firstName" [term]="filter.value"></ngb-highlight>
+      {{ doctor.firstName }}
     </td>
     <td>
-      <ngb-highlight [result]="doctor.lastName" [term]="filter.value"></ngb-highlight>
+      {{ doctor.lastName }}
     </td>
     <td>
       <i (click)="removeDoctor(doctor.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>

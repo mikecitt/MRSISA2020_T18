@@ -17,15 +17,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let type of examinationTypes | async; index as i">
+  <tr *ngFor="let type of tableData; index as i">
     <th scope="row">
-      <ngb-highlight [result]="type.id" [term]="filter.value"></ngb-highlight>
+      {{ type.id }}
     </th>
     <td>
-      <ngb-highlight [result]="type.name" [term]="filter.value"></ngb-highlight>
+      {{ type.name }}
     </td>
     <td>
-      <ngb-highlight [result]="type.price" [term]="filter.value"></ngb-highlight>
+      {{ type.price }}
     </td>
     <td>
       <i (click)="openExaminationTypeEdit(type.id)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;

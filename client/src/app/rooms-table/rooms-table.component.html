@@ -16,12 +16,12 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let room of rooms | async; index as i">
+  <tr *ngFor="let room of tableData; index as i">
     <td scope="row">
-      <ngb-highlight [result]="room.roomNumber" [term]="filter.value"></ngb-highlight>
+      {{ room.roomNumber }}
     </td>
     <td>
-      <ngb-highlight [result]="room.type" [term]="filter.value"></ngb-highlight>
+      {{ room.type }}
     </td>
     <td>
       <i title="Izmena" (click)="openRoomEdit(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;

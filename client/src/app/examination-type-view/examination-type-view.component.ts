@@ -14,13 +14,6 @@ interface ExaminationType {
   price: string;
 }
 
-function search(text:string, pipe: PipeTransform, data: ExaminationType[]): ExaminationType[] {
-  return data.filter(examinationType => {
-    const term = text.toLowerCase();
-    return examinationType.name.toLowerCase().includes(term);
-  });
-}
-
 @Component({
   selector: 'app-examination-type-view',
   templateUrl: './examination-type-view.component.html',
@@ -28,16 +21,13 @@ function search(text:string, pipe: PipeTransform, data: ExaminationType[]): Exam
   providers: [DecimalPipe]
 })
 export class ExaminationTypeViewComponent implements OnInit {
-  @Input() endpoint: string;
-  @Input() fieldsList: string[];
-
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<void>;
 
   data: ExaminationType[] = [];
+  tableData: ExaminationType[] = [];
 
-  examinationTypes: Observable<ExaminationType[]>;
   filter = new FormControl('');
 
   pipe: DecimalPipe;
@@ -45,6 +35,13 @@ export class ExaminationTypeViewComponent implements OnInit {
   constructor(private examinationTypeService: ExaminationTypeService,
     pipe: DecimalPipe, private modalService: NgbModal) {
       this.pipe = pipe;
+
+      this.filter.valueChanges.subscribe(val => {
+        this.tableData = this.data.filter(entity => {
+            const term = val.toLowerCase();
+            return entity.name.toLowerCase().includes(term);
+          })
+      })
     }
 
   ngOnInit(): void {
@@ -54,14 +51,12 @@ export class ExaminationTypeViewComponent implements OnInit {
 
   initTable(): void {
     this.data.length = 0;
+    this.filter.setValue('');
     this.examinationTypeService.getExaminationTypes().subscribe(data => {
       for (let e in data)
         this.data.push({id: data[e].id, name: data[e].name, price: data[e].price});
 
-        this.examinationTypes = this.filter.valueChanges.pipe(
-          startWith(''),
-          map(text => search(text, this.pipe, this.data))
-        )
+        this.tableData = this.data;
     })
   }
 

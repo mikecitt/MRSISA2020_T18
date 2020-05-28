@@ -35,6 +35,7 @@ export class DoctorsTableComponent implements OnInit {
   @Input() events: Observable<void>;
 
 	data: Doctor[] = [];
+  tableData: Doctor[] = [];
 
 	doctors: Observable<Doctor[]>;
 	filter = new FormControl('');
@@ -43,6 +44,14 @@ export class DoctorsTableComponent implements OnInit {
 
   constructor(private doctorService: DoctorService, pipe: DecimalPipe) {
   	this.pipe = pipe;
+
+    this.filter.valueChanges.subscribe(val => {
+      this.tableData = this.data.filter(entity => {
+        const term = val.toLowerCase();
+        return entity.firstName.toLowerCase().includes(term)
+          || entity.lastName.toLowerCase().includes(term);
+      })
+    })
   }
 
   ngOnDestroy() {
@@ -56,15 +65,18 @@ export class DoctorsTableComponent implements OnInit {
 
   initTable(): void {
     this.data.length = 0;
+    this.tableData.length = 0;
+    this.filter.setValue('');
     this.doctorService.getDoctors().subscribe(data => {
       for (let e in data)
         this.data.push({id: data[e].id, firstName: data[e].firstName, lastName: data[e].lastName});
 
       // why not in constructor?
-        this.doctors = this.filter.valueChanges.pipe(
-          startWith(''),
-          map(text => search(text, this.pipe, this.data))
-        )
+      //  this.doctors = this.filter.valueChanges.pipe(
+      //    startWith(''),
+      //    map(text => search(text, this.pipe, this.data))
+      //  )
+        this.tableData = this.data
     })
   }
 

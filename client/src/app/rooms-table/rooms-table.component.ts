@@ -28,16 +28,13 @@ function search(text:string, pipe: PipeTransform, data: Room[]): Room[] {
   providers: [DecimalPipe]
 })
 export class RoomsTableComponent implements OnInit {
-  @Input() endpoint: string;
-  @Input() fieldsList: string[];
-
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<void>;
 
   data: Room[] = [];
+  tableData: Room[] = [];
 
-  rooms: Observable<Room[]>;
   filter = new FormControl('');
 
   pipe: DecimalPipe;
@@ -45,6 +42,14 @@ export class RoomsTableComponent implements OnInit {
   constructor(private roomService: RoomService,
     pipe: DecimalPipe, private modalService: NgbModal) {
       this.pipe = pipe;
+
+      this.filter.valueChanges.subscribe(val => {
+        this.tableData = this.data.filter(entity => {
+            const term = val.toLowerCase();
+            return entity.type.toLowerCase().includes(term) 
+                    || String(entity.roomNumber).includes(term);
+          })
+      })
     }
 
   ngOnInit(): void {
@@ -54,14 +59,16 @@ export class RoomsTableComponent implements OnInit {
 
   initTable(): void {
     this.data.length = 0;
+    this.filter.setValue('');
     this.roomService.getRooms().subscribe(data => {
       for (let e in data)
         this.data.push({roomNumber: data[e].roomNumber, type: (data[e].type == "OPERATION" ? "Operaciona" : "Sala za preglede")});
 
-        this.rooms = this.filter.valueChanges.pipe(
-          startWith(''),
-          map(text => search(text, this.pipe, this.data))
-        )
+        this.tableData = this.data;
+        //this.rooms = this.filter.valueChanges.pipe(
+        //  startWith(''),
+        //  map(text => search(text, this.pipe, this.data))
+        //)
     })
   }
 
