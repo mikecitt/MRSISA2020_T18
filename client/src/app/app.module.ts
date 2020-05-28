@@ -45,6 +45,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { RoomEditComponent } from './room-edit/room-edit.component';
 import { ExaminationTypeEditComponent } from './examination-type-edit/examination-type-edit.component';
 
+import { AppointmentHistoryComponent, AppointmentSortableHeader } from './appointment-history/appointment-history.component';
+
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { ExaminationTypeEditComponent } from './examination-type-edit/examinatio
     DateIntervalComponent,
     RoomEditComponent,
     ExaminationTypeEditComponent,
+    AppointmentHistoryComponent,
+    AppointmentSortableHeader,
   ],
   imports: [
     BrowserModule,

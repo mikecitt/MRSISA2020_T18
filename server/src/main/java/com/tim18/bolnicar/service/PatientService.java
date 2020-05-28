@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.service;
 
+import com.tim18.bolnicar.dto.AppointmentDTO;
 import com.tim18.bolnicar.dto.MedicalReportDTO;
 import com.tim18.bolnicar.dto.PatientDTO;
 import com.tim18.bolnicar.dto.UserDTO;
@@ -13,6 +14,7 @@ public interface PatientService {
     boolean registerPatient(UserDTO user);
     List<MedicalReportDTO> getMedicalRecord(Integer patientId);
     List<MedicalReportDTO> getMedicalRecord(String patientEmail);
+    List<AppointmentDTO> getAppointmentsHistory(String patientEmail);
     List<PatientDTO> getPatients();
     List<PatientDTO> getUnregistered();
     Patient getPatient(String patientJmbg);

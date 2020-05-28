@@ -15,6 +15,30 @@ export interface Patient {
 	jmbg: string;
 }
 
+// maybe move
+export interface ExaminationType {
+  id: string;
+  name: string;
+  price: number;
+}
+
+// ...
+// end block
+
+export interface Appointment {
+  id: number;
+  datetime: number;
+  duration: number;
+  discount: number;
+  room: any; // ok, take risk
+  type: any;
+  medicalReportId: number;
+  patientId: number;
+  doctor: string;
+  clinicName: string;
+
+}
+
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }
@@ -35,5 +59,9 @@ export class PatientService {
 
   getPatients() {
     return this.http.get<any>('http://localhost:8080/patient');
+  }
+
+  getAppointmentsHistory() {
+    return this.http.get<any>('http://localhost:8080/patient/appointments')
   }
 }

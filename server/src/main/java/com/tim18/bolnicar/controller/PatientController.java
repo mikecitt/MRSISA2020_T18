@@ -1,16 +1,12 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.MedicalReportDTO;
-import com.tim18.bolnicar.dto.PatientDTO;
-import com.tim18.bolnicar.dto.ResponseReport;
-import com.tim18.bolnicar.dto.UserDTO;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.MedicalReport;
 import com.tim18.bolnicar.model.MedicalWorker;
 import com.tim18.bolnicar.model.Patient;
 import com.tim18.bolnicar.service.PatientService;
 import com.tim18.bolnicar.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +49,16 @@ public class PatientController {
             }
 
         return ResponseEntity.ok(patientDTOList);
+    }
+
+    @GetMapping("/appointments")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> getAppointments(Principal user) {
+        Response response = new Response();
+        response.setStatus("ok");
+        response.setData(this.patientService.getAppointmentsHistory(user.getName()).toArray());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/unregistered")

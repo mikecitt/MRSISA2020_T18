@@ -1,8 +1,10 @@
 package com.tim18.bolnicar.service.impl;
 
+import com.tim18.bolnicar.dto.AppointmentDTO;
 import com.tim18.bolnicar.dto.MedicalReportDTO;
 import com.tim18.bolnicar.dto.PatientDTO;
 import com.tim18.bolnicar.dto.UserDTO;
+import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.MedicalDiagnosis;
 import com.tim18.bolnicar.model.MedicalReport;
 import com.tim18.bolnicar.model.Patient;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
@@ -90,6 +93,22 @@ public class PatientServiceImpl implements PatientService {
             ));
 
         return res;
+    }
+
+    @Override
+    public List<AppointmentDTO> getAppointmentsHistory(String patientEmail) {
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+        List<AppointmentDTO> appointments = new ArrayList<>();
+
+        if (patient == null)
+            return null;
+
+        //TODO: maybe just history?
+        for (Appointment appointment : patient.getAppointments()) {
+            appointments.add(new AppointmentDTO(appointment));
+        }
+
+        return appointments;
     }
 
     @Override

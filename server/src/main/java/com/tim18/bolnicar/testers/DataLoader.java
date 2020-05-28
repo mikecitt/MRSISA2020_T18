@@ -209,6 +209,17 @@ public class DataLoader implements ApplicationRunner {
 
         patientRepository.save(patient2);
 
+        ExaminationType e1 = new ExaminationType();
+        e1.setName("Examination COVID-19");
+        e1.setPrice(100.0);
+
+        ExaminationType e2 = new ExaminationType();
+        e2.setName("Examination COVID-20");
+        e2.setPrice(200.0);
+
+        examinationTypeRepository.save(e1);
+        examinationTypeRepository.save(e2);
+
         Appointment ap1 = new Appointment();
         ap1.setDiscount(0.0);
         ap1.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-28 10:30"));
@@ -216,6 +227,7 @@ public class DataLoader implements ApplicationRunner {
         ap1.setDuration(1);
         ap1.setClinic(clinicA);
         ap1.setPatient(patient);
+        ap1.setType(e1);
 
         Appointment ap2 = new Appointment();
         ap2.setDiscount(0.0);
@@ -224,9 +236,20 @@ public class DataLoader implements ApplicationRunner {
         ap2.setDuration(2);
         ap2.setClinic(clinicA);
         ap2.setPatient(patient2);
+        ap2.setType(e2);
+
+        Appointment ap3 = new Appointment();
+        ap3.setDiscount(0.0);
+        ap3.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-29 12:00"));
+        ap3.setDoctor(doctor2);
+        ap3.setDuration(2);
+        ap3.setClinic(clinicB);
+        ap3.setPatient(patient2);
+        ap3.setType(e1);
 
         appointmentRepository.save(ap1);
         appointmentRepository.save(ap2);
+        appointmentRepository.save(ap3);
 
         MedicalReport mr1 = new MedicalReport();
         mr1.setAppointment(ap1);
