@@ -10,9 +10,9 @@ import java.util.Date;
 public class AppointmentDTO {
     private Integer id;
     private Date datetime;
-    private Integer duration;
+    private Double duration;
     private Double discount;
-    private Room room;
+    private RoomDTO room;
     private ExaminationType type;
     private Integer medicalReportId;
     private Integer patientId;
@@ -21,7 +21,7 @@ public class AppointmentDTO {
 
     public AppointmentDTO(Integer id,
                           Date datetime,
-                          Integer duration,
+                          Double duration,
                           Double discount,
                           Room room,
                           ExaminationType type,
@@ -33,7 +33,7 @@ public class AppointmentDTO {
         this.datetime = datetime;
         this.duration = duration;
         this.discount = discount;
-        this.room = room;
+        this.room = new RoomDTO(room);
         this.type = type;
         this.medicalReportId = medicalReportId;
         this.patientId = patientId;
@@ -46,7 +46,7 @@ public class AppointmentDTO {
         this.datetime = appointment.getDatetime();
         this.duration = appointment.getDuration();
         this.discount = appointment.getDiscount();
-        this.room = appointment.getRoom();
+        this.room = new RoomDTO(appointment.getRoom());
         this.type = appointment.getType();
         this.medicalReportId = appointment.getReport() != null ? appointment.getReport().getId() : null;
         this.patientId = appointment.getPatient() != null ? appointment.getPatient().getId() : null;
@@ -71,11 +71,11 @@ public class AppointmentDTO {
         this.datetime = datetime;
     }
 
-    public Integer getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
     }
 
@@ -87,11 +87,11 @@ public class AppointmentDTO {
         this.discount = discount;
     }
 
-    public Room getRoom() {
+    public RoomDTO getRoom() {
         return room;
     }
 
-    public void setRoom(Room room) {
+    public void setRoom(RoomDTO room) {
         this.room = room;
     }
 

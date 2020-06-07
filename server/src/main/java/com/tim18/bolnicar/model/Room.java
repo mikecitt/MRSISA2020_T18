@@ -15,6 +15,9 @@ public class Room {
     @Column(nullable = false)
     private RoomType type;
 
+    @ManyToOne
+    protected Clinic clinic;
+
     public Integer getId() {
         return id;
     }
@@ -33,5 +36,13 @@ public class Room {
 
     public void setType(RoomType type) {
         this.type = type;
+    }
+
+    public Clinic getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 }

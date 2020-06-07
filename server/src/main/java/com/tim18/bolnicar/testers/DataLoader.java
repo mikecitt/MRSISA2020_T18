@@ -62,9 +62,9 @@ public class DataLoader implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
-        // clinics
+            /*
         Clinic clinicA = new Clinic();
-        clinicA.setAddress("Address1");
+        clinicA.setAddress("Address111");
         clinicA.setName("Clinic A");
         clinicA.setDescription("Clinic A Description");
 
@@ -83,7 +83,7 @@ public class DataLoader implements ApplicationRunner {
         this.clinicRepository.save(clinicC);
 
         ClinicAdmin ca = new ClinicAdmin();
-        ca.setEmailAddress("cadmin@gmail.com");
+        ca.setEmailAddress("cadmin.@gmail.com");
         ca.setPassword(passwordEncoder.encode("frogfrog"));
         ca.setFirstName("Zdravko");
         ca.setLastName("Dugonjic");
@@ -98,7 +98,7 @@ public class DataLoader implements ApplicationRunner {
         clinicAdminRepository.save(ca);
 
         Doctor doctor1 = new Doctor();
-        doctor1.setEmailAddress("zdravko.dugi@gmail.com");
+        doctor1.setEmailAddress("z.dravko.dugi.@gmail.com");
         doctor1.setPassword(passwordEncoder.encode("frogfrog"));
         doctor1.setFirstName("Zdravko");
         doctor1.setLastName("Dugonjic");
@@ -112,7 +112,7 @@ public class DataLoader implements ApplicationRunner {
         doctorRepository.save(doctor1);
 
         Doctor doctor2 = new Doctor();
-        doctor2.setEmailAddress("gojko@gmail.com");
+        doctor2.setEmailAddress("gojk.o@gmail.com");
         doctor2.setPassword(passwordEncoder.encode("frogfrog"));
         doctor2.setFirstName("Gojko");
         doctor2.setLastName("Gojkovic");
@@ -146,7 +146,7 @@ public class DataLoader implements ApplicationRunner {
         // nurse
 
         Nurse nurse1 = new Nurse();
-        nurse1.setEmailAddress("nevena@gmail.com");
+        nurse1.setEmailAddress("neven.a@gmail.com");
         nurse1.setPassword(passwordEncoder.encode("12341234"));
         nurse1.setFirstName("Nevena");
         nurse1.setLastName("Nevenic");
@@ -180,7 +180,7 @@ public class DataLoader implements ApplicationRunner {
 
         // patient
         Patient patient = new Patient();
-        patient.setEmailAddress("patient@gmail.com");
+        patient.setEmailAddress("patient.@gmail.com");
 
         patient.setPassword(passwordEncoder.encode("frogfrog"));
         patient.setFirstName("Prototype");
@@ -197,7 +197,7 @@ public class DataLoader implements ApplicationRunner {
 
         // patient
         Patient patient2 = new Patient();
-        patient2.setEmailAddress("pacijent@gmail.com");
+        patient2.setEmailAddress("pacijent.@gmail.com");
 
         patient2.setPassword(passwordEncoder.encode("frogfrog"));
         patient2.setFirstName("Pacijent");
@@ -227,7 +227,7 @@ public class DataLoader implements ApplicationRunner {
         ap1.setDiscount(0.0);
         ap1.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-28 10:30"));
         ap1.setDoctor(doctor2);
-        ap1.setDuration(1);
+        ap1.setDuration(1.0);
         ap1.setClinic(clinicA);
         ap1.setPatient(patient);
         ap1.setType(e1);
@@ -236,7 +236,7 @@ public class DataLoader implements ApplicationRunner {
         ap2.setDiscount(0.0);
         ap2.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-29 12:00"));
         ap2.setDoctor(doctor2);
-        ap2.setDuration(2);
+        ap2.setDuration(2.0);
         ap2.setClinic(clinicA);
         ap2.setPatient(patient2);
         ap2.setType(e2);
@@ -245,7 +245,7 @@ public class DataLoader implements ApplicationRunner {
         ap3.setDiscount(0.0);
         ap3.setDatetime(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2020-05-29 12:00"));
         ap3.setDoctor(doctor2);
-        ap3.setDuration(2);
+        ap3.setDuration(0.2);
         ap3.setClinic(clinicB);
         ap3.setPatient(patient2);
         ap3.setType(e1);
@@ -279,7 +279,7 @@ public class DataLoader implements ApplicationRunner {
 
         // more
         ClinicCenterAdmin cca = new ClinicCenterAdmin();
-        cca.setEmailAddress("ccadmin@gmail.com");
+        cca.setEmailAddress("ccadmin.@gmail.com");
         cca.setPassword(passwordEncoder.encode("frogfrog"));
         cca.setFirstName("Zdravko");
         cca.setLastName("Dugonjic");
@@ -318,7 +318,7 @@ public class DataLoader implements ApplicationRunner {
         app1.setDiscount(0.2);
         app1.setClinic(clinicB);
         app1.setDoctor(doctor1);
-        app1.setDuration(45);
+        app1.setDuration(0.8);
         app1.setReport(null);
         app1.setRoom(r1);
 
@@ -329,7 +329,7 @@ public class DataLoader implements ApplicationRunner {
         app2.setDiscount(0.5);
         app2.setClinic(clinicB);
         app2.setDoctor(doctor1);
-        app2.setDuration(55);
+        app2.setDuration(0.6);
         app2.setReport(null);
         app2.setRoom(r2);
 
@@ -340,12 +340,14 @@ public class DataLoader implements ApplicationRunner {
         app3.setDiscount(0.5);
         app3.setClinic(clinicC);
         app3.setDoctor(doctor1);
-        app3.setDuration(55);
+        app3.setDuration(0.5);
         app3.setReport(null);
         app3.setRoom(r2);
 
         appointmentRepository.save(app1);
         appointmentRepository.save(app2);
         appointmentRepository.save(app3);
+        
+             */
     }
 }
