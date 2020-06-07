@@ -1,0 +1,58 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Klinika</h5>
+</div>
+<div class="modal-body">
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <p><strong>Klinika:</strong> {{ clinic.name }}</p>
+			<p><strong>Ocena:</strong> 2.5</p>
+			<p><strong>Adresa:</strong> {{ clinic.address }}</p>
+			<p class="description">{{ clinic.description }}</p>
+    </div>
+    <div class="col-8">
+    	<h4>Brzo zakazivanje pregleda</h4>
+    	<br>
+      <table class="table">
+			  <thead>
+			  <tr>
+			    <th>#</th>
+			    <th>Vreme</th>
+			    <th>Sala</th>
+			    <th>Lekar</th>
+			    <th>Tip pregleda</th>
+			    <th>Cena</th>
+			    <th>Popust</th>
+			    <th>&nbsp;</th>
+			  </tr>
+			  </thead>
+			  <tbody>
+			    <tr *ngFor="let data of freeAppointments; let i = index" class="appointment-row">
+			    	<th>{{ i + 1 }}</th>
+			    	<td>{{ data.datetime | date: 'dd-MM-yy HH:mm' }}</td>
+			    	<td>{{ data.room.roomNumber }}</td>
+			    	<td>{{ data.doctor }}</td>
+			    	<td>{{ data.type.name }}</td>
+			    	<td>{{ data.type.price }}</td>
+			    	<td>{{ data.discount }}</td>
+			    	<td><button type="button" class="btn btn-success" (click)="book(data)">Rezervišite</button></td>
+			    </tr>
+			  </tbody>
+			</table>
+			<ngb-alert *ngIf="showAlert" [dismissible]="false" [type]="alertType" (close)="closeAlert()">
+					<div *ngIf="alertType == 'success'">
+  					<strong>Pregled zakazan!</strong> Uspešno ste zakazali pregled ({{ booked.type.name }}) za {{ booked.datetime | date: 'dd-MM-yy HH:mm' }}
+  				</div>
+  				<div *ngIf="alertType == 'danger'">
+  					<strong>Ups!</strong> Došlo je do neočekivane greške prilikom rezervacije termina, molimo Vas da pokušate kasnije.
+  				</div>
+			</ngb-alert>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" ngbAutofocus class="btn btn-primary" (click)="modal.dismiss('cancel')">Zatvori</button>
+</div>
+</div>

@@ -1,8 +1,10 @@
 import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { Subject, Observable, Subscription, of } from 'rxjs';
-import { ClinicService, Clinic } from '../service';
+import { ClinicService, Clinic, AppointmentService } from '../service';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClinicDetailsComponent } from '../clinic-details/clinic-details.component';
 
 import { NgSortableHeader, SortDirection, SortEvent, compare } from '../sortable-table';
 
@@ -47,7 +49,7 @@ export class ClinicTableComponent implements OnInit {
 
   }
 
-  constructor(private service: ClinicService) { 
+  constructor(private service: ClinicService, private modalService: NgbModal) { 
   	this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.data.filter(entity => {
 				const term = val.toLowerCase();
@@ -63,6 +65,11 @@ export class ClinicTableComponent implements OnInit {
   		this.data = result;
   		this.tableData = result;
   	})
+  }
+
+  openClinic(clinic): void {
+    const ref = this.modalService.open(ClinicDetailsComponent, { size: 'xl' });
+    ref.componentInstance.setClinic(clinic)
   }
 
 }

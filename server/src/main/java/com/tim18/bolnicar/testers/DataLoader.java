@@ -29,6 +29,7 @@ public class DataLoader implements ApplicationRunner {
     private ClinicRepository clinicRepository;
     private NurseRepository nurseRepository;
     private TimeOffRepository timeOffRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -43,7 +44,8 @@ public class DataLoader implements ApplicationRunner {
                       ClinicAdminRepository clinicAdminRepository,
                       ClinicRepository clinicRepository,
                       NurseRepository nurseRepository,
-                      TimeOffRepository timeOffRepository) {
+                      TimeOffRepository timeOffRepository,
+                      RoomRepository roomRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.appointmentRepository = appointmentRepository;
@@ -54,6 +56,7 @@ public class DataLoader implements ApplicationRunner {
         this.clinicRepository = clinicRepository;
         this.nurseRepository = nurseRepository;
         this.timeOffRepository = timeOffRepository;
+        this.roomRepository = roomRepository;
     }
 
     @Override
@@ -288,5 +291,61 @@ public class DataLoader implements ApplicationRunner {
         cca.setActive(true);
 
         clinicCenterAdminRepository.save(cca);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        Room r1 = new Room();
+        r1.setRoomNumber(101);
+        r1.setType(RoomType.EXAMINATION);
+
+        Room r2 = new Room();
+        r2.setRoomNumber(102);
+        r2.setType(RoomType.EXAMINATION);
+
+        Room r3 = new Room();
+        r3.setRoomNumber(103);
+        r3.setType(RoomType.EXAMINATION);
+
+        roomRepository.save(r1);
+        roomRepository.save(r2);
+        roomRepository.save(r3);
+
+        // some appointments
+        Appointment app1 = new Appointment();
+        app1.setType(e1);
+        app1.setPatient(null);
+        app1.setDatetime(formatter.parse("17-08-2020 10:10:11"));
+        app1.setDiscount(0.2);
+        app1.setClinic(clinicB);
+        app1.setDoctor(doctor1);
+        app1.setDuration(45);
+        app1.setReport(null);
+        app1.setRoom(r1);
+
+        Appointment app2 = new Appointment();
+        app2.setType(e2);
+        app2.setPatient(null);
+        app2.setDatetime(formatter.parse("13-09-2020 09:10:11"));
+        app2.setDiscount(0.5);
+        app2.setClinic(clinicB);
+        app2.setDoctor(doctor1);
+        app2.setDuration(55);
+        app2.setReport(null);
+        app2.setRoom(r2);
+
+        Appointment app3 = new Appointment();
+        app3.setType(e1);
+        app3.setPatient(null);
+        app3.setDatetime(formatter.parse("13-09-2020 09:10:11"));
+        app3.setDiscount(0.5);
+        app3.setClinic(clinicC);
+        app3.setDoctor(doctor1);
+        app3.setDuration(55);
+        app3.setReport(null);
+        app3.setRoom(r2);
+
+        appointmentRepository.save(app1);
+        appointmentRepository.save(app2);
+        appointmentRepository.save(app3);
     }
 }

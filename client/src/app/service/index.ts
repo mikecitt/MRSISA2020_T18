@@ -12,3 +12,4 @@ export * from './timeoff.service';
 export * from './admin.service';
 export * from './cladmin.service';
 export * from './codebook.service';
+export * from './appointment.service';
