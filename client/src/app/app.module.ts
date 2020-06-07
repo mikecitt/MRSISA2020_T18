@@ -45,6 +45,8 @@ import { ExaminationTypeEditComponent } from './examination-type-edit/examinatio
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 
 import { NgSortableHeader } from './sortable-table';
+import { NurseComponent } from './nurse/nurse.component';
+import { NursesTableComponent } from './nurses-table/nurses-table.component';
 
 
 @NgModule({
@@ -78,7 +80,9 @@ import { NgSortableHeader } from './sortable-table';
     RoomEditComponent,
     ExaminationTypeEditComponent,
     AppointmentHistoryComponent,
-    NgSortableHeader
+    NgSortableHeader,
+    NurseComponent,
+    NursesTableComponent
   ],
   imports: [
     BrowserModule,

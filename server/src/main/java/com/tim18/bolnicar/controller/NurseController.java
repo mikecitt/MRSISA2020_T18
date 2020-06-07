@@ -2,6 +2,7 @@ package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.NurseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,9 @@ public class NurseController {
 
     @Autowired
     private NurseService nurseService;
+
+    @Autowired
+    private ClinicAdminService clinicAdminService;
 
     @GetMapping
     public ResponseEntity<List<NurseDTO>> getNurses() {
@@ -39,8 +44,10 @@ public class NurseController {
             produces = { MediaType.APPLICATION_JSON_VALUE }
     )
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Map<String, String>> addNurse(@RequestBody Nurse newNurse) {
+    public ResponseEntity<Map<String, String>> addNurse(@RequestBody Nurse newNurse, Principal user) {
         HashMap<String, String> response = new HashMap<>();
+        ClinicAdmin cadmin = clinicAdminService.findSingle(user.getName());
+        newNurse.setClinic(cadmin.getClinic());
 
         if(nurseService.register(newNurse)) {
             response.put("message", "true");

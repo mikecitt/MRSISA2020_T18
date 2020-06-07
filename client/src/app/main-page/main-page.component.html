@@ -10,7 +10,7 @@
       <a routerLink="/admin" *ngIf="authority == 'ROLE_CENTER_ADMIN'" class="list-group-item list-group-item-action">Admini kliničkog centra</a>
       <a routerLink="/admincl" *ngIf="authority == 'ROLE_CENTER_ADMIN'" class="list-group-item list-group-item-action">Admini klinike</a>
       <a routerLink="/doctor" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Lekari</a>
-      <!--<a routerLink="/nurse" class="list-group-item list-group-item-action">Sestre</a>-->
+      <a routerLink="/nurse" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Medicinske sestre</a>
       <a routerLink="/patient-list" *ngIf="authority == 'ROLE_DOCTOR' || authority == 'ROLE_NURSE'" class="list-group-item list-group-item-action">Lista pacijenata</a>
       <a routerLink="/clinic"*ngIf="authority == 'ROLE_CENTER_ADMIN'" class="list-group-item list-group-item-action">Klinike</a>
       <a routerLink="/room" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Sale</a>
