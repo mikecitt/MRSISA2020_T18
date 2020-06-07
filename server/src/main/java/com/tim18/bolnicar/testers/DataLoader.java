@@ -59,68 +59,7 @@ public class DataLoader implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
-        // clinics
-        Clinic clinicA = new Clinic();
-        clinicA.setAddress("Address1");
-        clinicA.setName("Clinic A");
-        clinicA.setDescription("Clinic A Description");
-
-        Clinic clinicB = new Clinic();
-        clinicB.setAddress("Address2");
-        clinicB.setName("Clinic B");
-        clinicB.setDescription("Clinic B Description");
-
-        Clinic clinicC = new Clinic();
-        clinicC.setAddress("Address3");
-        clinicC.setName("Clinic A3");
-        clinicC.setDescription("Clinic A3 Description");
-
-        this.clinicRepository.save(clinicA);
-        this.clinicRepository.save(clinicB);
-        this.clinicRepository.save(clinicC);
-
-        ClinicAdmin ca = new ClinicAdmin();
-        ca.setEmailAddress("cadmin@gmail.com");
-        ca.setPassword(passwordEncoder.encode("frogfrog"));
-        ca.setFirstName("Zdravko");
-        ca.setLastName("Dugonjic");
-        ca.setAddress("moja adresa");
-        ca.setCity("Novi Sad");
-        ca.setCountry("Srbija");
-        ca.setContact("123321");
-        ca.setJmbg("4439827548374");
-        ca.setActive(true);
-        ca.setClinic(clinicA);
-
-        clinicAdminRepository.save(ca);
-
-        Doctor doctor1 = new Doctor();
-        doctor1.setEmailAddress("zdravko.dugi@gmail.com");
-        doctor1.setPassword(passwordEncoder.encode("frogfrog"));
-        doctor1.setFirstName("Zdravko");
-        doctor1.setLastName("Dugonjic");
-        doctor1.setAddress("moja adresa");
-        doctor1.setCity("Novi Sad");
-        doctor1.setCountry("Srbija");
-        doctor1.setContact("123321");
-        doctor1.setJmbg("1928374657483");
-        doctor1.setActive(true);
-
-        doctorRepository.save(doctor1);
-
-        Doctor doctor2 = new Doctor();
-        doctor2.setEmailAddress("gojko@gmail.com");
-        doctor2.setPassword(passwordEncoder.encode("frogfrog"));
-        doctor2.setFirstName("Gojko");
-        doctor2.setLastName("Gojkovic");
-        doctor2.setAddress("moja adresa");
-        doctor2.setCity("Beograd");
-        doctor2.setCountry("Srbija");
-        doctor2.setContact("123321");
-        doctor2.setJmbg("9685748574634");
-        doctor2.setActive(true);
-        doctor2.setClinic(clinicA);
-
+/*
         TimeOff t1 = new TimeOff();
         t1.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
         t1.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-25"));
@@ -136,24 +75,7 @@ public class DataLoader implements ApplicationRunner {
         calendar.add(t1);
         calendar.add(t2);
 
-        doctor2.setCalendar(calendar);
-
-        doctorRepository.save(doctor2);
-
         // nurse
-
-        Nurse nurse1 = new Nurse();
-        nurse1.setEmailAddress("nevena@gmail.com");
-        nurse1.setPassword(passwordEncoder.encode("12341234"));
-        nurse1.setFirstName("Nevena");
-        nurse1.setLastName("Nevenic");
-        nurse1.setAddress("moja adresa");
-        nurse1.setCity("Beograd");
-        nurse1.setCountry("Srbija");
-        nurse1.setContact("123341");
-        nurse1.setJmbg("1928375467384");
-        nurse1.setActive(true);
-        nurse1.setClinic(clinicA);
 
         TimeOff t21 = new TimeOff();
         t21.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2020-05-15"));
@@ -176,38 +98,8 @@ public class DataLoader implements ApplicationRunner {
         nurseRepository.save(nurse1);
 
         // patient
-        Patient patient = new Patient();
-        patient.setEmailAddress("patient@gmail.com");
-
-        patient.setPassword(passwordEncoder.encode("frogfrog"));
-        patient.setFirstName("Prototype");
-        patient.setLastName("Prototype");
-        patient.setAddress("moja adresa");
-        patient.setCity("Novi Sad");
-        patient.setCountry("Srbija");
-        patient.setContact("123321");
-        patient.setJmbg("5948374857463");
-
-        patient.setActive(true);
-
-        patientRepository.save(patient);
 
         // patient
-        Patient patient2 = new Patient();
-        patient2.setEmailAddress("pacijent@gmail.com");
-
-        patient2.setPassword(passwordEncoder.encode("frogfrog"));
-        patient2.setFirstName("Pacijent");
-        patient2.setLastName("Pacijentovic");
-        patient2.setAddress("moja adresa");
-        patient2.setCity("Novi Sad");
-        patient2.setCountry("Srbija");
-        patient2.setContact("123321");
-        patient2.setJmbg("1223211234543");
-
-        patient2.setActive(true);
-
-        patientRepository.save(patient2);
 
         ExaminationType e1 = new ExaminationType();
         e1.setName("Examination COVID-19");
@@ -272,21 +164,6 @@ public class DataLoader implements ApplicationRunner {
         et1.setName("Testiranje na COVID-19");
         et1.setPrice(20000.00);
 
-        examinationTypeRepository.save(et1);
-
-        // more
-        ClinicCenterAdmin cca = new ClinicCenterAdmin();
-        cca.setEmailAddress("ccadmin@gmail.com");
-        cca.setPassword(passwordEncoder.encode("frogfrog"));
-        cca.setFirstName("Zdravko");
-        cca.setLastName("Dugonjic");
-        cca.setAddress("moja adresa");
-        cca.setCity("Novi Sad");
-        cca.setCountry("Srbija");
-        cca.setContact("123321");
-        cca.setJmbg("1123324567897");
-        cca.setActive(true);
-
-        clinicCenterAdminRepository.save(cca);
+        examinationTypeRepository.save(et1);*/
     }
 }
