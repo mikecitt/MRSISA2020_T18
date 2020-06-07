@@ -13,7 +13,7 @@ export class MedicalService {
   }
 
   getEvents() {
-    return this.http.get<any>('http://localhost:8080/doctor/events');
+    return this.http.get<any>('http://localhost:8080/medical/events');
   }
 
   sendVacationRequest(timeOff) {

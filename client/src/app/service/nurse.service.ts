@@ -10,19 +10,19 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorService {
+export class NurseService {
 
   constructor(private http:HttpClient) { }
 
-  addDoctor(payload) {
-  	return this.http.post('http://localhost:8080/doctor', payload, httpOptions);
+  addNurse(payload) {
+    return this.http.post('http://localhost:8080/nurse', payload, httpOptions);
   }
 
-  getDoctors() {
-  	return this.http.get('http://localhost:8080/doctor');
+  getNurses() {
+    return this.http.get('http://localhost:8080/nurse');
   }
 
-	removeDoctor(id) {
-		return this.http.delete('http://localhost:8080/doctor/' + id);
-	}
+  removeNurse(id) {
+    return this.http.delete('http://localhost:8080/nurse/' + id);
+  }
 }

@@ -4,6 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AdminClComponent } from './admincl/admincl.component';
 import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
+import { NurseComponent } from './nurse/nurse.component';
 import { ClinicComponent } from './clinic/clinic.component';
 import { RoomComponent } from './room/room.component';
 import { ExaminationTypeComponent } from './examination-type/examination-type.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
       { path: 'admincl', component: AdminClComponent, canActivate: [AdminGuard] },
       { path: 'doctor', component: DoctorComponent, canActivate: [AdminclGuard] },
+      { path: 'nurse', component: NurseComponent, canActivate: [AdminclGuard] },
       { path: 'clinic', component: ClinicComponent, canActivate: [AdminGuard] },
       { path: 'room', component: RoomComponent, canActivate: [AdminclGuard] },
       { path: 'examination-type', component: ExaminationTypeComponent, canActivate: [AdminclGuard] },

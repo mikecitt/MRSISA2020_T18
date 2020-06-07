@@ -347,7 +347,7 @@ public class DataLoader implements ApplicationRunner {
         appointmentRepository.save(app1);
         appointmentRepository.save(app2);
         appointmentRepository.save(app3);
-        
+
              */
     }
 }
