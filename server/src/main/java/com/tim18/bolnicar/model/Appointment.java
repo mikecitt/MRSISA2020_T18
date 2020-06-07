@@ -13,7 +13,7 @@ public class Appointment {
     private Date datetime;
 
     @Column
-    private Integer duration;
+    private Double duration;
 
     // positive percents
     @Column(nullable = false)
@@ -53,11 +53,11 @@ public class Appointment {
         this.datetime = datetime;
     }
 
-    public Integer getDuration() {
+    public Double getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(Double duration) {
         this.duration = duration;
     }
 

@@ -11,7 +11,8 @@ INSERT INTO clinic_center_admin (
     country,
     contact,
     active
-) VALUES (
+) VALUES
+(
     1, 'ccadmin@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Gordan', 'Mačkić', '0210980653452', 'Petra Konjovića 10', 'Novi Sad', 'Srbija', '0611454215', TRUE
@@ -60,7 +61,8 @@ INSERT INTO clinic_admin (
     contact,
     active,
     clinic_id
-) VALUES (
+) VALUES
+(
     2, 'ccadmin@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Jovan', 'Obradović', '21129796554639', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 1
@@ -80,7 +82,8 @@ INSERT INTO doctor (
     contact,
     active,
     clinic_id
-) VALUES (
+) VALUES
+(
     3, 'zdravko.dugi@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Zdravko', 'Dugonjić', '0402989200984', 'Lenjinova 26', 'Veternik', 'Srbija', '0625467890', TRUE, 1
@@ -89,6 +92,11 @@ INSERT INTO doctor (
     4, 'rodusek021@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Vladimir', 'Rodušek', '0511989800018', 'Svetog Save 15', 'Srbobran', 'Srbija', '0615679087', TRUE, 2
+),
+(
+    9, 'mikecitt@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    CURRENT_TIMESTAMP(),
+    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3
 );
 
 INSERT INTO nurse (
@@ -105,7 +113,8 @@ INSERT INTO nurse (
     contact,
     active,
     clinic_id
-) VALUES (
+) VALUES
+(
     5, 'nevena@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Nevena', 'Nevenić', '2506982201967', 'Bulevar Evrope 22', 'Novi Sad', 'Srbija', '065125998', TRUE, 1
@@ -129,7 +138,8 @@ INSERT INTO patient (
     country,
     contact,
     active
-) VALUES (
+) VALUES
+(
     7, 'patient@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Obrad', 'Obradović', '1609965568970', 'Resavska 15', 'Kulpin', 'Srbija', '0627689098', TRUE
@@ -138,6 +148,16 @@ INSERT INTO patient (
     8, 'pacijent@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Goran', 'Miković', '1601975000012', 'Patrijarha Pavla 52', 'Bački Petrovac', 'Srbija', '0634567789', TRUE
+),
+(
+    10, 'filip.fix@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    CURRENT_TIMESTAMP(),
+    'Filip', 'Marković', '3010998002512', 'Trg Mladenaca 1', 'Žabalj', 'Srbija', '065435675', TRUE
+),
+(
+    11, 'horat2@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    CURRENT_TIMESTAMP(),
+    'Gorana', 'Filipović', '2305990564789', 'Stepe Stepanovića 65', 'Temerin', 'Srbija', '0665678908', TRUE
 );
 
 INSERT INTO drug (name) VALUES
@@ -152,7 +172,8 @@ INSERT INTO drug (name) VALUES
     ('Nafazol kapi'),
     ('Bisoprolol'),
     ('Enterofuryl'),
-    ('Amoksicilin');
+    ('Amoksicilin'),
+    ('Ciprocinal');
 
 INSERT INTO medical_diagnosis (name) VALUES
     ('Zapaljenje tankog creva koje uzrokuje Campylobacter'),
@@ -190,3 +211,53 @@ INSERT INTO examination_type (name, price) VALUES
     ('CT snimanje', 3500.0),
     ('Magnetna rezonanca', 4000.0),
     ('Maksiofacijalna hirurgija', 18000.0);
+
+INSERT INTO time_off (start_date, end_date, active) VALUES
+    (PARSEDATETIME('2020-06-25', 'yyyy-MM-dd'), PARSEDATETIME('2020-07-05', 'yyyy-MM-dd'), TRUE),
+    (PARSEDATETIME('2020-07-10', 'yyyy-MM-dd'), PARSEDATETIME('2020-07-12', 'yyyy-MM-dd'), FALSE),
+    (PARSEDATETIME('2020-07-28', 'yyyy-MM-dd'), PARSEDATETIME('2020-08-08', 'yyyy-MM-dd'), TRUE),
+    (PARSEDATETIME('2020-06-28', 'yyyy-MM-dd'), PARSEDATETIME('2020-07-06', 'yyyy-MM-dd'), FALSE);
+
+INSERT INTO medical_worker_calendar (medical_worker_id, calendar_id) VALUES
+    (5, 3), (3, 1), (3, 2), (9, 4);
+
+INSERT INTO doctor_specialization (doctor_id, specialization_id) VALUES
+    (9, 13), (9, 14), (9, 2), (3, 5), (3, 6), (4, 3), (4, 4);
+
+INSERT INTO appointment (
+    datetime,
+    discount,
+    duration,
+    clinic_id,
+    doctor_id,
+    patient_id,
+    report_id,
+    room_id,
+    type_id
+) VALUES
+    (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5),
+    (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5),
+    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14),
+    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3);
+
+INSERT INTO medical_report (description, appointment_id) VALUES
+    ('Pacijent se žalio na otežano mokrenje i bol u oblasti bešike.', 1),
+    ('Pacijent se žalio na bol u oblasti levog bubrega.', 2);
+
+INSERT INTO medical_report_diagnoses (medical_report_id, diagnoses_id) VALUES
+    (1, 7), (2, 6);
+
+INSERT INTO recipe (sealed, nurse_id) VALUES
+    (TRUE, 5);
+
+INSERT INTO recipe_drugs (recipe_id, drugs_id) VALUES
+    (1, 13);
+
+INSERT INTO medical_report_recipes (medical_report_id, recipes_id) VALUES
+    (1, 1);
+
+UPDATE appointment SET report_id = 1 where id = 1;
+UPDATE appointment SET report_id = 2 where id = 2;
+
+INSERT INTO patient_medical_record (patient_id, medical_record_id) VALUES
+    (7, 1), (8, 2);

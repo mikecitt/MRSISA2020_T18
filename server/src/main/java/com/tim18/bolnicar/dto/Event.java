@@ -30,7 +30,7 @@ public class Event {
         event.setDate(sdf.format(appointment.getDatetime()));
         Calendar c = Calendar.getInstance();
         c.setTime(appointment.getDatetime());
-        c.add(Calendar.HOUR, appointment.getDuration());
+        c.add(Calendar.MINUTE, (int)(appointment.getDuration() * 60));
 
         event.setEnd(sdf.format(c.getTime()));
 
