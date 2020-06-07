@@ -45,12 +45,9 @@ import { ExaminationTypeEditComponent } from './examination-type-edit/examinatio
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 
 import { NgSortableHeader } from './sortable-table';
-<<<<<<< HEAD
 import { ClinicDetailsComponent } from './clinic-details/clinic-details.component';
-=======
 import { NurseComponent } from './nurse/nurse.component';
 import { NursesTableComponent } from './nurses-table/nurses-table.component';
->>>>>>> 4236ca27641fa9e6f00734753c5254f557912939
 
 
 @NgModule({
@@ -85,12 +82,9 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
     ExaminationTypeEditComponent,
     AppointmentHistoryComponent,
     NgSortableHeader,
-<<<<<<< HEAD
-    ClinicDetailsComponent
-=======
+    ClinicDetailsComponent,
     NurseComponent,
     NursesTableComponent
->>>>>>> 4236ca27641fa9e6f00734753c5254f557912939
   ],
   imports: [
     BrowserModule,
