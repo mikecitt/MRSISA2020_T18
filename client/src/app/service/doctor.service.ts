@@ -15,14 +15,14 @@ export class DoctorService {
   constructor(private http:HttpClient) { }
 
   addDoctor(payload) {
-  	return this.http.post('http://localhost:8080/doctor/add', payload, httpOptions);
+  	return this.http.post('http://localhost:8080/doctor', payload, httpOptions);
   }
 
   getDoctors() {
-  	return this.http.get('http://localhost:8080/doctor/');
+  	return this.http.get('http://localhost:8080/doctor');
   }
 
 	removeDoctor(id) {
-		return this.http.delete('http://localhost:8080/doctor/'+id);
+		return this.http.delete('http://localhost:8080/doctor/' + id);
 	}
 }

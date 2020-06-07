@@ -58,12 +58,10 @@ export class CalendarComponent implements OnInit {
     if(role === 'ROLE_DOCTOR' || role === 'ROLE_NURSE' ) {
       this.medicalService.getTimeOffs().subscribe(data => {
         this.grayDays = data['data'];
+      });
 
-        if(role == 'ROLE_DOCTOR') {
-          this.medicalService.getEvents().subscribe(data => {
-            this.calendarEvents = data['events'];
-          });
-        }
+      this.medicalService.getEvents().subscribe(data => {
+        this.calendarEvents = data['events'];
       });
     }
     else {
