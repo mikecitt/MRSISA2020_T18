@@ -35,5 +35,9 @@ export class ClinicService {
   addClinic(payload) {
     return this.http.post('http://localhost:8080/clinic/add', payload, httpOptions);
   }
+
+  getExaminationClinics(payload) {
+    return this.http.get('http://localhost:8080/clinic/free', { params: payload, headers: httpOptions.headers });
+  }
   
 }

@@ -1,11 +1,14 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.DoctorDTO;
+import com.tim18.bolnicar.dto.Response;
+import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,5 +71,12 @@ public class DoctorController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/freetime/{doctorId}/{date}")
+    public ResponseEntity<List<TimeIntervalDTO>> getFreeTime(@PathVariable Integer doctorId, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        Response resp = new Response();
+
+        return ResponseEntity.ok(this.doctorService.getFreeDayTime(date, doctorId));
     }
 }

@@ -1,5 +1,10 @@
-.clinic-details {
+.clinic-details, .exam {
 	cursor: pointer;
+}
+
+.exam-cost {
+	margin-right: 5px;
+	color: #27ae60;
 }
 
 .modal-dialog {

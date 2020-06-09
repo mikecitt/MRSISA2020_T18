@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.ClinicDTO;
+import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.ClinicAdmin;
@@ -9,6 +10,7 @@ import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.UserService;
 import com.tim18.bolnicar.service.impl.ClinicServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -88,5 +87,23 @@ public class ClinicController {
         report.setMessage(null);
 
         return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/free")
+    public ResponseEntity<Response> getAvailableClinics(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                                @RequestParam Integer examinationTypeId,
+                                                @RequestParam(required = false) String address,
+                                                @RequestParam(required = false) Integer grade) {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        resp.setData(
+                this.clinicService.getClinicsWithFreeAppointments(
+                        date,
+                        examinationTypeId,
+                        address,
+                        grade
+                ).toArray());
+
+        return ResponseEntity.ok(resp);
     }
 }

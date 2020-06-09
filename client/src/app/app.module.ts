@@ -48,6 +48,7 @@ import { NgSortableHeader } from './sortable-table';
 import { ClinicDetailsComponent } from './clinic-details/clinic-details.component';
 import { NurseComponent } from './nurse/nurse.component';
 import { NursesTableComponent } from './nurses-table/nurses-table.component';
+import { SearchExaminationComponent } from './search-examination/search-examination.component';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
     NgSortableHeader,
     ClinicDetailsComponent,
     NurseComponent,
-    NursesTableComponent
+    NursesTableComponent,
+    SearchExaminationComponent
   ],
   imports: [
     BrowserModule,

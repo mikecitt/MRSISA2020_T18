@@ -22,11 +22,16 @@ export class ClinicSortableHeader {
 export class ClinicTableComponent implements OnInit {
 
 	//tableData: Clinic[];
-	data: Clinic[];
+	//data: Clinic[];
+  data: Clinic[];
 
 	@ViewChildren(NgSortableHeader) headers: QueryList<NgSortableHeader>;
 
 	tableData: Clinic[];
+  //tableData: [];
+
+  extended = false;
+  
 	filter = new FormControl('');
 
   onSort({column, direction}: SortEvent) {
@@ -53,9 +58,9 @@ export class ClinicTableComponent implements OnInit {
   	this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.data.filter(entity => {
 				const term = val.toLowerCase();
-	    	return entity.name.toLowerCase().includes(term)
-	        || entity.address.toLowerCase().includes(term)
-	        || entity.description.toLowerCase().includes(term);
+	    	return (entity['name'] as string).toLowerCase().includes(term)
+	        || (entity['address'] as string).toLowerCase().includes(term)
+	        || (entity['description'] as string).toLowerCase().includes(term);
   		})
   	})
   }
@@ -70,6 +75,17 @@ export class ClinicTableComponent implements OnInit {
   openClinic(clinic): void {
     const ref = this.modalService.open(ClinicDetailsComponent, { size: 'xl' });
     ref.componentInstance.setClinic(clinic)
+  }
+
+  openExaminationClinic(clinic): void {
+
+  }
+
+  updateTable(data) {
+    console.log('izmenjeno', data)
+    this.data = data.result;
+    this.tableData = data.result;
+    this.extended = data.extended;
   }
 
 }
