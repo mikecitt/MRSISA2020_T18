@@ -72,17 +72,14 @@ export class ClinicTableComponent implements OnInit {
   	})
   }
 
-  openClinic(clinic): void {
+  openClinic(clinic, quick): void {
     const ref = this.modalService.open(ClinicDetailsComponent, { size: 'xl' });
-    ref.componentInstance.setClinic(clinic)
-  }
-
-  openExaminationClinic(clinic): void {
-
+    ref.componentInstance.setClinic(clinic);
+    ref.componentInstance.setQuickAppointmentMode(quick);
   }
 
   updateTable(data) {
-    console.log('izmenjeno', data)
+    //TODO: double check
     this.data = data.result;
     this.tableData = data.result;
     this.extended = data.extended;

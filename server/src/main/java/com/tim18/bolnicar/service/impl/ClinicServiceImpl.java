@@ -86,6 +86,7 @@ public class ClinicServiceImpl implements ClinicService {
                     for (ExaminationType et : ((Doctor)worker).getSpecialization()) {
                         if (et.getId() == examinationTypeId) {
                             cl.setExaminationPrice(et.getPrice());
+                            cl.setExaminationTypeId(examinationTypeId);
                             flag = true;
                             break;
                         }

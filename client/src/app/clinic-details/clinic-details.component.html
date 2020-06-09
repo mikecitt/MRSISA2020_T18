@@ -11,7 +11,7 @@
 			<p><strong>Adresa:</strong> {{ clinic.address }}</p>
 			<p class="description">{{ clinic.description }}</p>
     </div>
-    <div class="col-8">
+    <div class="col-8" *ngIf="quick; else freeDoctors">
     	<h4>Brzo zakazivanje pregleda</h4>
     	<br>
       <table class="table">
@@ -49,6 +49,11 @@
   				</div>
 			</ngb-alert>
     </div>
+    <ng-template #freeDoctors>
+	    <div class="col-8">
+	    		<app-freetime-doctor-table [freeDoctors]="clinic.freeDoctors" [clinicId]="clinic.id" [examinationTypeId]="clinic.examinationTypeId"></app-freetime-doctor-table>
+	    </div>
+	  </ng-template>
   </div>
 </div>
 </div>

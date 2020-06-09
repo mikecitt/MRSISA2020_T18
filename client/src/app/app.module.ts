@@ -49,6 +49,7 @@ import { ClinicDetailsComponent } from './clinic-details/clinic-details.componen
 import { NurseComponent } from './nurse/nurse.component';
 import { NursesTableComponent } from './nurses-table/nurses-table.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
+import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { SearchExaminationComponent } from './search-examination/search-examinat
     ClinicDetailsComponent,
     NurseComponent,
     NursesTableComponent,
-    SearchExaminationComponent
+    SearchExaminationComponent,
+    FreetimeDoctorTableComponent
   ],
   imports: [
     BrowserModule,

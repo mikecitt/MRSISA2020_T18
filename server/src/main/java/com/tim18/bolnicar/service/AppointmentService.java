@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.service;
 
 import com.tim18.bolnicar.dto.AppointmentDTO;
+import com.tim18.bolnicar.dto.AppointmentRequestDTO;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Doctor;
 
@@ -11,4 +12,5 @@ public interface AppointmentService {
     boolean bookAppointment(Integer appointmentId, String patientEmail);
     List<Appointment> findDoctorsAppointments(Doctor doctor);
     List<AppointmentDTO> getFreeAppointments(Integer clinicId);
+    Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail);
 }

@@ -22,4 +22,8 @@ export class AppointmentService {
   	return this.http.post<any>(`http://localhost:8080/appointment/book/${appointmentId}`,
   															httpOptions)
   }
+
+  requestAppointment(payload) {
+    return this.http.post<any>('http://localhost:8080/appointment/request', payload);
+  }
 }

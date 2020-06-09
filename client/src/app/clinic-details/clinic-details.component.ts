@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AppointmentService } from '../service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,12 +10,14 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ClinicDetailsComponent implements OnInit {
 
 	close = false;
-	clinic;
+	
 	freeAppointments = [];
 	alertType = 'success';
-	showAlert = false
+	showAlert = false;
+  quick = false;
 
 	booked;
+  clinic;
 
   constructor(private service: AppointmentService, public modal: NgbActiveModal) { }
 
@@ -50,5 +52,9 @@ export class ClinicDetailsComponent implements OnInit {
   		this.alertType = 'danger';
   		this.showAlert = true;
   	})
+  }
+
+  setQuickAppointmentMode(quick) {
+    this.quick = quick;
   }
 }

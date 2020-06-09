@@ -233,17 +233,18 @@ INSERT INTO appointment (
     patient_id,
     report_id,
     room_id,
-    type_id
+    type_id,
+    active
 ) VALUES
     -- free
-    (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3),
-    (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3),
-    (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3),
+    (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
     -- not free
-    (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5),
-    (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5),
-    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14),
-    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3);
+    (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5, TRUE),
+    (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5, TRUE),
+    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14, TRUE),
+    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3, TRUE);
 
 INSERT INTO medical_report (description, appointment_id) VALUES
     ('Pacijent se žalio na otežano mokrenje i bol u oblasti bešike.', 1),

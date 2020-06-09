@@ -15,6 +15,9 @@ public class TimeIntervalDTO {
         this.end = end;
     }
 
+    public TimeIntervalDTO() {
+    }
+
     public Integer getAppointmentId() {
         return appointmentId;
     }

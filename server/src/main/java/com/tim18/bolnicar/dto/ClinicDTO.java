@@ -14,6 +14,7 @@ public class ClinicDTO {
     private String description;
 
     private Double examinationPrice;
+    private Integer examinationTypeId;
     private List<DoctorDTO> freeDoctors;
 
     public ClinicDTO(Clinic clinic) {
@@ -72,5 +73,13 @@ public class ClinicDTO {
 
     public void setFreeDoctors(List<DoctorDTO> freeDoctors) {
         this.freeDoctors = freeDoctors;
+    }
+
+    public Integer getExaminationTypeId() {
+        return examinationTypeId;
+    }
+
+    public void setExaminationTypeId(Integer examinationTypeId) {
+        this.examinationTypeId = examinationTypeId;
     }
 }

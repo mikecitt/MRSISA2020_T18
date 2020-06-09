@@ -148,10 +148,13 @@ public class DoctorServiceImpl implements DoctorService {
             // appDatetime - c
             // appEnd - d
             if (appEnd != null && this.isIntersecting(begin.getTime(), intervalEnd.getTime(), app.getDatetime(), appEnd.getTime())) {
-                // intersecting with existing appointment, take appointment
-                TimeIntervalDTO tid = new TimeIntervalDTO(app.getDatetime(), appEnd.getTime());
-                tid.setAppointmentId(app.getId());
-                free.add(tid);
+                // intersecting with existing appointment, take appointment if it's free!
+
+                if (app.getPatient() == null) {
+                    TimeIntervalDTO tid = new TimeIntervalDTO(app.getDatetime(), appEnd.getTime());
+                    tid.setAppointmentId(app.getId());
+                    free.add(tid);
+                }
 
                 // iterate
                 if (itera.hasNext())

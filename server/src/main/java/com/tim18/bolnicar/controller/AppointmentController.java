@@ -1,8 +1,7 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.AppointmentDTO;
-import com.tim18.bolnicar.dto.Response;
-import com.tim18.bolnicar.dto.ResponseReport;
+import com.tim18.bolnicar.dto.*;
+import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,4 +55,29 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
+    @PostMapping("/request")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> makeRequest(@RequestBody AppointmentRequestDTO requestAppointment, Principal principal) {
+        Response resp = new Response();
+
+        //TODO: check two users
+        if (requestAppointment.getAppointmentId() != null) {
+            boolean flag =
+                    this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
+            resp.setStatus(flag ? "ok" : "error");
+            // resp.setDescription(flag ? "" : "");
+            if (!flag)
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        } else {
+            // create new
+            Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
+
+            resp.setStatus(app != null ? "ok" : "error");
+
+            if (app == null)
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(resp);
+    }
 }

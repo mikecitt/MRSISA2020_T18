@@ -37,6 +37,9 @@ public class Appointment {
     @ManyToOne
     private Clinic clinic;
 
+    @Column
+    private Boolean active;
+
     public Integer getId() {
         return id;
     }
@@ -115,5 +118,13 @@ public class Appointment {
 
     public void setClinic(Clinic clinic) {
         this.clinic = clinic;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
