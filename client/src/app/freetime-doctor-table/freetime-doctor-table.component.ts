@@ -46,16 +46,13 @@ export class FreetimeDoctorTableComponent implements OnInit {
   	payload['clinicId'] = this.clinicId;
   	payload['examinationTypeId'] = this.examinationTypeId;
 
-  	//Hack B|
-  	payload['marker'] = 1
-
-  	// console.log(event)
-
   	this.showAlert = true;
 
   	this.service.requestAppointment(payload).subscribe(data => {
   		this.alertType = 'success';
   		this.examinationTime = payload.start;
+      //Hack B|
+      payload['marker'] = 1
   	},
   	err => {
   		this.alertType = 'danger';

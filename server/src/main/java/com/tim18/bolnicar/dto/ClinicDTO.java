@@ -2,6 +2,7 @@ package com.tim18.bolnicar.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tim18.bolnicar.model.Clinic;
+import com.tim18.bolnicar.model.ClinicGrade;
 
 import javax.persistence.Column;
 import java.util.List;
@@ -17,11 +18,27 @@ public class ClinicDTO {
     private Integer examinationTypeId;
     private List<DoctorDTO> freeDoctors;
 
+    private Integer clinicGrade;
+
+    /*
+        null can't vote, no display
+        0 can vote
+        > 0 cant vote, just display
+     */
+    private Integer patientGrade;
+
     public ClinicDTO(Clinic clinic) {
         this.id = clinic.getId();
         this.name = clinic.getName();
         this.address = clinic.getAddress();
         this.description = clinic.getDescription();
+        this.patientGrade = 0; // default no no
+        this.clinicGrade = (int)(Math.random() * 100) % 5 + 1;
+        //TODO: db agr
+        for (ClinicGrade grade : clinic.getGrades())
+            this.clinicGrade += grade.getGrade();
+        if (clinic.getGrades().size() > 0)
+            this.clinicGrade /= clinic.getGrades().size();
     }
 
     public ClinicDTO() {
@@ -81,5 +98,21 @@ public class ClinicDTO {
 
     public void setExaminationTypeId(Integer examinationTypeId) {
         this.examinationTypeId = examinationTypeId;
+    }
+
+    public Integer getClinicGrade() {
+        return clinicGrade;
+    }
+
+    public void setClinicGrade(Integer clinicGrade) {
+        this.clinicGrade = clinicGrade;
+    }
+
+    public Integer getPatientGrade() {
+        return patientGrade;
+    }
+
+    public void setPatientGrade(Integer patientGrade) {
+        this.patientGrade = patientGrade;
     }
 }

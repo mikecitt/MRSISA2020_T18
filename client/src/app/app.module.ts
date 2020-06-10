@@ -51,6 +51,7 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 
+import { BarRatingModule } from "ngx-bar-rating";
 
 @NgModule({
   declarations: [
@@ -88,7 +89,7 @@ import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-d
     NurseComponent,
     NursesTableComponent,
     SearchExaminationComponent,
-    FreetimeDoctorTableComponent
+    FreetimeDoctorTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +100,8 @@ import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-d
     BrowserAnimationsModule,
     ReactiveFormsModule,
     StorageServiceModule,
-    FullCalendarModule
+    FullCalendarModule,
+    BarRatingModule
   ],
   providers: [
   {
