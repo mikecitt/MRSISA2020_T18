@@ -45,6 +45,18 @@ export class CalendarComponent implements OnInit {
     this.isMedical();
   }
 
+  isDoctor() {
+    let authority = this.userService.getRole();
+    if(authority === 'ROLE_DOCTOR') {
+      this.selectionEnabled = true;
+    }
+    return this.selectionEnabled;
+  }
+
+  startAppointment() {
+    
+  }
+
   isMedical() {
     let authority = this.userService.getRole();
     if(authority === 'ROLE_DOCTOR' || authority === 'ROLE_NURSE') {
