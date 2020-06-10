@@ -19,7 +19,7 @@ export class ExaminationTypeService {
   }
 
   getExaminationTypes() {
-  	return this.http.get('http://localhost:8080/examination-type/')
+  	return this.http.get<any[]>('http://localhost:8080/examination-type/')
   }
 
 	getExaminationType(id) {

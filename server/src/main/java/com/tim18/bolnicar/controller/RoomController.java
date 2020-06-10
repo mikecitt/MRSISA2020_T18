@@ -5,6 +5,7 @@ import com.tim18.bolnicar.dto.RoomDTO;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Room;
+import com.tim18.bolnicar.model.RoomType;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.ClinicService;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
@@ -43,6 +44,20 @@ public class RoomController {
         if(clinicAdmin != null && clinicAdmin.getClinic() != null)
             for(Room room : clinicAdmin.getClinic().getRooms()) {
                 roomDTOList.add(new RoomDTO(room));
+            }
+
+        return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/examination")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<RoomDTO>> getExaminationRooms(Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<RoomDTO> roomDTOList = new ArrayList<>();
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null)
+            for(Room room : clinicAdmin.getClinic().getRooms()) {
+                if(room.getType() == RoomType.EXAMINATION)
+                    roomDTOList.add(new RoomDTO(room));
             }
 
         return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
