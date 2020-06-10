@@ -89,8 +89,7 @@ import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-d
     NurseComponent,
     NursesTableComponent,
     SearchExaminationComponent,
-    FreetimeDoctorTableComponent
-    NursesTableComponent,
+    FreetimeDoctorTableComponent,
     AppointmentPredefComponent
   ],
   imports: [
