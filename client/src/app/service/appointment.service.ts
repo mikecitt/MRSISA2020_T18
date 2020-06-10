@@ -22,4 +22,9 @@ export class AppointmentService {
   	return this.http.post<any>(`http://localhost:8080/appointment/book/${appointmentId}`,
   															httpOptions)
   }
+
+	addPredefinedAppointment(appointment) {
+		return this.http.post<any>(`http://localhost:8080/appointment`, appointment,
+																httpOptions)
+	}
 }

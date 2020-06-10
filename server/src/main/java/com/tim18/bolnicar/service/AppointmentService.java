@@ -11,4 +11,5 @@ public interface AppointmentService {
     boolean bookAppointment(Integer appointmentId, String patientEmail);
     List<Appointment> findDoctorsAppointments(Doctor doctor);
     List<AppointmentDTO> getFreeAppointments(Integer clinicId);
+    boolean addAppointment(Appointment appointment);
 }

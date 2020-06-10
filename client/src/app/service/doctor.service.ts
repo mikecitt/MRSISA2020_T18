@@ -18,6 +18,10 @@ export class DoctorService {
   	return this.http.post('http://localhost:8080/doctor', payload, httpOptions);
   }
 
+	getAvailableDoctors(datetime, duration, examinationType) {
+		return this.http.get('http://localhost:8080/doctor/available/'+datetime+'/'+duration+'/'+examinationType)
+	}
+
   getDoctors() {
   	return this.http.get('http://localhost:8080/doctor');
   }

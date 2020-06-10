@@ -2,6 +2,8 @@ package com.tim18.bolnicar.dto;
 
 import com.tim18.bolnicar.model.Doctor;
 
+import java.util.Objects;
+
 public class DoctorDTO {
     private int id;
     private String firstName;
@@ -35,5 +37,13 @@ public class DoctorDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoctorDTO doctorDTO = (DoctorDTO) o;
+        return id == doctorDTO.id;
     }
 }
