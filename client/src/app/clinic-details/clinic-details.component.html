@@ -7,8 +7,21 @@
   <div class="row">
     <div class="col-3">
       <p><strong>Klinika:</strong> {{ clinic.name }}</p>
-			<p><strong>Ocena:</strong> 2.5</p>
+			<p><strong>Ocena:</strong> {{ clinic.clinicGrade }}</p>
 			<p><strong>Adresa:</strong> {{ clinic.address }}</p>
+			<div *ngIf="clinic.patientGrade != undefined" class="container star-container">
+				<div class="row">
+					<div class="col" class="float-right"><strong>Vaša ocena:</strong></div>
+					<div class="col">
+						<bar-rating 
+						[theme]="'default'" 
+						[rate]="clinic.patientGrade" 
+						[max]="5"
+						(rateChange)="rateClinic($event)">
+						</bar-rating>
+					</div>
+				</div>
+			</div>
 			<p class="description">{{ clinic.description }}</p>
     </div>
     <div class="col-8" *ngIf="quick; else freeDoctors">
@@ -35,7 +48,7 @@
 			    	<td>{{ data.doctor }}</td>
 			    	<td>{{ data.type.name }}</td>
 			    	<td>{{ data.type.price }}</td>
-			    	<td>{{ data.discount }}</td>
+			    	<td>{{ castToProc(data.discount) }} %</td>
 			    	<td><button type="button" class="btn btn-success" (click)="book(data)">Rezervišite</button></td>
 			    </tr>
 			  </tbody>

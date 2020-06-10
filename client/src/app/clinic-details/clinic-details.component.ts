@@ -16,6 +16,8 @@ export class ClinicDetailsComponent implements OnInit {
 	showAlert = false;
   quick = false;
 
+  rate = 3.61;
+
 	booked;
   clinic;
 
@@ -56,5 +58,13 @@ export class ClinicDetailsComponent implements OnInit {
 
   setQuickAppointmentMode(quick) {
     this.quick = quick;
+  }
+
+  castToProc(num) {
+    return num * 100;
+  }
+
+  rateClinic(payload): void {
+    console.log(payload)
   }
 }
