@@ -18,6 +18,11 @@ export class AppointmentService {
   															httpOptions);
   }
 
+	startAppointment() {
+		return this.http.get<any>(`http://localhost:8080/appointment/start`,
+  															httpOptions);
+	}
+
   bookAppointment(appointmentId) {
   	return this.http.post<any>(`http://localhost:8080/appointment/book/${appointmentId}`,
   															httpOptions)
