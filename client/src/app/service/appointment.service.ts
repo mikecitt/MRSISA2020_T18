@@ -26,4 +26,9 @@ export class AppointmentService {
   requestAppointment(payload) {
     return this.http.post<any>('http://localhost:8080/appointment/request', payload);
   }
+
+	addPredefinedAppointment(appointment) {
+		return this.http.post<any>(`http://localhost:8080/appointment`, appointment,
+																httpOptions)
+	}
 }

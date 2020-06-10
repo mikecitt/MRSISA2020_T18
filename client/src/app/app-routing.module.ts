@@ -18,6 +18,7 @@ import { RegistrationReqComponent } from './registration-req/registration-req.co
 import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
+import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
 import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 import { Router } from '@angular/router';
@@ -40,7 +41,8 @@ const routes: Routes = [
       { path: 'codebook', component: CodebookComponent, canActivate: [AdminGuard] },
       { path: 'patient-list', component: PatientsTableComponent, canActivate: [MedicalGuard] },
       { path: 'registration-req', component: RegistrationReqComponent, canActivate: [AdminGuard]},
-      { path: 'vacation-req', component: VacationReqComponent, canActivate: [AdminclGuard]}
+      { path: 'vacation-req', component: VacationReqComponent, canActivate: [AdminclGuard]},
+      { path: 'appointment-predef', component: AppointmentPredefComponent, canActivate: [AdminclGuard]}
     ],
     canActivate: [MainPageGuard]
   },

@@ -5,6 +5,7 @@ import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.model.RoomType;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 public class RoomDTO {
     private Integer id;
@@ -45,5 +46,13 @@ public class RoomDTO {
 
     public void setType(RoomType type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoomDTO roomDTO = (RoomDTO) o;
+        return this.id.equals(roomDTO.id);
     }
 }

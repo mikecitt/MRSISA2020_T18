@@ -13,4 +13,5 @@ public interface AppointmentService {
     List<Appointment> findDoctorsAppointments(Doctor doctor);
     List<AppointmentDTO> getFreeAppointments(Integer clinicId);
     Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail);
+    boolean addAppointment(Appointment appointment);
 }

@@ -133,5 +133,26 @@ public class AppointmentServiceImpl implements AppointmentService {
         return app;
     }
 
+    @Override
+    public boolean addAppointment(Appointment appointment) { // sprecava overlap zbog lekara i sale
+        for(Appointment a : appointment.getClinic().getAppointments()) {
+            if(a.getDoctor().equals(appointment.getDoctor()) || a.getRoom().equals(appointment.getRoom())) {
+                Date date = a.getDatetime();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.MINUTE, a.getDuration().intValue());
+                Date dateEnd = calendar.getTime();
+                Date appointmentDate = appointment.getDatetime();
+                calendar.setTime(appointmentDate);
+                calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                Date appointmentDateEnd = calendar.getTime();
 
+                if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
+                    return false;
+            }
+        }
+
+        appointmentRepository.save(appointment);
+        return true;
+    }
 }

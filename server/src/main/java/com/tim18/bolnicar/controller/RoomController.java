@@ -2,9 +2,7 @@ package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.RoomDTO;
-import com.tim18.bolnicar.model.Clinic;
-import com.tim18.bolnicar.model.ClinicAdmin;
-import com.tim18.bolnicar.model.Room;
+import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.ClinicService;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
@@ -16,10 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @CrossOrigin
@@ -46,6 +43,40 @@ public class RoomController {
             }
 
         return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/availableExamination/{dateTime}/{duration}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<RoomDTO> roomDTOList = new ArrayList<>();
+        List<RoomDTO> busyRooms = new ArrayList<>();
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            for (Room room : clinicAdmin.getClinic().getRooms()) {
+                if (room.getType() == RoomType.EXAMINATION)
+                    roomDTOList.add(new RoomDTO(room));
+            }
+            for (Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                try {
+                    Date date = sdf.parse(dateTime);
+                    Date dateEnd = new Date(date.getTime() + TimeUnit.MINUTES.toMillis(duration));
+                    Date appointmentDate = appointment.getDatetime();
+                    Date appointmentDateEnd = new Date(appointmentDate.getTime() + TimeUnit.MINUTES.toMillis(appointment.getDuration().longValue()));
+                    if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
+                        busyRooms.add(new RoomDTO(appointment.getRoom()));
+
+                } catch (Exception ignored) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+            roomDTOList.removeAll(busyRooms);
+
+            return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     @PostMapping(

@@ -1,5 +1,12 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.AppointmentDTO;
+import com.tim18.bolnicar.dto.AppointmentPredefDTO;
+import com.tim18.bolnicar.dto.Response;
+import com.tim18.bolnicar.dto.ResponseReport;
+import com.tim18.bolnicar.model.Appointment;
+import com.tim18.bolnicar.model.ClinicAdmin;
+import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.service.AppointmentService;
@@ -10,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
@@ -18,6 +26,18 @@ import java.util.List;
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private ClinicAdminService clinicAdminService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private ExaminationTypeService examinationTypeService;
 
     @PostMapping("/{aid}/{pid}")
     @PreAuthorize("hasRole('PATIENT')")
@@ -53,6 +73,35 @@ public class AppointmentController {
         resp.setData(appointments.toArray());
 
         return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> addPredefinedAppointment(@RequestBody AppointmentPredefDTO appointmentPredefDTO, Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        Response resp = new Response();
+        resp.setStatus("error");
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            Appointment appointment = new Appointment();
+            appointment.setClinic(clinicAdmin.getClinic());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            try {
+                appointment.setDatetime(sdf.parse(appointmentPredefDTO.getDatetime()));
+            } catch (Exception ignored) {
+                return new ResponseEntity<Response>(resp, HttpStatus.BAD_REQUEST);
+            }
+            appointment.setDuration(appointmentPredefDTO.getDuration());
+            appointment.setDiscount(0.0);
+            appointment.setType(this.examinationTypeService.findOne(appointmentPredefDTO.getType()));
+            appointment.setDoctor(this.doctorService.findOne(appointmentPredefDTO.getDoctor()));
+            appointment.setRoom(this.roomService.findOne(appointmentPredefDTO.getRoom()));
+
+            if(appointmentService.addAppointment(appointment)) {
+                resp.setStatus("ok");
+                return ResponseEntity.ok(resp);
+            }
+        }
+        return new ResponseEntity<Response>(resp, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/request")

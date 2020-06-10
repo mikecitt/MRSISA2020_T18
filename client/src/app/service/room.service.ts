@@ -22,6 +22,14 @@ export class RoomService {
   	return this.http.get('http://localhost:8080/room/')
   }
 
+	getExaminationRooms() {
+  	return this.http.get('http://localhost:8080/room/examination')
+  }
+
+	getAvailableExaminationRooms(datetime, duration) {
+		return this.http.get('http://localhost:8080/room/availableExamination/'+datetime+'/'+duration)
+	}
+
 	getRoom(id) {
 		return this.http.get('http://localhost:8080/room/'+id)
 	}

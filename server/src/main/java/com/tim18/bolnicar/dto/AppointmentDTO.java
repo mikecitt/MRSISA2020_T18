@@ -55,6 +55,10 @@ public class AppointmentDTO {
         this.clinicName = appointment.getClinic().getName();
     }
 
+    public AppointmentDTO() {
+
+    }
+
     public Integer getId() {
         return id;
     }

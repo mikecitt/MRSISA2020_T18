@@ -48,6 +48,7 @@ import { NgSortableHeader } from './sortable-table';
 import { ClinicDetailsComponent } from './clinic-details/clinic-details.component';
 import { NurseComponent } from './nurse/nurse.component';
 import { NursesTableComponent } from './nurses-table/nurses-table.component';
+import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 
@@ -89,6 +90,8 @@ import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-d
     NursesTableComponent,
     SearchExaminationComponent,
     FreetimeDoctorTableComponent
+    NursesTableComponent,
+    AppointmentPredefComponent
   ],
   imports: [
     BrowserModule,

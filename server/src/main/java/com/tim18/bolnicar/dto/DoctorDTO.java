@@ -5,6 +5,8 @@ import com.tim18.bolnicar.model.Doctor;
 
 import java.util.List;
 
+import java.util.Objects;
+
 public class DoctorDTO {
     private int id;
     private String firstName;
@@ -48,5 +50,13 @@ public class DoctorDTO {
 
     public void setFreeIntervals(List<TimeIntervalDTO> freeIntervals) {
         this.freeIntervals = freeIntervals;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoctorDTO doctorDTO = (DoctorDTO) o;
+        return id == doctorDTO.id;
     }
 }
