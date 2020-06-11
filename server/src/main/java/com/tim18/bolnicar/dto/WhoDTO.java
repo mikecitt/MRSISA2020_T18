@@ -9,6 +9,7 @@ public class WhoDTO {
     private String emailAddress;
     private String firstName;
     private String lastName;
+    private boolean active;
     private Collection<? extends GrantedAuthority> authorities;
 
     public WhoDTO(User user) {
@@ -16,6 +17,7 @@ public class WhoDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.authorities = user.getAuthorities();
+        this.active = user.getLastPasswordResetDate() != null;
     }
 
     public WhoDTO() {
@@ -51,5 +53,9 @@ public class WhoDTO {
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

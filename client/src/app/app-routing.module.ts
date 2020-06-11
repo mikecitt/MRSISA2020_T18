@@ -19,7 +19,7 @@ import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
-import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
+import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard, ActivationGuard } from './guard';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 import { Router } from '@angular/router';
@@ -48,7 +48,7 @@ const routes: Routes = [
     canActivate: [MainPageGuard]
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
-  { path: 'activation', component: ActivationPageComponent, canActivate: [AdminclGuard]},
+  { path: 'activation', component: ActivationPageComponent, canActivate: [ActivationGuard]},
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: '403', component: ForbiddenComponent }
 ];

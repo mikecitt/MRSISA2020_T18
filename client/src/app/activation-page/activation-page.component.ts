@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../service';
 import { FormControl, FormGroup, FormsModule, FormBuilder, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activation-page',
@@ -15,7 +16,7 @@ export class ActivationPageComponent implements OnInit {
 
   errorRePassword: boolean;
 
-  constructor(private service: UserService, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private service: UserService, private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])],
       rePassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])]
@@ -40,9 +41,11 @@ export class ActivationPageComponent implements OnInit {
     this.service.activateProfile(formObj).subscribe(data => {
       console.log(data);
       if (data['status'] == 'ok') {
+        this.service.currentUser.active = true;
+        this.service.setupUser(this.service.currentUser);
         this.success = 'Nalog uspešno aktiviran. Bićete prebačeni na naslovnu stranicu.';
-        setTimeout(function () {
-          window.location.href = "/";
+        setTimeout(() => {
+          this.router.navigate(['/']);
         }, 3000);
       }
       else

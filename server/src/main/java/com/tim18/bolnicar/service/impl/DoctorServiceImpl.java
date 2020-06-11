@@ -28,7 +28,8 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean register(Doctor doctor) {
         doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-        doctor.setActive(true);
+        doctor.setLastPasswordResetDate(null);
+        doctor.setActive(false);
 
         try {
             save(doctor);

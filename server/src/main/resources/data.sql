@@ -97,6 +97,11 @@ INSERT INTO doctor (
     9, 'mikecitt@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3
+),
+(
+    12, 'testdoca@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    null,
+    'Mica', 'Micic', '2401286000120', 'Moravska 20', 'Žabalj', 'Srbija', '0694259475', TRUE, 1
 );
 
 INSERT INTO nurse (

@@ -45,10 +45,9 @@ public class UserServiceImpl implements UserService {
     public boolean activateProfile(String emailAddress, UserDTO user) {
         User userCurrent = this.userRepository.findByEmailAddress(emailAddress);
 
-        if(!userCurrent.getActive()) {
+        if(userCurrent.getLastPasswordResetDate() == null) {
 
             userCurrent.setPassword(passwordEncoder.encode(user.getPassword()));
-            userCurrent.setActive(true);
 
             this.userRepository.save(userCurrent);
 
