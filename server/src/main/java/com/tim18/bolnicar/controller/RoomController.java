@@ -57,6 +57,10 @@ public class RoomController {
                     roomDTOList.add(new RoomDTO(room));
             }
             for (Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
+
+                if(appointment.getRoom() == null)
+                    continue;
+
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 try {
                     Date date = sdf.parse(dateTime);

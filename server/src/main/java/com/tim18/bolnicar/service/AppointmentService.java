@@ -16,4 +16,5 @@ public interface AppointmentService {
     Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail);
     boolean addAppointment(Appointment appointment);
     List<AppointmentDTO> findAllAppointmentRequests(Clinic clinic);
+    Appointment findById(int id);
 }

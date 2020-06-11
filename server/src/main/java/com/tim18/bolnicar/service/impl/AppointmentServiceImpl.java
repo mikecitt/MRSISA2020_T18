@@ -170,4 +170,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return result;
     }
+
+    @Override
+    public Appointment findById(int id) {
+        return this.appointmentRepository.findById(id).orElse(null);
+    }
 }

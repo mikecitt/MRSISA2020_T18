@@ -6,6 +6,7 @@ import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.ClinicAdmin;
+import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
@@ -146,6 +147,41 @@ public class AppointmentController {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
 
+        return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/approve")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> approveAppointment(@RequestBody Approval approval, Principal user) {
+        Response resp = new Response();
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+        String emailMessage = "";
+
+        if(clinicAdmin != null) {
+            if(approval.isApproved()) {
+                Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
+                Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
+
+                if(room != null && appointment != null) {
+                    appointment.setActive(true);
+                    appointment.setRoom(room);
+                    if(approval.getNewDate() != null) {
+                        appointment.setDatetime(approval.getNewDate());
+                    }
+                    resp.setStatus("ok");
+                    resp.setDescription("true");
+                }
+                else {
+                    resp.setStatus("error");
+                    return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+                }
+            }
+            else {
+                resp.setDescription("false");
+            }
+        }
+
+        // TODO: posalati mejl lekaru i pacijentu
         return ResponseEntity.ok(resp);
     }
 }

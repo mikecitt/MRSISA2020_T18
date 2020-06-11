@@ -31,4 +31,8 @@ export class AppointmentService {
 		return this.http.post<any>(`http://localhost:8080/appointment`, appointment,
 																httpOptions)
 	}
+
+	getAppointmentRequests() {
+	  return this.http.get<any>('http://localhost:8080/appointment/request');
+	}
 }

@@ -51,6 +51,7 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
 import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
+import { ApprovementComponent } from './approvement/approvement.component';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-d
     NursesTableComponent,
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
-    AppointmentPredefComponent
+    AppointmentPredefComponent,
+    ApprovementComponent
   ],
   imports: [
     BrowserModule,
