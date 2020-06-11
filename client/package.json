@@ -30,6 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.0.3",
     "bootstrap": "^4.4.1",
     "moment": "^2.25.3",
+    "ngx-bar-rating": "^1.1.0",
     "ngx-cookie-service": "^3.0.4",
     "ngx-webstorage-service": "^4.1.0",
     "rxjs": "~6.5.4",

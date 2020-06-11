@@ -53,6 +53,7 @@ import { SearchExaminationComponent } from './search-examination/search-examinat
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 
+import { BarRatingModule } from "ngx-bar-rating";
 
 @NgModule({
   declarations: [
@@ -91,8 +92,11 @@ import { AppointmentStartModalComponent } from './appointment-start-modal/appoin
     NursesTableComponent,
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
+<<<<<<< HEAD
     AppointmentPredefComponent,
     AppointmentStartModalComponent
+=======
+>>>>>>> 30-ocenjivanje-klinike
   ],
   imports: [
     BrowserModule,
@@ -103,7 +107,8 @@ import { AppointmentStartModalComponent } from './appointment-start-modal/appoin
     BrowserAnimationsModule,
     ReactiveFormsModule,
     StorageServiceModule,
-    FullCalendarModule
+    FullCalendarModule,
+    BarRatingModule
   ],
   providers: [
   {

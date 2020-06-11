@@ -60,7 +60,7 @@ export class ClinicTableComponent implements OnInit {
 				const term = val.toLowerCase();
 	    	return (entity['name'] as string).toLowerCase().includes(term)
 	        || (entity['address'] as string).toLowerCase().includes(term)
-	        || (entity['description'] as string).toLowerCase().includes(term);
+	        || (entity['clinicGrade'] + '').includes(term);
   		})
   	})
   }

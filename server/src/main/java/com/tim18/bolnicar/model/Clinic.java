@@ -33,6 +33,10 @@ public class Clinic {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "clinic")
     private Set<ClinicGrade> grades;
 
+    public void addGrade(ClinicGrade grade) {
+        this.grades.add(grade);
+    }
+
     public Integer getId() {
         return id;
     }
