@@ -74,7 +74,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> findDoctorsAppointments(Doctor doctor) {
-        return (List<Appointment>)this.appointmentRepository.findAllByDoctor(doctor);
+        List<Appointment> result = (List<Appointment>)this.appointmentRepository
+                .findAllFreeByDoctor(doctor.getId());
+        result.addAll(this.appointmentRepository.findAdditionalAppointments(doctor.getId()));
+        return result;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.tim18.bolnicar.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Appointment {
@@ -33,6 +34,9 @@ public class Appointment {
 
     @OneToOne
     private Doctor doctor;
+
+    @ManyToMany
+    private Set<Doctor> additionalDoctors;
 
     @ManyToOne
     private Clinic clinic;
@@ -110,6 +114,14 @@ public class Appointment {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Set<Doctor> getAdditionalDoctors() {
+        return additionalDoctors;
+    }
+
+    public void setAdditionalDoctors(Set<Doctor> additionalDoctors) {
+        this.additionalDoctors = additionalDoctors;
     }
 
     public Clinic getClinic() {

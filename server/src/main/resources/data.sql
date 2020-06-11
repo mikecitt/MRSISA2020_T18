@@ -81,22 +81,28 @@ INSERT INTO doctor (
     country,
     contact,
     active,
-    clinic_id
+    clinic_id,
+    shift_start,
+    shift_end,
+    working_days
 ) VALUES
 (
     3, 'zdravko.dugi@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Zdravko', 'Dugonjić', '0402989200984', 'Lenjinova 26', 'Veternik', 'Srbija', '0625467890', TRUE, 1
+    'Zdravko', 'Dugonjić', '0402989200984', 'Lenjinova 26', 'Veternik', 'Srbija', '0625467890', TRUE, 1,
+    PARSEDATETIME('06:00', 'HH:mm'), PARSEDATETIME('18:00', 'HH:mm'), 85
 ),
 (
     4, 'rodusek021@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Vladimir', 'Rodušek', '0511989800018', 'Svetog Save 15', 'Srbobran', 'Srbija', '0615679087', TRUE, 2
+    'Vladimir', 'Rodušek', '0511989800018', 'Svetog Save 15', 'Srbobran', 'Srbija', '0615679087', TRUE, 2,
+    PARSEDATETIME('09:00', 'HH:mm'), PARSEDATETIME('21:00', 'HH:mm'), 51
 ),
 (
     9, 'mikecitt@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3
+    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3,
+    PARSEDATETIME('12:00', 'HH:mm'), PARSEDATETIME('23:00', 'HH:mm'), 57
 );
 
 INSERT INTO nurse (
@@ -112,17 +118,22 @@ INSERT INTO nurse (
     country,
     contact,
     active,
-    clinic_id
+    clinic_id,
+    shift_start,
+    shift_end,
+    working_days
 ) VALUES
 (
     5, 'nevena@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Nevena', 'Nevenić', '2506982201967', 'Bulevar Evrope 22', 'Novi Sad', 'Srbija', '065125998', TRUE, 1
+    'Nevena', 'Nevenić', '2506982201967', 'Bulevar Evrope 22', 'Novi Sad', 'Srbija', '065125998', TRUE, 1,
+    PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('16:00', 'HH:mm'), 31
 ),
 (
     6, 'petar.p@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Petar', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1
+    'Petar', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1,
+    PARSEDATETIME('16:00', 'HH:mm'), PARSEDATETIME('00:00', 'HH:mm'), 31
 );
 
 INSERT INTO patient (
