@@ -129,4 +129,23 @@ public class AppointmentController {
 
         return ResponseEntity.ok(resp);
     }
+
+    @GetMapping("/request")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getRequests(Principal user) {
+        Response resp = new Response();
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+
+        if(clinicAdmin != null) {
+            resp.setStatus("ok");
+            resp.setData(this.appointmentService
+                    .findAllAppointmentRequests(clinicAdmin.getClinic()).toArray());
+        }
+        else {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(resp);
+    }
 }

@@ -158,4 +158,16 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.save(appointment);
         return true;
     }
+
+    @Override
+    public List<AppointmentDTO> findAllAppointmentRequests(Clinic clinic) {
+        List<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+
+        for(Appointment appointment : appointmentRepository
+                .findAllByActiveAndClinic(false, clinic)) {
+            result.add(new AppointmentDTO(appointment));
+        }
+
+        return result;
+    }
 }

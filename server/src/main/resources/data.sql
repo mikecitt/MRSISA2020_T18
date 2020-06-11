@@ -255,6 +255,8 @@ INSERT INTO appointment (
     (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5, TRUE),
     (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5, TRUE),
     (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14, TRUE),
+    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, NULL, 14, FALSE),
+    (PARSEDATETIME('2020-07-10 15:30', 'yyyy-MM-dd HH:mm'), 0.2, 1, 1, 3, 8, NULL, NULL, 5, FALSE),
     (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3, TRUE);
 
 INSERT INTO medical_report (description, appointment_id) VALUES

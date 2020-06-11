@@ -46,7 +46,7 @@ public class AppointmentDTO {
         this.datetime = appointment.getDatetime();
         this.duration = appointment.getDuration();
         this.discount = appointment.getDiscount();
-        this.room = new RoomDTO(appointment.getRoom());
+        this.room = appointment.getActive() ? new RoomDTO(appointment.getRoom()) : null;
         this.type = appointment.getType();
         this.medicalReportId = appointment.getReport() != null ? appointment.getReport().getId() : null;
         this.patientId = appointment.getPatient() != null ? appointment.getPatient().getId() : null;
