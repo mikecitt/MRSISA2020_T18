@@ -88,7 +88,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ret;
 
         Date now = new Date();
-        System.out.println(now);
+        // System.out.println(now);
         for (Appointment app : clinic.get().getAppointments()) {
             if (app.getDatetime() != null && app.getDatetime().after(now) && app.getPatient() == null)
                 ret.add(new AppointmentDTO(app));
@@ -186,6 +186,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         doctorGrade.setDoctor(app.getDoctor()); // cringe?
         app.setDoctorGrade(doctorGrade);
         this.appointmentRepository.save(app);
+
+        app.getDoctor().addGrade(doctorGrade);
+        this.doctorRepository.save(app.getDoctor());
 
         return true;
     }

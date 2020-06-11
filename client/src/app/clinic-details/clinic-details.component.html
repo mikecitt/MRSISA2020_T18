@@ -7,7 +7,19 @@
   <div class="row">
     <div class="col-3">
       <p><strong>Klinika:</strong> {{ clinic.name }}</p>
-			<p><strong>Ocena:</strong> {{ clinic.clinicGrade }}</p>
+			<div class="container star-container">
+				<div class="row">
+					<div class="col" class="float-right"><strong>Ocena:</strong></div>
+					<div class="col">
+						<bar-rating 
+						[readOnly]="true"
+						[theme]="'default'" 
+						[(rate)]="clinic.clinicGrade" 
+						[max]="5">
+						</bar-rating>
+					</div>
+				</div>
+			</div>
 			<p><strong>Adresa:</strong> {{ clinic.address }}</p>
 			<div *ngIf="clinic.patientGrade != undefined" class="container star-container">
 				<div class="row">
@@ -15,7 +27,7 @@
 					<div class="col">
 						<bar-rating 
 						[theme]="'default'" 
-						[rate]="clinic.patientGrade" 
+						[(rate)]="clinic.patientGrade" 
 						[max]="5"
 						(rateChange)="rateClinic($event)">
 						</bar-rating>

@@ -33,7 +33,7 @@ public class ClinicDTO {
         this.address = clinic.getAddress();
         this.description = clinic.getDescription();
         this.patientGrade = 0; // default no no
-        this.clinicGrade = (int)(Math.random() * 100) % 5 + 1;
+        this.clinicGrade = 0; //(int)(Math.random() * 100) % 5 + 1;
         //TODO: db agr
         for (ClinicGrade grade : clinic.getGrades())
             this.clinicGrade += grade.getGrade();

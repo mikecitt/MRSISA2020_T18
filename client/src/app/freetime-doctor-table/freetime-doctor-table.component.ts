@@ -31,8 +31,8 @@ export class FreetimeDoctorTableComponent implements OnInit {
   		this.tableData = this.freeDoctors.filter(entity => {
 				const term = val.toLowerCase();
 	    	return (entity['firstName'] as string).toLowerCase().includes(term)
-	        || (entity['lastName'] as string).toLowerCase().includes(term);
-	        // || (entity[''] as string).toLowerCase().includes(term);
+	        || (entity['lastName'] as string).toLowerCase().includes(term)
+	        || (entity['grade'] + '').toLowerCase().includes(term);
   		})
   	})
   }

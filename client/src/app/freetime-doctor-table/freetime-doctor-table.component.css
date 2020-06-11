@@ -9,3 +9,8 @@
 .badges {
 	background-color: #f2f2f2;
 }
+
+bar-rating {
+	position: absolute;
+	margin-top: -22px;
+}
