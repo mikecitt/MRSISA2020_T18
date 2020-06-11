@@ -1,9 +1,9 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.UserDTO;
 import com.tim18.bolnicar.service.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +40,21 @@ public class UserController {
         report.setMessage(null);
 
         return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/activate")
+    public ResponseEntity<Response> activateProfile(@RequestBody UserDTO profileUpdates, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        resp.setDescription("Zabranjen pristup, kontaktirajte administratora.");
+
+        if (userService.findByEmailAddress(user.getName()) != null && profileUpdates.getPassword().length() >= 8) {
+                if(this.userService.activateProfile(user.getName(), profileUpdates)) {
+                    resp.setStatus("ok");
+                    resp.setDescription("Profil uspesno aktiviran.");
+                    return ResponseEntity.ok(resp);
+                }
+            }
+        return ResponseEntity.ok(resp);
     }
 }

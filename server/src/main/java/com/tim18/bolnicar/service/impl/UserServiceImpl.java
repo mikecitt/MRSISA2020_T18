@@ -42,6 +42,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean activateProfile(String emailAddress, UserDTO user) {
+        User userCurrent = this.userRepository.findByEmailAddress(emailAddress);
+
+        if(!userCurrent.getActive()) {
+
+            userCurrent.setPassword(passwordEncoder.encode(user.getPassword()));
+            userCurrent.setActive(true);
+
+            this.userRepository.save(userCurrent);
+
+            return true;
+        }
+        else
+            return false;
+    }
+
+    @Override
     public User findByJmbg(String jmbg) {
         return this.userRepository.findByJmbg(jmbg);
     }
