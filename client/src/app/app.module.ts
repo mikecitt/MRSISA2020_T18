@@ -52,6 +52,7 @@ import { AppointmentPredefComponent } from './appointment-predef/appointment-pre
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
+import { ActivationPageComponent } from './activation-page/activation-page.component';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { AppointmentStartModalComponent } from './appointment-start-modal/appoin
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
     AppointmentPredefComponent,
-    AppointmentStartModalComponent
+    AppointmentStartModalComponent,
+    ActivationPageComponent
   ],
   imports: [
     BrowserModule,
