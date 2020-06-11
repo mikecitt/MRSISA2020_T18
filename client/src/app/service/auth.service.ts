@@ -45,11 +45,11 @@ export class AuthService {
 		  userService.setupUser(null);
 		}
 
-    console.log(environment.api_url);
+    //console.log(environment.api_url);
 	}
 
 	register(registration: RegistrationForm) {
-		return this.http.post<any>('http://localhost:8080/auth/register', registration)
+		return this.http.post<any>(`${environment.api_url}/auth/register`, registration)
 	}
 
 	login(user) {
@@ -63,7 +63,7 @@ export class AuthService {
       'password' : user.password
     };
 
-    return this.http.post('http://localhost:8080/auth/login', body)
+    return this.http.post(`${environment.api_url}/auth/logi`', body)
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 export interface MedicalReport {
 	id: number;
@@ -55,14 +56,14 @@ export class PatientService {
   // specify type?
   getMedicalRecord() {
   	//TODO: hardcoded
-  	return this.http.get<any>('http://localhost:8080/patient/medicalRecord');
+  	return this.http.get<any>(`${environment.api_url}/patient/medicalRecord`);
   }
 
   getPatients() {
-    return this.http.get<any>('http://localhost:8080/patient');
+    return this.http.get<any>(`${environment.api_url}/patient`);
   }
 
   getAppointmentsHistory() {
-    return this.http.get<any>('http://localhost:8080/patient/appointments')
+    return this.http.get<any>(`${environment.api_url}/patient/appointments`)
   }
 }

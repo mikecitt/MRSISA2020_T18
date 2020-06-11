@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { environment } from './../../environments/environment';
 
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -15,22 +15,22 @@ export class ExaminationTypeService {
   constructor(private http:HttpClient) { }
 
   addExaminationType(payload) {
-    return this.http.post<any>('http://localhost:8080/examination-type/add', payload, httpOptions)
+    return this.http.post<any>(`${environment.api_url}/examination-type/add`, payload, httpOptions)
   }
 
   getExaminationTypes() {
-  	return this.http.get<any[]>('http://localhost:8080/examination-type/')
+  	return this.http.get<any[]>(`${environment.api_url}/examination-type/`)
   }
 
 	getExaminationType(id) {
-  	return this.http.get('http://localhost:8080/examination-type/' + id)
+  	return this.http.get(`${environment.api_url}/examination-type/${id}`)
   }
 
 	removeExaminationType(id) {
-		return this.http.delete('http://localhost:8080/examination-type/'+id)
+		return this.http.delete(`${environment.api_url}/examination-type/${id}`)
 	}
 
 	updateExaminationType(payload) {
-    return this.http.put('http://localhost:8080/examination-type/', payload);
+    return this.http.put(`${environment.api_url}/examination-type/`, payload);
   }
 }

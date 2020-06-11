@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, filter, map } from 'rxjs/operators';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { environment } from './../../environments/environment';
 
 const STORAGE_KEY = 'currUser';
 
@@ -33,7 +34,7 @@ export class UserService {
   }
 
   initUser() {
-    const promise = this.http.get('http://localhost:8080/auth/refresh')
+    const promise = this.http.get(`${environment.api_url}/auth/refresh`)
       .pipe(map((res) => {
          if (res['access_token'] !== null) {
            return this.getMyInfo().toPromise()
@@ -46,7 +47,7 @@ export class UserService {
   }
 
   getMyInfo() {
-    return this.http.get('http://localhost:8080/whoami')
+    return this.http.get(`${environment.api_url}/whoami`)
       .pipe(map(user => {
         this.setupUser(user);
         return user;
@@ -54,15 +55,15 @@ export class UserService {
   }
 
   getProfile() {
-    return this.http.get<Profile>('http://localhost:8080/user/profile');
+    return this.http.get<Profile>(`${environment.api_url}/user/profile`);
   }
 
   updateProfile(payload) {
-    return this.http.put('http://localhost:8080/user/profile', payload);
+    return this.http.put(`${environment.api_url}/user/profile`, payload);
   }
 
   activateProfile(payload) {
-    return this.http.put('http://localhost:8080/user/activate', payload);
+    return this.http.put(`${environment.api_url}/user/activate`, payload);
   }
 
   getRole() {

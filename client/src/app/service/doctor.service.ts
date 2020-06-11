@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 
 const httpOptions = {
@@ -15,18 +16,18 @@ export class DoctorService {
   constructor(private http:HttpClient) { }
 
   addDoctor(payload) {
-  	return this.http.post('http://localhost:8080/doctor', payload, httpOptions);
+  	return this.http.post(`${environment.api_url}/doctor`, payload, httpOptions);
   }
 
 	getAvailableDoctors(datetime, duration, examinationType) {
-		return this.http.get('http://localhost:8080/doctor/available/'+datetime+'/'+duration+'/'+examinationType)
+		return this.http.get(`${environment.api_url}/doctor/available/`+datetime+'/'+duration+'/'+examinationType)
 	}
 
   getDoctors() {
-  	return this.http.get('http://localhost:8080/doctor');
+  	return this.http.get(`${environment.api_url}/doctor`);
   }
 
 	removeDoctor(id) {
-		return this.http.delete('http://localhost:8080/doctor/' + id);
+		return this.http.delete(`${environment.api_url}/doctor/${id}`);
 	}
 }

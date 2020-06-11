@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,14 @@ export class MedicalService {
   constructor(private http:HttpClient) { }
 
   getTimeOffs() {
-    return this.http.get<any>('http://localhost:8080/medical/timeoff');
+    return this.http.get<any>(`${environment.api_url}/medical/timeoff`);
   }
 
   getEvents() {
-    return this.http.get<any>('http://localhost:8080/medical/events');
+    return this.http.get<any>(`${environment.api_url}/medical/events`);
   }
 
   sendVacationRequest(timeOff) {
-    return this.http.post<any>('http://localhost:8080/medical/timeoff', timeOff);
+    return this.http.post<any>(`${environment.api_url}/medical/timeoff`, timeOff);
   }
 }
