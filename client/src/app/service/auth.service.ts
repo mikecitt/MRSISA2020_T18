@@ -63,7 +63,7 @@ export class AuthService {
       'password' : user.password
     };
 
-    return this.http.post(`${environment.api_url}/auth/logi`', body)
+    return this.http.post(`${environment.api_url}/auth/logi`, body)
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
