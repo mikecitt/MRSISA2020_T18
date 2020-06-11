@@ -6,7 +6,7 @@ import { UserService } from '../service';
 @Injectable({
   providedIn: 'root'
 })
-export class MainPageGuard implements CanActivate {
+export class ActivationGuard implements CanActivate {
 
   constructor(private router: Router, private userService: UserService) { }
 
@@ -14,16 +14,15 @@ export class MainPageGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.userService.currentUser) {
-          console.log(this.userService.currentUser);
-          if (this.userService.currentUser.active) {
+          if (!this.userService.currentUser.active) {
             return true;
           }
           else {
-            this.router.navigate(['/activation']);
+            this.router.navigate(['/']);
             return false;
           }
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       return false;
     }
   }
