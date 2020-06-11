@@ -11,8 +11,7 @@ before_install:
 addons:
   sonarcloud:
     organization: "mikecitt"
-    token:
-      secure: "**************************" # encrypted value of your token
+    token: $SONAR_TOKEN
 
 script:
   - ./mvnw clean install -DskipTests=false -B
