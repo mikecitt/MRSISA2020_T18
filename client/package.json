@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cli": "^9.1.8", // <--- RUN
+    "@angular/cli": "^9.1.8",
     "@angular/animations": "^9.1.8",
     "@angular/common": "^9.1.8",
     "@angular/compiler": "^9.1.8",
