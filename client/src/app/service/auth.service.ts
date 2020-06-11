@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
 
+import { environment } from './../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }
@@ -42,6 +44,8 @@ export class AuthService {
 		if(!this.access_token) {
 		  userService.setupUser(null);
 		}
+
+    console.log(environment.api_url);
 	}
 
 	register(registration: RegistrationForm) {
