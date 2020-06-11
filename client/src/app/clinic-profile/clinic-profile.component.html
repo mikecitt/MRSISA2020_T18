@@ -1,10 +1,15 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
 <div class="modal-content" [class.close-animation]="close">
 <div class="modal-header">
 	 <h5 class="modal-title">Profil klinike</h5>
 </div>
 <div class="modal-body">
+<div class="row">
+    <div id="mapa"></div>
+</div>
 <form [formGroup]="clinicProfileForm">
-  <div class="form-group">
+  <div hidden class="form-group">
   	<label>Id</label>
     <input type="text" class="form-control-plaintext" readonly disabled formControlName="id">
   </div>
