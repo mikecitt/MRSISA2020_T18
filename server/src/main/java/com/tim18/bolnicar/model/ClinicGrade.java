@@ -9,7 +9,7 @@ public class ClinicGrade {
     private Integer id;
 
     @OneToOne
-    private Appointment appointment;
+    private Patient patient;
 
     @ManyToOne
     private Clinic clinic;
@@ -26,12 +26,12 @@ public class ClinicGrade {
         this.id = id;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public Clinic getClinic() {
