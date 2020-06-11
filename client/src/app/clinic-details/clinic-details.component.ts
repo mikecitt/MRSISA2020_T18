@@ -67,7 +67,6 @@ export class ClinicDetailsComponent implements OnInit {
   }
 
   rateClinic(payload): void {
-<<<<<<< HEAD
     this.clinicService.gradeClinic({
       entityId: this.clinic.id,
       grade: payload
@@ -76,8 +75,5 @@ export class ClinicDetailsComponent implements OnInit {
     }, err => {
       console.error('rate error');
     })
-=======
-    console.log(payload)
->>>>>>> f4657dd4b6ac03cfc60b151b9ee6283c7ae3d8e2
   }
 }
