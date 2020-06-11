@@ -61,6 +61,10 @@ export class UserService {
     return this.http.put('http://localhost:8080/user/profile', payload);
   }
 
+  activateProfile(payload) {
+    return this.http.put('http://localhost:8080/user/activate', payload);
+  }
+
   getRole() {
     var role = null;
     if(this.currentUser) {
