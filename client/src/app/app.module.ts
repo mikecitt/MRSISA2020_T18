@@ -92,11 +92,8 @@ import { BarRatingModule } from "ngx-bar-rating";
     NursesTableComponent,
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
-<<<<<<< HEAD
     AppointmentPredefComponent,
     AppointmentStartModalComponent
-=======
->>>>>>> 30-ocenjivanje-klinike
   ],
   imports: [
     BrowserModule,
