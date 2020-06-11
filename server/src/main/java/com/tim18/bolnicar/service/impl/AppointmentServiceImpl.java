@@ -2,6 +2,7 @@ package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.AppointmentDTO;
 import com.tim18.bolnicar.dto.AppointmentRequestDTO;
+import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.*;
 import com.tim18.bolnicar.service.AppointmentService;
@@ -153,6 +154,39 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         appointmentRepository.save(appointment);
+        return true;
+    }
+
+    @Override
+    public boolean gradeAppointment(String patientEmail, GradeRequest req) {
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+
+        if (patient == null ||
+                req.getGrade() == null ||
+                req.getEntityId() == null ||
+                req.getGrade() > 5 ||
+                req.getGrade() < 0)
+            return false;
+
+        Optional<Appointment> appointment = this.appointmentRepository.findById(req.getEntityId());
+
+        if (appointment.isEmpty())
+            return false;
+
+        Appointment app = appointment.get();
+
+        if (app.getPatient().getId() != patient.getId())
+            return false;
+
+        if (app.getDoctorGrade() != null)
+            return false;
+
+        DoctorGrade doctorGrade = new DoctorGrade();
+        doctorGrade.setGrade(req.getGrade());
+        doctorGrade.setDoctor(app.getDoctor()); // cringe?
+        app.setDoctorGrade(doctorGrade);
+        this.appointmentRepository.save(app);
+
         return true;
     }
 

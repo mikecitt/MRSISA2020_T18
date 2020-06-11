@@ -19,7 +19,7 @@
     <td>{{ data.doctor }}</td>
     <td>{{ data.clinicName }}</td>
     <td>
-        <bar-rating [readOnly]="data.patientGrade > 0" [theme]="'default'" (rateChange)="vote($event)" [(rate)]="data.patientGrade" [max]="5"></bar-rating>
+        <bar-rating [readOnly]="data.patientGrade > 0" [theme]="'default'" (rateChange)="gradeAppointment($event, data)" [(rate)]="data.patientGrade" [max]="5"></bar-rating>
     </td>
   </tr>
   </tbody>

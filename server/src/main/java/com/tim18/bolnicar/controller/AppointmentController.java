@@ -112,6 +112,23 @@ public class AppointmentController {
         return new ResponseEntity<Response>(resp, HttpStatus.BAD_REQUEST);
     }
 
+    @PostMapping("/grade")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> gradeAppointment(@RequestBody GradeRequest req, Principal principal) {
+        boolean flag = this.appointmentService.gradeAppointment(principal.getName(), req);
+        Response resp = new Response();
+
+        if (flag) {
+            resp.setStatus("ok");
+            return ResponseEntity.ok(resp);
+        }
+
+        resp.setStatus("error");
+        resp.setDescription("Ocenjivanje pregleda nije moguce.");
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping("/request")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<Response> makeRequest(@RequestBody AppointmentRequestDTO requestAppointment, Principal principal) {

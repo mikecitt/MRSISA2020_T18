@@ -40,7 +40,7 @@ public class Appointment {
     @Column
     private Boolean active;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private DoctorGrade doctorGrade;
 
     public Integer getId() {

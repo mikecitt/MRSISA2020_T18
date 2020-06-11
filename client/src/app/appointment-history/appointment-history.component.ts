@@ -2,7 +2,7 @@ import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, V
 import { Subject, Observable, Subscription, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { PatientService, Appointment } from '../service';
+import { PatientService, Appointment, AppointmentService } from '../service';
 
 import { NgSortableHeader, SortDirection, SortEvent, compare } from '../sortable-table';
 
@@ -18,10 +18,10 @@ export class AppointmentHistoryComponent implements OnInit {
 
   @ViewChildren(NgSortableHeader) headers: QueryList<NgSortableHeader>;
 
-  constructor(private service: PatientService) { }
+  constructor(private patientService: PatientService, private appointmentService: AppointmentService) { }
 
   ngOnInit(): void {
-  	this.service.getAppointmentsHistory().subscribe(data => {
+  	this.patientService.getAppointmentsHistory().subscribe(data => {
   		for (let d of data['data']) {
         d.type = d.type.name; // use just name
         this.tableData.push(d);
@@ -49,9 +49,13 @@ export class AppointmentHistoryComponent implements OnInit {
 
   }
 
-  vote(event) {
-    for (let a of this.tableData)
-      console.log(a['patientGrade'])
-    console.log(event);
+  gradeAppointment(grade, entity) {
+    this.appointmentService
+    .gradeAppointment({ entityId: entity.id, grade: grade})
+    .subscribe((data) => {
+    },
+    error => {
+      console.error('something went wrong with grading system')
+    })
   }
 }

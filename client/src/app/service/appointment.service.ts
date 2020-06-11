@@ -29,11 +29,16 @@ export class AppointmentService {
   }
 
   requestAppointment(payload) {
-    return this.http.post<any>('http://localhost:8080/appointment/request', payload);
+    return this.http.post<any>('http://localhost:8080/appointment/request', payload, httpOptions);
   }
 
 	addPredefinedAppointment(appointment) {
 		return this.http.post<any>(`http://localhost:8080/appointment`, appointment,
 																httpOptions)
 	}
+
+  // read doctor!
+  gradeAppointment(grade) {
+    return this.http.post<any>('http://localhost:8080/appointment/grade', grade, httpOptions);
+  }
 }
