@@ -8,8 +8,15 @@ services:
 before_install:
   - chmod +x mvnw
 
+addons:
+  sonarcloud:
+    organization: "mikecitt"
+    token:
+      secure: "**************************" # encrypted value of your token
+
 script:
   - ./mvnw clean install -DskipTests=false -B
+  - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=mikecitt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
 
 dist: trusty
 
