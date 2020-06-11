@@ -40,6 +40,9 @@ public class Appointment {
     @Column
     private Boolean active;
 
+    @OneToOne
+    private DoctorGrade doctorGrade;
+
     public Integer getId() {
         return id;
     }
@@ -126,5 +129,13 @@ public class Appointment {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public DoctorGrade getDoctorGrade() {
+        return doctorGrade;
+    }
+
+    public void setDoctorGrade(DoctorGrade doctorGrade) {
+        this.doctorGrade = doctorGrade;
     }
 }

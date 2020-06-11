@@ -19,6 +19,13 @@ public class AppointmentDTO {
     private String doctor;
     private String clinicName;
 
+    /*
+        null can't vote, no display
+        0 can vote
+        > 0 cant vote, just display
+     */
+    private Integer patientGrade;
+
     public AppointmentDTO(Integer id,
                           Date datetime,
                           Double duration,
@@ -28,7 +35,8 @@ public class AppointmentDTO {
                           Integer medicalReportId,
                           Integer patientId,
                           String doctor,
-                          String clinicName) {
+                          String clinicName,
+                          Integer patientGrade) {
         this.id = id;
         this.datetime = datetime;
         this.duration = duration;
@@ -39,6 +47,7 @@ public class AppointmentDTO {
         this.patientId = patientId;
         this.doctor = doctor;
         this.clinicName = clinicName;
+        this.patientGrade = patientGrade;
     }
 
     public AppointmentDTO(Appointment appointment) {
@@ -53,6 +62,7 @@ public class AppointmentDTO {
         this.doctor = appointment.getDoctor() != null ?
                 appointment.getDoctor().getFirstName() + " " + appointment.getDoctor().getLastName() : null;
         this.clinicName = appointment.getClinic().getName();
+        this.patientGrade = appointment.getDoctorGrade() != null ? appointment.getDoctorGrade().getGrade() : 0;
     }
 
     public AppointmentDTO() {
@@ -137,5 +147,13 @@ public class AppointmentDTO {
 
     public void setClinicName(String clinicName) {
         this.clinicName = clinicName;
+    }
+
+    public Integer getPatientGrade() {
+        return patientGrade;
+    }
+
+    public void setPatientGrade(Integer patientGrade) {
+        this.patientGrade = patientGrade;
     }
 }

@@ -48,4 +48,10 @@ export class AppointmentHistoryComponent implements OnInit {
     }
 
   }
+
+  vote(event) {
+    for (let a of this.tableData)
+      console.log(a['patientGrade'])
+    console.log(event);
+  }
 }

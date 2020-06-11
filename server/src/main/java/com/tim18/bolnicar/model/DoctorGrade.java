@@ -8,8 +8,8 @@ public class DoctorGrade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
-    private Appointment appointment;
+    //@OneToOne
+    //private Appointment appointment;
 
     @OneToOne
     private Doctor doctor;
@@ -26,13 +26,13 @@ public class DoctorGrade {
         this.id = id;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
-    }
+    //public Appointment getAppointment() {
+    //    return appointment;
+    //}
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
+    //public void setAppointment(Appointment appointment) {
+    //    this.appointment = appointment;
+    //}
 
     public Doctor getDoctor() {
         return doctor;
