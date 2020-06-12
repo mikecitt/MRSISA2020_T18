@@ -16,7 +16,7 @@ public interface ClinicService {
     List<ClinicDTO> findAll(String patientEmail); // check patient voting right
     Clinic save(Clinic clinic);
     List<ClinicDTO> getClinicsWithFreeAppointments(
-            Date date, Integer examinationTypeId, String address, Integer grade, String patientEmail);
+            Date date, Integer examinationTypeId, String address, Integer grade);
     boolean gradeClinic(String patientEmail, GradeRequest req);
     ClinicDTO getClinic(String patientEmail, Integer clinicId);
 }

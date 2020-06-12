@@ -116,7 +116,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public List<ClinicDTO> getClinicsWithFreeAppointments(Date date, Integer examinationTypeId,
-                                                       String address, Integer grade, String patientEmail) {
+                                                       String address, Integer grade) {
         if (date == null || examinationTypeId == null)
             return null;
 
@@ -160,32 +160,6 @@ public class ClinicServiceImpl implements ClinicService {
             // free doctors?
             if (freeDoctors.size() > 0) {
                 cl.setFreeDoctors(freeDoctors);
-
-                // pack grade
-                Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
-                if (patient != null) {
-                    boolean hasGrade = false;
-                    for (ClinicGrade g : it.getGrades()) {
-                        if (g.getPatient().getId() == patient.getId()) {
-                            cl.setPatientGrade(g.getGrade());
-                            hasGrade = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasGrade) {
-                        for (Appointment a : it.getAppointments()) {
-                            if (a.getPatient() != null &&
-                                    a.getPatient().getId() == patient.getId() &&
-                                    a.getReport() != null) {
-                                //TODO: better check done?
-                                cl.setPatientGrade(0);
-                                break;
-                            }
-                        }
-                    }
-                }
-
                 clinics.add(cl);
             }
         }
@@ -248,15 +222,25 @@ public class ClinicServiceImpl implements ClinicService {
             return null;
 
         ClinicDTO cl = new ClinicDTO(clinic.get());
+        boolean graded = false;
 
-        for (Appointment a : clinic.get().getAppointments()) {
-            if (a.getPatient() != null &&
-                    a.getPatient().getId() == patient.getId() &&
-                    a.getReport() != null) {
-                cl.setPatientGrade(0);
+        for (ClinicGrade c : clinic.get().getGrades()) {
+            if (c.getPatient().getId() == patient.getId()) {
+                graded = true;
+                cl.setPatientGrade(c.getGrade());
                 break;
             }
         }
+
+        if (!graded)
+            for (Appointment a : clinic.get().getAppointments()) {
+                if (a.getPatient() != null &&
+                        a.getPatient().getId() == patient.getId() &&
+                        a.getReport() != null) {
+                    cl.setPatientGrade(0);
+                    break;
+                }
+            }
 
         return cl;
     }

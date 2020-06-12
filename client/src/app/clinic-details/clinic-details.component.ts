@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AppointmentService, ClinicService } from '../service';
+import { AppointmentService } from '../service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -22,8 +22,7 @@ export class ClinicDetailsComponent implements OnInit {
   clinic;
 
   constructor(private service: AppointmentService, 
-    public modal: NgbActiveModal,
-    private clinicService: ClinicService) { }
+    public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
   	// this.service.getFreeAppointments()
@@ -66,14 +65,4 @@ export class ClinicDetailsComponent implements OnInit {
     return num * 100;
   }
 
-  rateClinic(payload): void {
-    this.clinicService.gradeClinic({
-      entityId: this.clinic.id,
-      grade: payload
-    }).subscribe(data => {
-      console.log('ok');
-    }, err => {
-      console.error('rate error');
-    })
-  }
 }

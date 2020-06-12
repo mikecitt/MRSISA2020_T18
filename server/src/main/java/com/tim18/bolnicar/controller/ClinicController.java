@@ -98,8 +98,7 @@ public class ClinicController {
                         date,
                         examinationTypeId,
                         address,
-                        grade,
-                        principal.getName()
+                        grade
                 ).toArray());
 
         return ResponseEntity.ok(resp);
