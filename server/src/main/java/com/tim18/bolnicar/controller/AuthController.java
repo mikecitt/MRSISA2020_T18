@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-
+@CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired

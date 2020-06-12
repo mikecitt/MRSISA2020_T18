@@ -49,7 +49,7 @@ export class AuthService {
 	}
 
 	register(registration: RegistrationForm) {
-		return this.http.post<any>(`${environment.api_url}/auth/register`, registration)
+		return this.http.post<any>(`https://cors-anywhere.herokuapp.com/${environment.api_url}/auth/register`, registration, httpOptions)
 	}
 
 	login(user) {
@@ -63,7 +63,7 @@ export class AuthService {
       'password' : user.password
     };
 
-    return this.http.post(`${environment.api_url}/auth/login`, body)
+    return this.http.post(`https://cors-anywhere.herokuapp.com/${environment.api_url}/auth/login`, body, httpOptions)
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   whoAmI() {
-  	return this.http.get<any>(`${environment.api_url}/whoami`)
+  	return this.http.get<any>(`https://cors-anywhere.herokuapp.com/${environment.api_url}/whoami`, httpOptions)
   }
 
   getCurrentRoute() {
