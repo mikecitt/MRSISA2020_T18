@@ -26,7 +26,6 @@ export class ApprovementComponent implements OnInit {
   ngOnInit(): void {
     this.requests = [];
     this.appointmentService.getAppointmentRequests().subscribe(data => {
-      console.log(data['data']);
       for(let elem of data['data']) {
         this.requests.push({
           id: elem.id,
@@ -39,10 +38,10 @@ export class ApprovementComponent implements OnInit {
     });
   }
 
-  getAvailableRooms(datetime, duration, selection) {
+  getAvailableRooms(selection) {
     this.selected = selection;
-    datetime = this.datePipe.transform(new Date(datetime),"yyyy-MM-dd'T'HH:mm")
-    this.roomService.getAvailableExaminationRooms(datetime, duration * 60).subscribe(data => {
+    var datetime = this.datePipe.transform(new Date(selection.datetime),"yyyy-MM-dd'T'HH:mm")
+    this.roomService.getAvailableExaminationRooms(datetime, selection.duration * 60).subscribe(data => {
       this.rooms = [];
       for(let i in data) {
         this.rooms.push(data[i]);
@@ -50,21 +49,28 @@ export class ApprovementComponent implements OnInit {
     });
   }
 
-  processApproval() {
-    var form = {
-      appointmentId: this.selected.id,
-      roomNumber: this.room,
-      approved: this.accept
-    };
+  disapprove(selection) {
+    this.sendProcess(false, selection);
+  }
 
+  processApproval() {
+    this.sendProcess(true, this.selected.id);
+  }
+
+  sendProcess(accept, selection) {
+    var form = {
+        appointmentId: selection.id,
+        roomNumber: this.room,
+        approved: accept
+    };
     this.appointmentService.solveRequest(form).subscribe(data => {
-      var index = this.requests.indexOf(this.selected);
+      var index = this.requests.indexOf(selection);
 
       if(index !== -1)
         this.requests.splice(index, 1);
 
+      this.rooms = null;
       this.message = 'Zahtev je obrađen';
     });
   }
-
 }

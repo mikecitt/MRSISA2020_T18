@@ -157,11 +157,11 @@ public class AppointmentController {
         ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
         String emailMessage = "";
 
+        Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
+        Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
+
         if(clinicAdmin != null) {
             if(approval.isApproved()) {
-                Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
-                Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
-
                 if(room != null && appointment != null) {
                     appointment.setActive(true);
                     appointment.setRoom(room);
@@ -179,6 +179,8 @@ public class AppointmentController {
                 }
             }
             else {
+
+                this.appointmentService.remove(appointment.getId());
                 resp.setDescription("false");
             }
         }

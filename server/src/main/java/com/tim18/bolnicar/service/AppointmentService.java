@@ -18,4 +18,5 @@ public interface AppointmentService {
     List<AppointmentDTO> findAllAppointmentRequests(Clinic clinic);
     Appointment findById(int id);
     Appointment save(Appointment appointment);
+    void remove(int id);
 }

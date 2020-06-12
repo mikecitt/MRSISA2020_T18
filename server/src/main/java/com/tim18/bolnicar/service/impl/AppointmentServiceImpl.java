@@ -180,4 +180,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment save(Appointment appointment) {
         return this.appointmentRepository.save(appointment);
     }
+
+    @Override
+    public void remove(int id) {
+        this.appointmentRepository.deleteById(id);
+    }
 }
