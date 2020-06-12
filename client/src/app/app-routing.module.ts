@@ -22,6 +22,7 @@ import { AppointmentPredefComponent } from './appointment-predef/appointment-pre
 import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard, ActivationGuard } from './guard';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
+import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { Router } from '@angular/router';
 
 const routes: Routes = [
@@ -43,7 +44,8 @@ const routes: Routes = [
       { path: 'patient-list', component: PatientsTableComponent, canActivate: [MedicalGuard] },
       { path: 'registration-req', component: RegistrationReqComponent, canActivate: [AdminGuard]},
       { path: 'vacation-req', component: VacationReqComponent, canActivate: [AdminclGuard]},
-      { path: 'appointment-predef', component: AppointmentPredefComponent, canActivate: [AdminclGuard]}
+      { path: 'appointment-predef', component: AppointmentPredefComponent, canActivate: [AdminclGuard]},
+      { path: 'clinic-report', component: ClinicReportComponent, canActivate: [AdminclGuard]},
     ],
     canActivate: [MainPageGuard]
   },

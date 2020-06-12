@@ -55,6 +55,7 @@ import { AppointmentStartModalComponent } from './appointment-start-modal/appoin
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
 import { BarRatingModule } from "ngx-bar-rating";
+import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { BarRatingModule } from "ngx-bar-rating";
     FreetimeDoctorTableComponent,
     AppointmentPredefComponent,
     AppointmentStartModalComponent,
-    ActivationPageComponent
+    ActivationPageComponent,
+    ClinicReportComponent
   ],
   imports: [
     BrowserModule,
