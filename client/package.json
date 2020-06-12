@@ -37,7 +37,8 @@
     "ngx-webstorage-service": "^4.1.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.13.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "cors": "^6.13.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.8",
