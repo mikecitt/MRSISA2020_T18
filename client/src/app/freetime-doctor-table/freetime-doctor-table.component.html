@@ -5,14 +5,21 @@
 	<thead>
 		<th>#</th>
 		<th>Lekar</th>
-		<th>Ocean</th>
+		<th>Ocena</th>
 	</thead>
 	<tbody>
 		<ng-container *ngFor="let d of tableData; let i = index">
 			<tr class="doc">
 				<th>{{ i + 1 }}</th>
 				<td>{{ d.firstName }} {{ d.lastName }}</td>
-				<td>infinity</td>
+				<td>
+					<bar-rating 
+						[readOnly]="true"
+						[theme]="'default'" 
+						[rate]="d.grade" 
+						[max]="5">
+					</bar-rating>
+				</td>
 			</tr>
 			<tr class="badges">
 				<td colspan="3">

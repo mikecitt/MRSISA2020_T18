@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DateIntervalComponent } from '../date-interval/date-interval.component';
-import { UserService, MedicalService } from '../service';
+import { AppointmentStartModalComponent } from '../appointment-start-modal/appointment-start-modal.component';
+import { UserService, MedicalService, AppointmentService } from '../service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 
@@ -36,13 +37,32 @@ export class CalendarComponent implements OnInit {
 
   constructor(private userService: UserService,
               private medicalService: MedicalService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private appointmentService: AppointmentService) {
   }
 
   ngOnInit(): void {
     this.loadData();
     this.selectionEnabled = false;
     this.isMedical();
+  }
+
+  isDoctor() {
+    let authority = this.userService.getRole();
+    if(authority === 'ROLE_DOCTOR') {
+      this.selectionEnabled = true;
+    }
+    return this.selectionEnabled;
+  }
+
+  startAppointment() {
+    this.appointmentService.startAppointment().subscribe(result => {
+      const modalRef = this.modalService.open(AppointmentStartModalComponent);
+      if(result.description == "started")
+        modalRef.componentInstance.message = "Uspesno ste pokrenuli pregled.";
+      else
+        modalRef.componentInstance.errorMessage = "Nema trenutnih pregleda za pokretanje.";
+    })
   }
 
   isMedical() {

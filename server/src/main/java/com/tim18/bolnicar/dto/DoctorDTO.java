@@ -2,6 +2,7 @@ package com.tim18.bolnicar.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.DoctorGrade;
 
 import java.util.List;
 
@@ -14,10 +15,20 @@ public class DoctorDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TimeIntervalDTO> freeIntervals;
 
+    private Integer grade;
+
     public DoctorDTO(Doctor doctor) {
         this.id = doctor.getId();
         this.firstName = doctor.getFirstName();
         this.lastName = doctor.getLastName();
+        this.grade = 0;
+
+        for (DoctorGrade grade : doctor.getGrades()) {
+            this.grade += grade.getGrade();
+        }
+
+        if (doctor.getGrades().size() > 0)
+            this.grade = (int)Math.rint(this.grade * 1.0 / doctor.getGrades().size());
     }
 
     public int getId() {
@@ -50,6 +61,14 @@ public class DoctorDTO {
 
     public void setFreeIntervals(List<TimeIntervalDTO> freeIntervals) {
         this.freeIntervals = freeIntervals;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     @Override

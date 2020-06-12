@@ -10,3 +10,8 @@
 .modal-dialog {
 	width: 100px;
 }
+
+bar-rating {
+	position: absolute;
+	margin-top: -20px;
+}

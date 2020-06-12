@@ -1,8 +1,10 @@
 package com.tim18.bolnicar.service;
 
 import com.tim18.bolnicar.dto.ClinicDTO;
+import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.model.Clinic;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +13,9 @@ public interface ClinicService {
     boolean updateClinicProfile(int id, ClinicDTO clinic);
     Clinic findSingle(String name);
     List<Clinic> findAll();
+    List<ClinicDTO> findAll(String patientEmail); // check patient voting right
     Clinic save(Clinic clinic);
-    List<ClinicDTO> getClinicsWithFreeAppointments(Date date, Integer examinationTypeId, String address, Integer grade);
+    List<ClinicDTO> getClinicsWithFreeAppointments(
+            Date date, Integer examinationTypeId, String address, Integer grade, String patientEmail);
+    boolean gradeClinic(String patientEmail, GradeRequest req);
 }

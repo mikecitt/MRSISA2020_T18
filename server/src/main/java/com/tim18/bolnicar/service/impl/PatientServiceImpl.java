@@ -103,9 +103,16 @@ public class PatientServiceImpl implements PatientService {
         if (patient == null)
             return null;
 
-        //TODO: maybe just history?
         for (Appointment appointment : patient.getAppointments()) {
-            appointments.add(new AppointmentDTO(appointment));
+            if (!appointment.getActive()) continue;
+
+            AppointmentDTO dto = new AppointmentDTO(appointment);
+
+            // enable patient to grade appointment, if grade is null!
+            //if (dto.getPatientGrade() == null)
+            //    dto.setPatientGrade(0);
+
+            appointments.add(dto);
         }
 
         return appointments;

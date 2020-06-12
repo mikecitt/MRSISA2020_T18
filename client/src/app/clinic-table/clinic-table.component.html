@@ -12,7 +12,7 @@
     <th scope="col">#</th>
     <th scope="col" sortable="name" (sort)="onSort($event)">Naziv</th>
     <th scope="col" sortable="address" (sort)="onSort($event)">Adresa</th>
-    <th scope="col" sortable="description" (sort)="onSort($event)">Ocena (bice)</th>
+    <th scope="col" sortable="clinicGrade" (sort)="onSort($event)">Ocena</th>
     <th *ngIf="extended">Cena</th>
     <th>&nbsp;</th>
   </tr>
@@ -22,7 +22,9 @@
       <th scope="row">{{ i + 1 }}</th>
       <td>{{ data.name }}</td>
       <td>{{ data.address }}</td>
-      <td>{{ data.description }}</td>
+      <td>
+        <bar-rating [readOnly]="true" [theme]="'default'" [(rate)]="data.clinicGrade" [max]="5"></bar-rating>
+      </td>
       <th *ngIf="extended"><span class="exam-cost">{{ data.examinationPrice }}</span><i (click)="openClinic(data, false)" class="fas fa-external-link-alt exam"></i></th>
       <td><i (click)="openClinic(data, true)" class="fas fa-info-circle clinic-details"></i></td>
     </tr>

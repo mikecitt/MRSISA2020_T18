@@ -2,10 +2,7 @@ package com.tim18.bolnicar.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
@@ -13,6 +10,9 @@ import java.util.*;
 public class Doctor extends MedicalWorker {
     @OneToMany(fetch = FetchType.LAZY)
     private Set<ExaminationType> specialization;
+
+    @OneToMany(cascade= CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<DoctorGrade> grades;
 
     public Set<ExaminationType> getSpecialization() {
         return specialization;
@@ -45,5 +45,17 @@ public class Doctor extends MedicalWorker {
         List<Authority> authorityList = new ArrayList<>();
         authorityList.add(new Authority("ROLE_DOCTOR"));
         return authorityList;
+    }
+
+    public void addGrade(DoctorGrade grade) {
+        this.grades.add(grade);
+    }
+
+    public Set<DoctorGrade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<DoctorGrade> grades) {
+        this.grades = grades;
     }
 }
