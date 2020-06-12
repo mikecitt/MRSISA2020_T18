@@ -18,13 +18,18 @@ export class AppointmentService {
   															httpOptions);
   }
 
+	startAppointment() {
+		return this.http.get<any>(`http://localhost:8080/appointment/start`,
+  															httpOptions);
+	}
+
   bookAppointment(appointmentId) {
   	return this.http.post<any>(`http://localhost:8080/appointment/book/${appointmentId}`,
   															httpOptions)
   }
 
   requestAppointment(payload) {
-    return this.http.post<any>('http://localhost:8080/appointment/request', payload);
+    return this.http.post<any>('http://localhost:8080/appointment/request', payload, httpOptions);
   }
 
 	addPredefinedAppointment(appointment) {
@@ -39,4 +44,9 @@ export class AppointmentService {
 	solveRequest(approval) {
 	  return this.http.post<any>('http://localhost:8080/appointment/approve', approval);
 	}
+
+  // read doctor!
+  gradeAppointment(grade) {
+    return this.http.post<any>('http://localhost:8080/appointment/grade', grade, httpOptions);
+  }
 }

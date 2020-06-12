@@ -2,6 +2,7 @@ package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.AppointmentDTO;
 import com.tim18.bolnicar.dto.AppointmentRequestDTO;
+import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.*;
 import com.tim18.bolnicar.service.AppointmentService;
@@ -90,7 +91,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             return ret;
 
         Date now = new Date();
-        System.out.println(now);
+        // System.out.println(now);
         for (Appointment app : clinic.get().getAppointments()) {
             if (app.getDatetime() != null && app.getDatetime().after(now) && app.getPatient() == null)
                 ret.add(new AppointmentDTO(app));
@@ -177,12 +178,48 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment save(Appointment appointment) {
-        return this.appointmentRepository.save(appointment);
+    public void remove(int id) {
+        this.appointmentRepository.deleteById(id);
     }
 
     @Override
-    public void remove(int id) {
-        this.appointmentRepository.deleteById(id);
+    public boolean gradeAppointment(String patientEmail, GradeRequest req) {
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+
+        if (patient == null ||
+                req.getGrade() == null ||
+                req.getEntityId() == null ||
+                req.getGrade() > 5 ||
+                req.getGrade() < 0)
+            return false;
+
+        Optional<Appointment> appointment = this.appointmentRepository.findById(req.getEntityId());
+
+        if (appointment.isEmpty())
+            return false;
+
+        Appointment app = appointment.get();
+
+        if (app.getPatient().getId() != patient.getId())
+            return false;
+
+        if (app.getDoctorGrade() != null)
+            return false;
+
+        DoctorGrade doctorGrade = new DoctorGrade();
+        doctorGrade.setGrade(req.getGrade());
+        doctorGrade.setDoctor(app.getDoctor()); // cringe?
+        app.setDoctorGrade(doctorGrade);
+        this.appointmentRepository.save(app);
+
+        app.getDoctor().addGrade(doctorGrade);
+        this.doctorRepository.save(app.getDoctor());
+
+        return true;
+    }
+
+    @Override
+    public Appointment save(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 }

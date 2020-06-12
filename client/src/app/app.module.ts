@@ -52,7 +52,11 @@ import { AppointmentPredefComponent } from './appointment-predef/appointment-pre
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
 import { ApprovementComponent } from './approvement/approvement.component';
+import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
+import { ActivationPageComponent } from './activation-page/activation-page.component';
 
+import { BarRatingModule } from "ngx-bar-rating";
+import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +96,10 @@ import { ApprovementComponent } from './approvement/approvement.component';
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
     AppointmentPredefComponent,
-    ApprovementComponent
+    ApprovementComponent,
+    AppointmentStartModalComponent,
+    ActivationPageComponent,
+    ClinicReportComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +110,8 @@ import { ApprovementComponent } from './approvement/approvement.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     StorageServiceModule,
-    FullCalendarModule
+    FullCalendarModule,
+    BarRatingModule
   ],
   providers: [
   {

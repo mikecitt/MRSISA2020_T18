@@ -7,10 +7,13 @@ import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Room;
+import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.repository.MedicalReportRepository;
 import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.service.AppointmentService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,6 +46,9 @@ public class AppointmentController {
 
     @Autowired
     private ExaminationTypeService examinationTypeService;
+
+    @Autowired
+    private MedicalReportRepository medicalReportRepository;
 
     @PostMapping("/{aid}/{pid}")
     @PreAuthorize("hasRole('PATIENT')")
@@ -103,6 +113,23 @@ public class AppointmentController {
             }
         }
         return new ResponseEntity<Response>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/grade")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> gradeAppointment(@RequestBody GradeRequest req, Principal principal) {
+        boolean flag = this.appointmentService.gradeAppointment(principal.getName(), req);
+        Response resp = new Response();
+
+        if (flag) {
+            resp.setStatus("ok");
+            return ResponseEntity.ok(resp);
+        }
+
+        resp.setStatus("error");
+        resp.setDescription("Ocenjivanje pregleda nije moguce.");
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/request")
@@ -187,5 +214,42 @@ public class AppointmentController {
 
         // TODO: posalati mejl lekaru i pacijentu
         return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/start")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> startAppointment(Principal user) {
+        Response resp = new Response();
+        Doctor doctor = doctorService.findOne(user.getName());
+        if(doctor != null && doctor.getClinic() != null) {
+            for(Appointment appointment : doctor.getClinic().getAppointments()) {
+                if(appointment.getReport() == null) {
+                    Date now = new Date();
+                    Date start = appointment.getDatetime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(appointment.getDatetime());
+                    calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                    Date end = calendar.getTime();
+                    if (!now.after(end) && !now.before(start)) {
+                        MedicalReport medicalReport = new MedicalReport();
+                        medicalReport.setAppointment(appointment);
+                        medicalReportRepository.save(medicalReport);
+                        appointment.setReport(medicalReport);
+                        appointmentService.save(appointment);
+                        resp.setStatus("ok");
+                        resp.setDescription("started");
+                        AppointmentDTO[] appointmentDTOS = new AppointmentDTO[1];
+                        appointmentDTOS[0] = new AppointmentDTO(appointment);
+                        resp.setData(appointmentDTOS);
+                        return ResponseEntity.ok(resp);
+                    }
+                }
+            }
+            resp.setStatus("ok");
+            resp.setDescription("not started");
+            return ResponseEntity.ok(resp);
+        } else {
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
     }
 }

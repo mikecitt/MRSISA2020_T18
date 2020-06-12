@@ -103,6 +103,12 @@ INSERT INTO doctor (
     CURRENT_TIMESTAMP(),
     'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3,
     PARSEDATETIME('12:00', 'HH:mm'), PARSEDATETIME('23:00', 'HH:mm'), 57
+    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3
+),
+(
+    12, 'testdoca@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    null,
+    'Mica', 'Micic', '2401286000120', 'Moravska 20', 'Žabalj', 'Srbija', '0694259475', TRUE, 1
 );
 
 INSERT INTO nurse (
@@ -247,17 +253,16 @@ INSERT INTO appointment (
     type_id,
     active
 ) VALUES
-    -- free
-    (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
-    (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
-    (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
     -- not free
     (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5, TRUE),
     (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5, TRUE),
     (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14, TRUE),
-    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, NULL, 14, FALSE),
-    (PARSEDATETIME('2020-07-10 15:30', 'yyyy-MM-dd HH:mm'), 0.2, 1, 1, 3, 8, NULL, NULL, 5, FALSE),
-    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3, TRUE);
+    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3, TRUE),
+
+    -- free
+        (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
+        (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
+        (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE);
 
 INSERT INTO medical_report (description, appointment_id) VALUES
     ('Pacijent se žalio na otežano mokrenje i bol u oblasti bešike.', 1),

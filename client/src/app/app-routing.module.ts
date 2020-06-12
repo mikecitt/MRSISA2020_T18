@@ -19,9 +19,11 @@ import { VacationReqComponent } from './vacation-req/vacation-req.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppointmentHistoryComponent } from './appointment-history/appointment-history.component';
 import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
-import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard } from './guard';
+import { LoginGuard, MainPageGuard, AdminGuard, AdminclGuard, MedicalGuard, PatientGuard, ActivationGuard } from './guard';
+import { ActivationPageComponent } from './activation-page/activation-page.component';
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 import { ApprovementComponent } from './approvement/approvement.component';
+import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { Router } from '@angular/router';
 
 const routes: Routes = [
@@ -45,10 +47,12 @@ const routes: Routes = [
       { path: 'vacation-req', component: VacationReqComponent, canActivate: [AdminclGuard]},
       { path: 'appointment-predef', component: AppointmentPredefComponent, canActivate: [AdminclGuard]},
       { path: 'approvement', component: ApprovementComponent, canActivate: [AdminclGuard]},
+      { path: 'clinic-report', component: ClinicReportComponent, canActivate: [AdminclGuard]},
     ],
     canActivate: [MainPageGuard]
   },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'activation', component: ActivationPageComponent, canActivate: [ActivationGuard]},
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: '403', component: ForbiddenComponent }
 ];
