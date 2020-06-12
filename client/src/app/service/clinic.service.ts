@@ -29,6 +29,10 @@ export class ClinicService {
     return this.http.get<Clinic>('http://localhost:8080/clinic/profile');
   }
 
+	getClinicIncome(payload) {
+		return this.http.get('http://localhost:8080/clinic/income', { params: payload, headers: httpOptions.headers });
+	}
+
 	updateClinicProfile(payload) {
     return this.http.put('http://localhost:8080/clinic/profile', payload, httpOptions);
   }
@@ -44,5 +48,5 @@ export class ClinicService {
   gradeClinic(payload) {
     return this.http.post('http://localhost:8080/clinic/grade', payload, httpOptions)
   }
-  
+
 }

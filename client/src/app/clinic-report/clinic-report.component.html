@@ -1,8 +1,39 @@
 <h4>Klinika: "{{ clinicName }}"</h4>
 <h5>{{ clinicAddress }}</h5>
 <h5>{{ clinicDescription }}</h5>
-<h5>Prosečna ocena: {{ clinicGrade }}</h5><br>
-<h4>Spisak lekara: </h4>
+<hr>
+<h5>Prosečna ocena: {{ clinicGrade }}</h5>
+<hr>
+<h5>Prihodi klinike: </h5>
+<form [formGroup]="incomeForm">
+  <div class="form-group row">
+    <label class="col-sm-1 col-form-label">Od</label>
+    <div class="col">
+      <input class="form-control col-sm-2" formControlName="dateFrom" type="date" value="2020-01-01">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-1 col-form-label">Do</label>
+    <div class="col">
+      <input class="form-control col-sm-2" formControlName="dateTo" type="date" value="2020-06-12">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <button type="button" [disabled]="incomeForm.invalid" class="btn btn-primary" (click)="calculateIncome()" name="button">Izračunaj</button>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <label *ngIf="clinicIncome != -1" class="col-form-label">Prihodi klinike za uneti period iznose: <b>{{clinicIncome}}RSD</b></label>
+      <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</form>
+<hr>
+<h5>Spisak lekara: </h5>
 <table class="table table-striped">
   <thead>
   <tr>

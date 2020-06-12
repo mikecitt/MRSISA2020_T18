@@ -4,10 +4,7 @@ import com.tim18.bolnicar.dto.ClinicDTO;
 import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
-import com.tim18.bolnicar.model.Clinic;
-import com.tim18.bolnicar.model.ClinicAdmin;
-import com.tim18.bolnicar.model.Patient;
-import com.tim18.bolnicar.model.User;
+import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.UserService;
 import com.tim18.bolnicar.service.impl.ClinicServiceImpl;
@@ -121,6 +118,40 @@ public class ClinicController {
         }
 
         resp.setStatus("error");
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/income")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getClinicIncome(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")Date dateFrom, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd")Date dateTo, Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        Response resp = new Response();
+        resp.setStatus("error");
+        //Date now = new Date();
+        if(dateFrom.after(dateTo)) {
+            resp.setDescription("invalid dates passed");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        double sum = 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateTo);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        dateTo.setTime(calendar.getTimeInMillis());
+        Double[] res = new Double[1];
+
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            for(Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
+                if (appointment.getReport() != null && appointment.getDatetime().after(dateFrom) && appointment.getDatetime().before(dateTo)) {
+                    sum += appointment.getType().getPrice() * (1 - appointment.getDiscount());
+                }
+            }
+            res[0] = sum;
+            resp.setStatus("ok");
+            resp.setData(res);
+            return ResponseEntity.ok(resp);
+        }
+
         return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }
