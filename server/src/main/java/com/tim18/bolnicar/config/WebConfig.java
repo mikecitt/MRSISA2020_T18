@@ -13,6 +13,12 @@ public class WebConfig implements WebMvcConfigurer {
     // Za svrhe razvoja konfigurisemo dozvolu za CORS kako ne bismo morali @CrossOrigin anotaciju da koristimo nad svakim kontrolerom
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("https://bolnicar.herokuapp.com/");
+        registry.addMapping("/**").allowedOrigins("https://bolnicar.herokuapp.com/").allowedMethods("*");
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/**")
+//                .addResourceLocations("/static/");
+//    }
 }
