@@ -35,4 +35,8 @@ export class AppointmentService {
 	getAppointmentRequests() {
 	  return this.http.get<any>('http://localhost:8080/appointment/request');
 	}
+
+	solveRequest(approval) {
+	  return this.http.post<any>('http://localhost:8080/appointment/approve', approval);
+	}
 }

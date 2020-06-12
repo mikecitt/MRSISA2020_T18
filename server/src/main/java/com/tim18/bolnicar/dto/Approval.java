@@ -8,6 +8,10 @@ public class Approval {
     private boolean approved;
     private Date newDate;
 
+    public Approval() {
+
+    }
+
     public Approval(int appointmentId, int roomNumber, boolean approved) {
         this.appointmentId = appointmentId;
         this.roomNumber = roomNumber;

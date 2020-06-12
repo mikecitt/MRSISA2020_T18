@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { AppointmentService, RoomService } from '../service';
 
 @Component({
@@ -10,12 +11,14 @@ import { AppointmentService, RoomService } from '../service';
 })
 export class ApprovementComponent implements OnInit {
 
+  dataTableSubscription: Subscription;
   requests: any[];
   rooms: any[];
+  message = null;
 
   accept;
   room;
-  selectedId;
+  selected;
 
   constructor(private appointmentService:AppointmentService, private datePipe:DatePipe,
               private roomService:RoomService) { }
@@ -23,6 +26,7 @@ export class ApprovementComponent implements OnInit {
   ngOnInit(): void {
     this.requests = [];
     this.appointmentService.getAppointmentRequests().subscribe(data => {
+      console.log(data['data']);
       for(let elem of data['data']) {
         this.requests.push({
           id: elem.id,
@@ -35,8 +39,8 @@ export class ApprovementComponent implements OnInit {
     });
   }
 
-  getAvailableRooms(datetime, duration, id) {
-    this.selectedId = id;
+  getAvailableRooms(datetime, duration, selection) {
+    this.selected = selection;
     datetime = this.datePipe.transform(new Date(datetime),"yyyy-MM-dd'T'HH:mm")
     this.roomService.getAvailableExaminationRooms(datetime, duration * 60).subscribe(data => {
       this.rooms = [];
@@ -48,10 +52,19 @@ export class ApprovementComponent implements OnInit {
 
   processApproval() {
     var form = {
-      id: this.selectedId,
+      appointmentId: this.selected.id,
       roomNumber: this.room,
       approved: this.accept
     };
+
+    this.appointmentService.solveRequest(form).subscribe(data => {
+      var index = this.requests.indexOf(this.selected);
+
+      if(index !== -1)
+        this.requests.splice(index, 1);
+
+      this.message = 'Zahtev je obrađen';
+    });
   }
 
 }

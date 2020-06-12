@@ -17,4 +17,5 @@ public interface AppointmentService {
     boolean addAppointment(Appointment appointment);
     List<AppointmentDTO> findAllAppointmentRequests(Clinic clinic);
     Appointment findById(int id);
+    Appointment save(Appointment appointment);
 }

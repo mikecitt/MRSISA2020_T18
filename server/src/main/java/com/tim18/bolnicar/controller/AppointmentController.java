@@ -168,6 +168,8 @@ public class AppointmentController {
                     if(approval.getNewDate() != null) {
                         appointment.setDatetime(approval.getNewDate());
                     }
+
+                    this.appointmentService.save(appointment);
                     resp.setStatus("ok");
                     resp.setDescription("true");
                 }
