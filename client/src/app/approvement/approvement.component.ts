@@ -41,7 +41,7 @@ export class ApprovementComponent implements OnInit {
   getAvailableRooms(selection) {
     this.selected = selection;
     var datetime = this.datePipe.transform(new Date(selection.datetime),"yyyy-MM-dd'T'HH:mm")
-    this.roomService.getAvailableExaminationRooms(datetime, selection.duration * 60).subscribe(data => {
+    this.roomService.getAvailableExaminationRooms(datetime, selection.duration).subscribe(data => {
       this.rooms = [];
       for(let i in data) {
         this.rooms.push(data[i]);
@@ -54,7 +54,7 @@ export class ApprovementComponent implements OnInit {
   }
 
   processApproval() {
-    this.sendProcess(true, this.selected.id);
+    this.sendProcess(true, this.selected);
   }
 
   sendProcess(accept, selection) {

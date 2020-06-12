@@ -187,7 +187,8 @@ public class AppointmentController {
         Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
         Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
 
-        if(clinicAdmin != null) {
+        if(clinicAdmin != null &&
+                this.roomService.isRoomAlreadyTaken(room, appointment)) {
             if(approval.isApproved()) {
                 if(room != null && appointment != null) {
                     appointment.setActive(true);
@@ -228,7 +229,7 @@ public class AppointmentController {
                     Date start = appointment.getDatetime();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(appointment.getDatetime());
-                    calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                    calendar.add(Calendar.MINUTE, appointment.getDuration());
                     Date end = calendar.getTime();
                     if (!now.after(end) && !now.before(start)) {
                         MedicalReport medicalReport = new MedicalReport();

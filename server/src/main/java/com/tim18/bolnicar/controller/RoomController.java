@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -49,34 +50,15 @@ public class RoomController {
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
-        List<RoomDTO> roomDTOList = new ArrayList<>();
-        List<RoomDTO> busyRooms = new ArrayList<>();
-        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
-            for (Room room : clinicAdmin.getClinic().getRooms()) {
-                if (room.getType() == RoomType.EXAMINATION)
-                    roomDTOList.add(new RoomDTO(room));
+        List<RoomDTO> roomDTOList = new ArrayList<RoomDTO>();
+        if(clinicAdmin != null) {
+            try {
+                roomDTOList = roomService
+                        .freeRoomsByDateInterval(clinicAdmin.getClinic(), dateTime, duration);
+                return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+            } catch (ParseException e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            for (Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
-
-                if(appointment.getRoom() == null)
-                    continue;
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                try {
-                    Date date = sdf.parse(dateTime);
-                    Date dateEnd = new Date(date.getTime() + TimeUnit.MINUTES.toMillis(duration));
-                    Date appointmentDate = appointment.getDatetime();
-                    Date appointmentDateEnd = new Date(appointmentDate.getTime() + TimeUnit.MINUTES.toMillis(appointment.getDuration().longValue()));
-                    if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
-                        busyRooms.add(new RoomDTO(appointment.getRoom()));
-
-                } catch (Exception ignored) {
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                }
-            }
-            roomDTOList.removeAll(busyRooms);
-
-            return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

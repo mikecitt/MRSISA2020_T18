@@ -10,7 +10,7 @@ import java.util.Date;
 public class AppointmentDTO {
     private Integer id;
     private Date datetime;
-    private Double duration;
+    private Integer duration;
     private Double discount;
     private RoomDTO room;
     private ExaminationType type;
@@ -28,7 +28,7 @@ public class AppointmentDTO {
 
     public AppointmentDTO(Integer id,
                           Date datetime,
-                          Double duration,
+                          Integer duration,
                           Double discount,
                           Room room,
                           ExaminationType type,
@@ -85,11 +85,11 @@ public class AppointmentDTO {
         this.datetime = datetime;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

@@ -141,7 +141,7 @@ public class DoctorServiceImpl implements DoctorService {
             if (app != null) {
                 appEnd = Calendar.getInstance();
                 appEnd.setTime(app.getDatetime());
-                appEnd.add(Calendar.MINUTE, (int) (60 * app.getDuration()));
+                appEnd.add(Calendar.MINUTE, (app.getDuration()));
             }
 
             // begin - a

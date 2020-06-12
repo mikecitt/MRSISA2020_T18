@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AppointmentPredefDTO {
     private String datetime;
-    private Double duration;
+    private Integer duration;
     private Integer room;
     private Integer type;
     private Integer doctor;
@@ -20,11 +20,11 @@ public class AppointmentPredefDTO {
         this.datetime = datetime;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

@@ -130,7 +130,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         long diff = appointment.getEnd().getTime() - appointment.getStart().getTime();
         long diffMinutes = diff / (60 * 1000) % 60;
-        app.setDuration(diffMinutes / 60.0);
+        app.setDuration((int)diffMinutes);
 
         app = this.appointmentRepository.save(app);
 
@@ -144,11 +144,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Date date = a.getDatetime();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                calendar.add(Calendar.MINUTE, a.getDuration().intValue());
+                calendar.add(Calendar.MINUTE, a.getDuration());
                 Date dateEnd = calendar.getTime();
                 Date appointmentDate = appointment.getDatetime();
                 calendar.setTime(appointmentDate);
-                calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                calendar.add(Calendar.MINUTE, appointment.getDuration());
                 Date appointmentDateEnd = calendar.getTime();
 
                 if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
