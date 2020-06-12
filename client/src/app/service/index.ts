@@ -14,3 +14,4 @@ export * from './cladmin.service';
 export * from './codebook.service';
 export * from './appointment.service';
 export * from './nurse.service';
+export * from './location.service';
