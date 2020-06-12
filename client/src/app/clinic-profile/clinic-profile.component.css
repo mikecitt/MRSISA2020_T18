@@ -29,3 +29,9 @@ form {
     height: 350px;
     width: 100%;
   }
+
+bar-rating {
+	position: absolute;
+	margin-top: 17px;
+	margin-left: -45px;
+}

@@ -9,14 +9,25 @@
     <div id="mapa"></div>
 </div>
 <form [formGroup]="clinicProfileForm">
+	<div class="form-group">
+		<div *ngIf="fail" class="alert alert-danger" role="alert">
+			{{ fail }}
+		</div>
+	</div>
   <div hidden class="form-group">
   	<label>Id</label>
     <input type="text" class="form-control-plaintext" readonly disabled formControlName="id">
   </div>
-  <div class="form-group">
-  	<label>Naziv</label>
-    <input type="text" class="form-control" formControlName="name">
-  </div>
+	<div class="form-row">
+		<div class="form-group col-md-6">
+	  	<label>Naziv</label>
+	    <input type="text" class="form-control" formControlName="name">
+	  </div>
+		<div class="form-group col-md-6">
+	  	<label>Ocena</label>
+			<bar-rating [readOnly]="true" [theme]="'default'" [rate]="clinicGrade" [max]="5"></bar-rating>
+	  </div>
+	</div>
   <div class="form-group">
   	<label>Adresa</label>
     <input type="text" class="form-control" formControlName="address">
