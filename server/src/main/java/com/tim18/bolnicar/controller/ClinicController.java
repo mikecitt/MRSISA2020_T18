@@ -1,9 +1,6 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.ClinicDTO;
-import com.tim18.bolnicar.dto.GradeRequest;
-import com.tim18.bolnicar.dto.Response;
-import com.tim18.bolnicar.dto.ResponseReport;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.UserService;
@@ -185,5 +182,22 @@ public class ClinicController {
             return ResponseEntity.ok(resp);
         }
         return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/{cid}")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> getClinic(@PathVariable Integer cid, Principal principal) {
+        Response resp = new Response();
+        resp.setStatus("ok");
+
+        ClinicDTO dto = this.clinicService.getClinic(principal.getName(), cid);
+
+        if (dto == null) {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        resp.setData(new Object[] {dto});
+        return ResponseEntity.ok(resp);
     }
 }

@@ -49,4 +49,8 @@ export class ClinicService {
     return this.http.post('http://localhost:8080/clinic/grade', payload, httpOptions)
   }
 
+  getClinic(clinicId) {
+    return this.http.get(`http://localhost:8080/clinic/${clinicId}`, httpOptions)
+  }
+
 }

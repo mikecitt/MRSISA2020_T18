@@ -138,6 +138,7 @@ public class AppointmentController {
         if (requestAppointment.getAppointmentId() != null) {
             boolean flag =
                     this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
+            //TODO: slanje mejla
             resp.setStatus(flag ? "ok" : "error");
             // resp.setDescription(flag ? "" : "");
             if (!flag)
@@ -145,7 +146,6 @@ public class AppointmentController {
         } else {
             // create new
             Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
-
             resp.setStatus(app != null ? "ok" : "error");
 
             if (app == null)

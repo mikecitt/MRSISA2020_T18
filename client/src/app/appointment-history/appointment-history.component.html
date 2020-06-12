@@ -16,7 +16,7 @@
     <th scope="row">{{ i + 1 }}</th>
     <td>{{ data.type }}</td>
     <td>{{ data.datetime }}</td>
-    <td>{{ data.clinicName }}</td>
+    <td><span class="clinic" (click)="openClinicCard(data.clinicId)">{{ data.clinicName }}</span></td>
     <td>{{ data.doctor }}</td>
     <td>
         <bar-rating [readOnly]="data.patientGrade > 0" [theme]="'default'" (rateChange)="gradeAppointment($event, data)" [(rate)]="data.patientGrade" [max]="5"></bar-rating>

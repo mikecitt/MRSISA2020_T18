@@ -3,7 +3,8 @@ import { Subject, Observable, Subscription, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { PatientService, Appointment, AppointmentService } from '../service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClinicCardComponent } from '../clinic-card/clinic-card.component';
 import { NgSortableHeader, SortDirection, SortEvent, compare } from '../sortable-table';
 
 export type SortColumn = keyof Appointment | '';
@@ -18,7 +19,7 @@ export class AppointmentHistoryComponent implements OnInit {
 
   @ViewChildren(NgSortableHeader) headers: QueryList<NgSortableHeader>;
 
-  constructor(private patientService: PatientService, private appointmentService: AppointmentService) { }
+  constructor(private patientService: PatientService, private appointmentService: AppointmentService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
   	this.patientService.getAppointmentsHistory().subscribe(data => {
@@ -57,5 +58,11 @@ export class AppointmentHistoryComponent implements OnInit {
     error => {
       console.error('something went wrong with grading system')
     })
+  }
+
+  openClinicCard(clinicId): void {
+    console.log(clinicId)
+    const modalRef = this.modalService.open(ClinicCardComponent, { size: 'sm' });
+    modalRef.componentInstance.fillClinic(clinicId);
   }
 }

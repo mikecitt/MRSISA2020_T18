@@ -18,4 +18,5 @@ public interface ClinicService {
     List<ClinicDTO> getClinicsWithFreeAppointments(
             Date date, Integer examinationTypeId, String address, Integer grade, String patientEmail);
     boolean gradeClinic(String patientEmail, GradeRequest req);
+    ClinicDTO getClinic(String patientEmail, Integer clinicId);
 }

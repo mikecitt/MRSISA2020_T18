@@ -237,4 +237,27 @@ public class ClinicServiceImpl implements ClinicService {
 
         return false;
     }
+
+    @Override
+    public ClinicDTO getClinic(String patientEmail, Integer clinicId) {
+        Optional<Clinic> clinic = this.clinicRepository.findById(clinicId);
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+
+        //TODO: null or exception?
+        if (clinic.isEmpty() || patient == null)
+            return null;
+
+        ClinicDTO cl = new ClinicDTO(clinic.get());
+
+        for (Appointment a : clinic.get().getAppointments()) {
+            if (a.getPatient() != null &&
+                    a.getPatient().getId() == patient.getId() &&
+                    a.getReport() != null) {
+                cl.setPatientGrade(0);
+                break;
+            }
+        }
+
+        return cl;
+    }
 }
