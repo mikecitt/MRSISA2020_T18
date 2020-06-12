@@ -17,6 +17,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -152,6 +155,35 @@ public class ClinicController {
             return ResponseEntity.ok(resp);
         }
 
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/appointmentsSummary")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response>getAppointmentsSummary(Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        Response resp = new Response();
+        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+        Object[] objects = new Object[1];
+
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            for(Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
+                if(appointment.getReport() != null) {
+                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = formatter.format(appointment.getDatetime());
+
+                    if (hashMap.containsKey(date))
+                        hashMap.put(date, hashMap.get(date) + 1);
+                    else
+                        hashMap.put(date, 1);
+                }
+            }
+
+            resp.setStatus("ok");
+            objects[0] = hashMap;
+            resp.setData(objects);
+            return ResponseEntity.ok(resp);
+        }
         return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }
