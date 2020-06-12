@@ -1,0 +1,31 @@
+<h4>Klinika: "{{ clinicName }}"</h4>
+<h5>{{ clinicAddress }}</h5>
+<h5>{{ clinicDescription }}</h5>
+<h5>Prosečna ocena: {{ clinicGrade }}</h5><br>
+<h4>Spisak lekara: </h4>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Ime</th>
+    <th scope="col">Prezime</th>
+    <th scope="col">Prosečna ocena</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let doctor of tableData; index as i">
+    <th>
+      {{ doctor.id }}
+    </th>
+    <td>
+      {{ doctor.firstName }}
+    </td>
+    <td>
+      {{ doctor.lastName }}
+    </td>
+    <td>
+      {{ doctor.doctorGrade }}
+    </td>
+  </tr>
+  </tbody>
+</table>
