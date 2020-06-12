@@ -47,7 +47,6 @@ export class ClinicProfileComponent implements OnInit {
   		this.clinicProfileForm.setValue(result2);
 
       this.locationService.getLocationDetails(result2.address).subscribe(result => {
-        this.data = result[0];
         var styleMarker = new Style({
           image: new Icon({
             scale: .7, anchor: [0.5, 1],
