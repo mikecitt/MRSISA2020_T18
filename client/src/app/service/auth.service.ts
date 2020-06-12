@@ -93,7 +93,7 @@ export class AuthService {
   }
 
   whoAmI() {
-  	return this.http.get<any>('http://localhost:8080/whoami')
+  	return this.http.get<any>(`${environment.api_url}/whoami`)
   }
 
   getCurrentRoute() {
