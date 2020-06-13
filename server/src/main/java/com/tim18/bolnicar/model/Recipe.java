@@ -17,4 +17,36 @@ public class Recipe {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Nurse nurse;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Drug> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(Set<Drug> drugs) {
+        this.drugs = drugs;
+    }
+
+    public Boolean getSealed() {
+        return sealed;
+    }
+
+    public void setSealed(Boolean sealed) {
+        this.sealed = sealed;
+    }
+
+    public Nurse getNurse() {
+        return nurse;
+    }
+
+    public void setNurse(Nurse nurse) {
+        this.nurse = nurse;
+    }
 }

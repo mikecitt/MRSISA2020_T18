@@ -28,6 +28,7 @@
     <th scope="col">Opis</th>
     <th scope="col">Datum</th>
     <th scope="col">Dijagnoza</th>
+    <th scope="col">Lekovi</th>
   </tr>
   </thead>
   <tbody *ngIf="medicalRecord != undefined">
@@ -40,9 +41,16 @@
     	{{ r.appointmentDate | date: 'dd-MM-yy' }}
     </td>
     <td>
-      <div *ngFor="let d of r.diagnoses; let i = index">
+      <div *ngFor="let d of r.diagnoses">
         {{ d.name }}
       </div>
+    </td>
+    <td>
+      <ng-container *ngFor="let r of r.recipes">
+        <div *ngFor="let l of r.drugs">
+          {{ l.name }}
+        </div>
+      </ng-container>
     </td>
   </tr>
   </tbody>

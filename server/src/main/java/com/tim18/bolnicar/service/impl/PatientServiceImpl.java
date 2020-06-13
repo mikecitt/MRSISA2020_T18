@@ -1,10 +1,7 @@
 package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.*;
-import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.model.MedicalDiagnosis;
-import com.tim18.bolnicar.model.MedicalReport;
-import com.tim18.bolnicar.model.Patient;
+import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.PatientRepository;
 import com.tim18.bolnicar.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +65,11 @@ public class PatientServiceImpl implements PatientService {
             report.setAppointmentId(m.getAppointment().getId());
             report.setDescription(m.getDescription());
             report.setDiagnoses(m.getDiagnoses());
-            report.setRecipes(m.getRecipes());
+            // repack
+            Set<RecipeDTO> recipes = new HashSet<>();
+            for (Recipe r : m.getRecipes())
+                recipes.add(new RecipeDTO(r));
+            report.setRecipes(recipes);
             report.setAppointmentDate(m.getAppointment().getDatetime());
             reports.add(report);
         }
@@ -98,7 +99,11 @@ public class PatientServiceImpl implements PatientService {
             report.setAppointmentId(m.getAppointment().getId());
             report.setDescription(m.getDescription());
             report.setDiagnoses(m.getDiagnoses());
-            report.setRecipes(m.getRecipes());
+            // repack
+            Set<RecipeDTO> recipes = new HashSet<>();
+            for (Recipe r : m.getRecipes())
+                recipes.add(new RecipeDTO(r));
+            report.setRecipes(recipes);
             report.setAppointmentDate(m.getAppointment().getDatetime());
             reports.add(report);
         }
@@ -118,7 +123,7 @@ public class PatientServiceImpl implements PatientService {
 
         for (Appointment appointment : patient.getAppointments()) {
             if (!appointment.getActive()) continue;
-            // if (appointment.getReport() == null) continue;
+            if (appointment.getReport() == null) continue;
 
             AppointmentDTO dto = new AppointmentDTO(appointment);
 

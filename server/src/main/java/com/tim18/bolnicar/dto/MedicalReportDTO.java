@@ -12,14 +12,14 @@ public class MedicalReportDTO {
     private Integer id;
     private String description;
     private Set<MedicalDiagnosis> diagnoses;
-    private Set<Recipe> recipes;
+    private Set<RecipeDTO> recipes;
     private Integer appointmentId;
     private Date appointmentDate;
 
     public MedicalReportDTO(Integer id,
                             String description,
                             Set<MedicalDiagnosis> diagnoses,
-                            Set<Recipe> recipes,
+                            Set<RecipeDTO> recipes,
                             Integer appointmentId,
                             Date appointmentDate) {
         this.id = id;
@@ -57,11 +57,11 @@ public class MedicalReportDTO {
         this.diagnoses = diagnoses;
     }
 
-    public Set<Recipe> getRecipes() {
+    public Set<RecipeDTO> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(Set<Recipe> recipes) {
+    public void setRecipes(Set<RecipeDTO> recipes) {
         this.recipes = recipes;
     }
 
