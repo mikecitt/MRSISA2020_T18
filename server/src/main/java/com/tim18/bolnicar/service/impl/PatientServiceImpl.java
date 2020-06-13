@@ -1,9 +1,6 @@
 package com.tim18.bolnicar.service.impl;
 
-import com.tim18.bolnicar.dto.AppointmentDTO;
-import com.tim18.bolnicar.dto.MedicalReportDTO;
-import com.tim18.bolnicar.dto.PatientDTO;
-import com.tim18.bolnicar.dto.UserDTO;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.MedicalDiagnosis;
 import com.tim18.bolnicar.model.MedicalReport;
@@ -53,46 +50,62 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     // @Transactional
-    public List<MedicalReportDTO> getMedicalRecord(Integer patientId) {
+    public MedicalRecordDTO getMedicalRecord(Integer patientId) {
         Optional<Patient> patient = this.patientRepository.findById(patientId);
 
         if (patient.isEmpty())
             return null;
 
-        Set<MedicalReport> record = patient.get().getMedicalRecord();
-        List<MedicalReportDTO> res = new ArrayList<MedicalReportDTO>();
+        MedicalRecordDTO mr = new MedicalRecordDTO();
+        List<MedicalReportDTO> reports = new ArrayList<>();
+        mr.setFirstName(patient.get().getFirstName());
+        mr.setLastName(patient.get().getLastName());
+        mr.setJmbg(patient.get().getJmbg());
 
-        for (MedicalReport mr : record)
-            res.add(new MedicalReportDTO(
-                    mr.getId(),
-                    mr.getDescription(),
-                    mr.getDiagnoses(),
-                    mr.getAppointment().getId()
-            ));
+        for (MedicalReport m : patient.get().getMedicalRecord()) {
+            MedicalReportDTO report = new MedicalReportDTO();
+            report.setId(m.getId());
+            report.setAppointmentId(m.getAppointment().getId());
+            report.setDescription(m.getDescription());
+            report.setDiagnoses(m.getDiagnoses());
+            report.setRecipes(m.getRecipes());
+            report.setAppointmentDate(m.getAppointment().getDatetime());
+            reports.add(report);
+        }
 
-        return res;
+        mr.setMedicalReports(reports);
+
+        return mr;
     }
 
     @Override
     // @Transactional
-    public List<MedicalReportDTO> getMedicalRecord(String patientEmail) {
+    public MedicalRecordDTO getMedicalRecord(String patientEmail) {
         Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
 
         if (patient == null)
             return null;
 
-        Set<MedicalReport> record = patient.getMedicalRecord();
-        List<MedicalReportDTO> res = new ArrayList<MedicalReportDTO>();
+        MedicalRecordDTO mr = new MedicalRecordDTO();
+        List<MedicalReportDTO> reports = new ArrayList<>();
+        mr.setFirstName(patient.getFirstName());
+        mr.setLastName(patient.getLastName());
+        mr.setJmbg(patient.getJmbg());
 
-        for (MedicalReport mr : record)
-            res.add(new MedicalReportDTO(
-                    mr.getId(),
-                    mr.getDescription(),
-                    mr.getDiagnoses(),
-                    mr.getAppointment().getId()
-            ));
+        for (MedicalReport m : patient.getMedicalRecord()) {
+            MedicalReportDTO report = new MedicalReportDTO();
+            report.setId(m.getId());
+            report.setAppointmentId(m.getAppointment().getId());
+            report.setDescription(m.getDescription());
+            report.setDiagnoses(m.getDiagnoses());
+            report.setRecipes(m.getRecipes());
+            report.setAppointmentDate(m.getAppointment().getDatetime());
+            reports.add(report);
+        }
 
-        return res;
+        mr.setMedicalReports(reports);
+
+        return mr;
     }
 
     @Override

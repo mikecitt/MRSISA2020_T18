@@ -27,13 +27,25 @@ public class PatientController {
     private UserService userService;
 
     //TODO: get patient id from session token
-    @GetMapping("/medicalRecord")
+    @GetMapping(value = {"/medicalRecord", "/medicalRecord/{id}"})
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<Map<String, List<MedicalReportDTO>>> getMedicalReport(Principal user) {
-        //TODO: replace with MedicalRecordDTO
-        HashMap<String, List<MedicalReportDTO>> data = new HashMap<>();
-        data.put("data", this.patientService.getMedicalRecord(user.getName()));
-        return new ResponseEntity<>(data, HttpStatus.OK);
+    public ResponseEntity<Response> getMedicalReport(@PathVariable(required = false) Integer patientId, Principal user) {
+        MedicalRecordDTO record = null;
+        if (patientId == null)
+            record = this.patientService.getMedicalRecord(user.getName());
+        else
+            record = this.patientService.getMedicalRecord(patientId);
+
+        Response resp = new Response();
+
+        if (record == null) {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        resp.setStatus("ok");
+        resp.setData(new Object[] { record });
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping

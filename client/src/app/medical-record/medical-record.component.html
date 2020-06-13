@@ -1,20 +1,48 @@
 <h3>Zdravstveni karton</h3>
+<div class="box-wrap d-flex justify-content-center">
+  <div *ngIf="medicalRecord != undefined" class="box">
+    <div class="row">
+      <label class="col-sm-3 col-form-label"><strong>Ime</strong></label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.firstName">
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-3 col-form-label"><strong>Prezime</strong></label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.lastName">
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-3 col-form-label"><strong>JMBG</strong></label>
+      <div class="col-sm-3">
+        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.jmbg">
+      </div>
+    </div>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
-  <tr>
+    <tr>
     <th scope="col">#</th>
     <th scope="col">Opis</th>
-    <th scope="col">Pregled</th>
+    <th scope="col">Datum</th>
+    <th scope="col">Dijagnoza</th>
   </tr>
   </thead>
-  <tbody>
-  <tr *ngFor="let r of medicalRecord">
-    <th scope="row">{{ r.id }}</th>
+  <tbody *ngIf="medicalRecord != undefined">
+  <tr *ngFor="let r of medicalRecord.medicalReports; let i = index">
+    <th scope="row">{{ i + 1 }}</th>
     <td>
      	{{ r.description }}
     </td>
     <td>
-    	{{ r.appointmentId }}
+    	{{ r.appointmentDate | date: 'dd-MM-yy' }}
+    </td>
+    <td>
+      <div *ngFor="let d of r.diagnoses; let i = index">
+        {{ d.name }}
+      </div>
     </td>
   </tr>
   </tbody>
