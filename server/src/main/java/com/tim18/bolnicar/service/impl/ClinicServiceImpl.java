@@ -120,7 +120,13 @@ public class ClinicServiceImpl implements ClinicService {
         if (date == null || examinationTypeId == null)
             return null;
 
+        Date now = new Date();
+        
         List<ClinicDTO> clinics = new ArrayList<>();
+
+        if (now.after(date)) {
+            return clinics;
+        }
 
         for (Clinic it : this.clinicRepository.findAll()) {
             ClinicDTO cl = new ClinicDTO(it);
