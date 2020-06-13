@@ -1,27 +1,43 @@
-<div class="box">
-	<div class="form-group row">
-		<label class="col-1 col-form-label">Datum</label>
-		<div class="col-4">
-			<input class="form-control" type="date" [formControl]="date" value="2011-08-19">
+<div class="d-flex justify-content-center">
+	<div class="box">
+		<div class="form-group row">
+			<label class="col-1 col-form-label">Datum</label>
+			<div class="col-4">
+				<input class="form-control" type="date" [formControl]="date" value="2011-08-19">
+			</div>
+			<label class="col-2 col-form-label">Tip pregleda</label>
+			<div class="col">
+				<select class="form-control" [formControl]="examinationTypeId">
+					<option *ngFor="let et of examinationTypes" [value]="et.id">{{ et.name }}</option>
+				</select>
+			</div>
 		</div>
-		<label class="col-2 col-form-label">Tip pregleda</label>
-		<div class="col">
-			<select class="form-control" [formControl]="examinationTypeId">
-				<option *ngFor="let et of examinationTypes" [value]="et.id">{{ et.name }}</option>
-			</select>
+
+		<div class="form-group row">
+			<label class="col-1 col-form-label">Adresa</label>
+			<div class="col">
+				<input type="text" [formControl]="address" class="form-control">
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label>Adresa</label>
-		<input type="text" [formControl]="address" class="form-control">
-	</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-1">
+					<p align="right">Name</p>
+				</div>
+				<div class="col">
+					<bar-rating
+					[theme]="'default'" 
+					[(rate)]="grade" 
+					[max]="5">
+					</bar-rating>
+				</div>
+			</div>
+		</div>
 
-	<div class="form-group">
-		<label>Ocena</label>
-	</div>
 
 	<button type="submit" (click)="clear()" class="btn btn-secondary">Poništite</button>
 	<!-- TODO clean -->
 	<button type="submit" (click)="search()" [disabled]="!date.value || !examinationTypeId.value" class="btn btn-primary">Pronađite</button>
+	</div>
 </div>

@@ -4,8 +4,14 @@ label {
 
 .box {
 	padding: 50px;
+	width: 800px;
 }
 
 button {
 	margin-left: 10px;
+}
+
+bar-rating {
+	position: absolute;
+	margin-top: -20px;
 }

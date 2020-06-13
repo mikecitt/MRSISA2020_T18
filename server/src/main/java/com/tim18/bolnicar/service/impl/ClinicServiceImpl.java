@@ -120,17 +120,36 @@ public class ClinicServiceImpl implements ClinicService {
         if (date == null || examinationTypeId == null)
             return null;
 
+        Date now = new Date();
+        
         List<ClinicDTO> clinics = new ArrayList<>();
 
-        //TODO: filter by address and grade
+        if (now.after(date)) {
+            return clinics;
+        }
+
         for (Clinic it : this.clinicRepository.findAll()) {
             ClinicDTO cl = new ClinicDTO(it);
             cl.setPatientGrade(null);
             List<DoctorDTO> freeDoctors = new ArrayList<>();
 
+            // filter address
             if (address != null && !it.getAddress().toLowerCase().equals(address.toLowerCase()))
                 continue;
-            //TODO: check grade
+
+            // filter grade
+            if (grade != null && grade > 0) {
+                double sum = 0.0;
+                for (ClinicGrade c : it.getGrades()) {
+                    sum += c.getGrade();
+                }
+
+                if (it.getGrades().size() > 0)
+                    sum /= it.getGrades().size();
+
+                if ((int)Math.rint(sum) != grade)
+                    continue;
+            }
 
             for (MedicalWorker worker : it.getWorkers()) {
                 if (worker instanceof Doctor) {
