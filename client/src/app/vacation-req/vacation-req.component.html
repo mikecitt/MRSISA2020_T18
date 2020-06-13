@@ -1,6 +1,4 @@
-<div class="container">
-  <h2>Zahtevi za godišnji odmor i odsustva</h2>
-
+<h3>Zahtevi za godišnji odmor i odsustva</h3>
   <table class="table table-hover">
     <thead>
     <tr>
@@ -53,6 +51,5 @@
       <textarea class="form-control" id="messageField" rows="6"
                 name="message" [(ngModel)]="message"></textarea>
     </div>
-    <button type="button" class="btn btn-primary col-md-2" (click)="processVacation();">Pošalji</button>
+    <button [disabled]="id == ''" type="button" class="btn btn-primary col-md-2" (click)="processVacation();">Pošalji</button>
   </form>
-</div>
