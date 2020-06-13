@@ -50,6 +50,9 @@ public class AppointmentController {
     @Autowired
     private MedicalReportRepository medicalReportRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/{aid}/{pid}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<ResponseReport> bookAppointment(@PathVariable Integer aid,
@@ -141,7 +144,6 @@ public class AppointmentController {
         if (requestAppointment.getAppointmentId() != null) {
             boolean flag =
                     this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
-            //TODO: slanje mejla
             resp.setStatus(flag ? "ok" : "error");
             // resp.setDescription(flag ? "" : "");
             if (!flag)
@@ -153,6 +155,14 @@ public class AppointmentController {
 
             if (app == null)
                 return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+
+
+            this.emailService.sendMessages(
+                    (String[])this.clinicAdminService.getAllEmails(app.getClinic()).toArray(),
+                    "[INFO] TERMINI",
+                    "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
+                         this.appointmentService.appointmentInfo(app)
+            );
         }
 
         return ResponseEntity.ok(resp);
@@ -182,7 +192,7 @@ public class AppointmentController {
     public ResponseEntity<Response> approveAppointment(@RequestBody Approval approval, Principal user) {
         Response resp = new Response();
         ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
-        String emailMessage = "";
+        String emailMessage = "Poštovani,\n";
 
         Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
         Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
@@ -191,8 +201,10 @@ public class AppointmentController {
             if(approval.isApproved()) {
                 if(room != null && appointment != null) {
                     appointment.setActive(true);
+                    String moveDate = "";
                     if(approval.getNewDate() != null) {
                         appointment.setDatetime(approval.getNewDate());
+                        moveDate += "i pomeren je sa početnog datuma";
                     }
 
                     if(this.roomService.isRoomAlreadyTaken(room, appointment)) {
@@ -200,6 +212,16 @@ public class AppointmentController {
                         this.appointmentService.save(appointment);
                         resp.setStatus("ok");
                         resp.setDescription("true");
+                        emailMessage += "\nOdobren je zahtev";
+                        emailMessage += moveDate + " za" + "\n";
+                        emailMessage += this.appointmentService.appointmentInfo(appointment);
+                        this.emailService.sendMessages(new String[] {
+                                appointment.getPatient().getEmailAddress(),
+                                appointment.getDoctor().getEmailAddress()
+                                },
+                                "[INFO] TERMINI",
+                                emailMessage
+                        );
                     }
                     else {
                         resp.setStatus("error");
@@ -214,6 +236,15 @@ public class AppointmentController {
             }
             else {
                 this.appointmentService.remove(appointment.getId());
+                emailMessage += "\nOdbijen je zahtev za \n";
+                emailMessage += this.appointmentService.appointmentInfo(appointment);
+                this.emailService.sendMessages(new String[] {
+                                appointment.getPatient().getEmailAddress(),
+                                appointment.getDoctor().getEmailAddress()
+                        },
+                        "[INFO] TERMINI",
+                        emailMessage
+                );
                 resp.setDescription("false");
             }
         }

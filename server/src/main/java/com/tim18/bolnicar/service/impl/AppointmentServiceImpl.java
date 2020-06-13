@@ -9,6 +9,7 @@ import com.tim18.bolnicar.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -200,7 +201,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment app = appointment.get();
 
-        if (app.getPatient().getId() != patient.getId())
+        if (app.getPatient().getId().intValue() != patient.getId().intValue())
             return false;
 
         if (app.getDoctorGrade() != null)
@@ -216,6 +217,28 @@ public class AppointmentServiceImpl implements AppointmentService {
         this.doctorRepository.save(app.getDoctor());
 
         return true;
+    }
+
+    @Override
+    public String appointmentInfo(Appointment appointment) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String roomStr = "";
+        String roomType = "";
+        if(appointment.getRoom() != null) {
+            roomType = appointment.getRoom().getType() == RoomType.EXAMINATION
+                    ? "Pregled" : "Operacija";
+
+
+            roomStr = (roomType.equals("Pregled") ? "Ordinacija" : "Sala") +
+                    ": " + appointment.getRoom().getRoomNumber() + "\n";
+        }
+        return  roomType +
+                "\nKlinika: " + appointment.getClinic().getName() +
+                "\nDatum početka: " + sdf.format(appointment.getDatetime()) +
+                "\nTrajanje: " + appointment.getDuration() + " min" +
+                "\nDoktor: " + appointment.getDoctor().getFirstName() + " " +
+                appointment.getDoctor().getLastName() +
+                "\n" + roomStr;
     }
 
     @Override

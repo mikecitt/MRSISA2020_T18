@@ -6,6 +6,7 @@ import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.RoomType;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface AppointmentService {
     Appointment save(Appointment appointment);
     void remove(int id);
     boolean gradeAppointment(String patientEmail, GradeRequest req);
+    String appointmentInfo(Appointment appointment);
 }
