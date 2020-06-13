@@ -43,14 +43,18 @@ public class DoctorController {
     private ExaminationTypeService examinationTypeService;
 
     @GetMapping
-    public ResponseEntity<List<DoctorDTO>> getDoctors() {
-        List<Doctor> doctors = this.doctorService.findAll();
-        List<DoctorDTO> response = new ArrayList<>();
-
-        for (Doctor doctor : doctors) {
-            response.add(new DoctorDTO(doctor));
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<DoctorDTO>> getDoctors(Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<DoctorDTO> doctors = new ArrayList<>();
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            for(MedicalWorker medicalWorker : clinicAdmin.getClinic().getWorkers()) {
+                if(medicalWorker instanceof Doctor)
+                    doctors.add(new DoctorDTO((Doctor) medicalWorker));
+            }
+            return ResponseEntity.ok(doctors);
         }
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(doctors, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/available/{dateTime}/{duration}/{specId}")
