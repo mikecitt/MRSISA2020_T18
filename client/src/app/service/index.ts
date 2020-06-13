@@ -15,3 +15,4 @@ export * from './codebook.service';
 export * from './appointment.service';
 export * from './nurse.service';
 export * from './location.service';
+export * from './toast.service';

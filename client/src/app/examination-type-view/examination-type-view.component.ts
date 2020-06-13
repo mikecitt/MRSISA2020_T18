@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { ExaminationTypeService } from '../service';
+import { Component, OnInit, Input, PipeTransform, TemplateRef } from '@angular/core';
+import { ExaminationTypeService, ToastService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,7 +33,8 @@ export class ExaminationTypeViewComponent implements OnInit {
   pipe: DecimalPipe;
 
   constructor(private examinationTypeService: ExaminationTypeService,
-    pipe: DecimalPipe, private modalService: NgbModal) {
+    pipe: DecimalPipe, private modalService: NgbModal,
+    public toastService: ToastService) {
       this.pipe = pipe;
 
       this.filter.valueChanges.subscribe(val => {
@@ -64,12 +65,16 @@ export class ExaminationTypeViewComponent implements OnInit {
     this.eventsSubscription.unsubscribe();
   }
 
+  isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
+
   removeExaminationType(id) {
     this.examinationTypeService.removeExaminationType(id).subscribe(data => {
       this.initTable();
+      this.toastService.show('Brisanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
     },
     err => {
       console.log(err);
+      this.toastService.show('Nije moguće obrisati stavku.', { classname: 'bg-danger text-light', delay: 3000 });
     });
   }
 
