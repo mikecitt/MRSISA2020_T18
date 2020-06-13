@@ -67,6 +67,9 @@ export class ExaminationTypeViewComponent implements OnInit {
   removeExaminationType(id) {
     this.examinationTypeService.removeExaminationType(id).subscribe(data => {
       this.initTable();
+    },
+    err => {
+      console.log(err);
     });
   }
 

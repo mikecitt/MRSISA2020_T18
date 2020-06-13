@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { Subject } from 'rxjs';
 import { DoctorService } from '../service';
@@ -6,11 +7,28 @@ import { DoctorService } from '../service';
 @Component({
   selector: 'app-doctor',
   templateUrl: './doctor.component.html',
-  styleUrls: ['./doctor.component.css']
+  styleUrls: ['./doctor.component.css'],
+  animations: [
+    trigger('smoothCollapse', [
+      state('initial', style({
+        height:'0',
+        overflow:'hidden',
+        opacity:'0'
+      })),
+      state('final', style({
+        overflow:'hidden',
+        opacity:'1'
+      })),
+      transition('initial=>final', animate('750ms')),
+      transition('final=>initial', animate('750ms'))
+    ]),
+  ]
 })
 export class DoctorComponent implements OnInit {
 
   eventsSubject: Subject<void> = new Subject<void>();
+
+  public isCollapsed = true;
 
   firstname:string = '';
   lastname:string = '';

@@ -1,9 +1,11 @@
-<h3>Lista lekara</h3>
 <div>
   <app-doctors-table [events]="eventsSubject.asObservable()"></app-doctors-table>
   <hr>
-  <h2>Dodavanje lekara</h2>
-  <div class="col-sm-6 container">
+  <button type="button" class="btn btn-primary" [hidden]="isCollapsed == false" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+    Dodaj lekara
+  </button>
+  <div class="col-sm-6" [@smoothCollapse]="isCollapsed?'initial':'final'">
     <form>
       <div class="form-group">
         <label for="">Email adresa</label>
@@ -54,8 +56,11 @@
           <input type="text" class="form-control" name="contact" [(ngModel)]="contact">
         </div>
       </div>
-      <button (click)="addDoctor()" class="btn btn-primary" type="button">Dodaj</button>
+      <button (click)="addDoctor()" class="btn btn-primary" type="button">Dodaj lekara</button>
+      <div class="alert alert-success" *ngIf="message" role="alert">
+        {{ message }}
+      </div>
     </form>
+
   </div>
-  <p *ngIf="message">{{message}}</p>
 </div>

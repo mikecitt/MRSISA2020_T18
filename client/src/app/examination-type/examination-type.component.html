@@ -1,6 +1,9 @@
 <app-examination-type-view [events]="eventsSubject.asObservable()"></app-examination-type-view>
-<div>
-  <h3>Dodavanje tipa pregleda</h3>
+<button type="button" class="btn btn-primary" [hidden]="isCollapsed == false" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+  Dodaj tip pregleda
+</button>
+<div class="col-sm-6" [@smoothCollapse]="isCollapsed?'initial':'final'">
   <form>
     <div class="form-group">
       <label for="">Naziv</label>
@@ -8,9 +11,11 @@
     </div>
     <div class="form-group">
       <label for="">Cena</label>
-      <input type="number" class="form-control" name="price" [(ngModel)]="price">
+      <input type="number" class="form-control" min="1" name="price" [(ngModel)]="price">
     </div>
-    <button (click)="addExaminationType()" class="btn btn-primary" type="button">Dodaj</button>
+    <button [disabled]="name == '' || price == ''" (click)="addExaminationType()" class="btn btn-primary" type="button">Dodaj</button>
   </form>
-  <p *ngIf="message">{{message}}</p>
+  <div class="alert alert-danger mt-sm-3" *ngIf="errorMessage" role="alert">
+    {{ errorMessage }}
+  </div>
 </div>
