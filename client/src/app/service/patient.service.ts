@@ -38,6 +38,7 @@ export interface Appointment {
   doctor: string;
   clinicName: string;
   patientGrade: number;
+  price: number;
 
 }
 

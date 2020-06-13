@@ -4,10 +4,11 @@
   <thead>
   <tr>
     <th scope="col">#</th>
-    <th #div scope="col" sortable="type" (sort)="onSort($event)">Tip</th>
+    <th #div scope="col" sortable="type" (sort)="onSort($event)">Tip pregleda</th>
     <th scope="col" sortable="datetime" (sort)="onSort($event)">Datum</th>
     <th scope="col" sortable="clinicName" (sort)="onSort($event)">Klinika</th>
     <th scope="col" sortable="doctor" (sort)="onSort($event)">Lekar</th>
+    <th scope="col" sortable="price" (sort)="onSort($event)">Cena</th>
     <th scope="col" sortable="patientGrade" (sort)="onSort($event)">Vaša ocena</th>
   </tr>
   </thead>
@@ -15,9 +16,16 @@
   <tr *ngFor="let data of tableData; let i = index">
     <th scope="row">{{ i + 1 }}</th>
     <td>{{ data.type }}</td>
-    <td>{{ data.datetime }}</td>
-    <td><span class="clinic" (click)="openClinicCard(data.clinicId)">{{ data.clinicName }}</span></td>
+    <td>{{ data.datetime | date: 'dd-MM-yy HH:mm' }}</td>
+    <td>
+      <span class="clinic" (click)="openClinicCard(data.clinicId)">
+        {{ data.clinicName }}
+      </span>
+    </td>
     <td>{{ data.doctor }}</td>
+    <td>
+      {{ data.price }}
+    </td>
     <td>
         <bar-rating [readOnly]="data.patientGrade > 0" [theme]="'default'" (rateChange)="gradeAppointment($event, data)" [(rate)]="data.patientGrade" [max]="5"></bar-rating>
     </td>

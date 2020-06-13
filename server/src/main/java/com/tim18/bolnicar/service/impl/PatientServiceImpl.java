@@ -118,6 +118,7 @@ public class PatientServiceImpl implements PatientService {
 
         for (Appointment appointment : patient.getAppointments()) {
             if (!appointment.getActive()) continue;
+            // if (appointment.getReport() == null) continue;
 
             AppointmentDTO dto = new AppointmentDTO(appointment);
 

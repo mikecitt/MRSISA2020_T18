@@ -45,6 +45,9 @@ public class Appointment {
     @Column
     private Boolean active;
 
+    @Column
+    private Double price;
+
     @OneToOne(cascade = CascadeType.ALL)
     private DoctorGrade doctorGrade;
 
@@ -150,5 +153,13 @@ public class Appointment {
 
     public void setDoctorGrade(DoctorGrade doctorGrade) {
         this.doctorGrade = doctorGrade;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

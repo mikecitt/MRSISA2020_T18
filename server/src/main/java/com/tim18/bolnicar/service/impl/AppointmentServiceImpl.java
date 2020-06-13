@@ -133,6 +133,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         app.setDatetime(appointment.getStart());
         app.setActive(false);
         app.setDiscount(0.0);
+        app.setPrice(app.getType().getPrice() * (1 - app.getDiscount()));
 
         long diff = appointment.getEnd().getTime() - appointment.getStart().getTime();
         long diffMinutes = diff / (60 * 1000) % 60;

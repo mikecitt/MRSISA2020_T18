@@ -43,7 +43,11 @@ export class AppointmentHistoryComponent implements OnInit {
       this.tableData = this.tableData;
     } else {
       this.tableData = [...this.tableData].sort((a, b) => {
-        const res = compare(`${a[column]}`, `${b[column]}`);
+        let res = 0;
+        if (typeof(a[column]) === 'number' && typeof(b[column]) === 'number')
+          res = compare(a[column], b[column]);
+        else
+          res = compare(`${a[column]}`, `${b[column]}`);
         return direction === 'asc' ? res : -res;
       });
     }

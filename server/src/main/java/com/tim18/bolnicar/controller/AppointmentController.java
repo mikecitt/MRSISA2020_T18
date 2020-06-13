@@ -103,6 +103,7 @@ public class AppointmentController {
             }
             appointment.setDuration(appointmentPredefDTO.getDuration());
             appointment.setDiscount(0.0);
+            appointment.setPrice(appointment.getType().getPrice() * (1 - appointment.getDiscount()));
             appointment.setType(this.examinationTypeService.findOne(appointmentPredefDTO.getType()));
             appointment.setDoctor(this.doctorService.findOne(appointmentPredefDTO.getDoctor()));
             appointment.setRoom(this.roomService.findOne(appointmentPredefDTO.getRoom()));
