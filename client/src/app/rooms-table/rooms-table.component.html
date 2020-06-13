@@ -24,6 +24,7 @@
       {{ room.type }}
     </td>
     <td>
+      <i title="Kalendar zauzeca" (click)="openCalendar(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fas fa-info-circle"></i>&nbsp;
       <i title="Izmena" (click)="openRoomEdit(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;
       <i title="Brisanje" (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
     </td>

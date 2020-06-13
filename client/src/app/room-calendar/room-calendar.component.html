@@ -1,0 +1,42 @@
+<div class="modal-content modal-lg" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Kalendar zauzeća sale</h5>
+</div>
+<div class="modal-body">
+	<!--<app-calendar></app-calendar>-->
+	<full-calendar #fc
+			defaultView="dayGridMonth"
+			themeSystem="bootstrap"
+			aspectRatio="0.5"
+			[views]="{
+				month: {
+					titleFormat: 'MMMM, YYYY',
+					columnHeaderFormat: 'ddd'
+				},
+				week: {
+					titleFormat: '{MMMM {D}}, YYYY',
+					columnHeaderFormat: 'ddd D/M'
+				},
+				day: {
+					titleFormat: '{MMMM {D}}, YYYY',
+					columnHeaderFormat: 'dddd'
+				}
+			}"
+			eventTimeFormat="HH:mm"
+			slotLabelFormat="HH:mm"
+			[selectable]="selectionEnabled"
+			[unselectAuto]="false"
+			[fixedWeekCount]="false"
+			[header]="{
+					center: 'title',
+					left: 'dayGridMonth,timeGridWeek,timeGridDay',
+					right: 'prev,next,today,timeOffButton'
+			}"
+			[plugins]="calendarPlugins"
+			[events]="calendarEvents"
+			[locales]="locales"></full-calendar>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+</div>
+</div>

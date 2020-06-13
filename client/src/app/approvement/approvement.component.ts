@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AppointmentService, RoomService } from '../service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-approvement',
@@ -23,7 +24,11 @@ export class ApprovementComponent implements OnInit {
   selected;
 
   constructor(private appointmentService:AppointmentService, private datePipe:DatePipe,
-              private roomService:RoomService) { }
+              private roomService:RoomService,
+              private spinner: NgxSpinnerService) { }
+
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit(): void {
     this.requests = [];
@@ -73,13 +78,15 @@ export class ApprovementComponent implements OnInit {
   }
 
   sendProcess(accept, selection) {
+    this.spinner.show();
+    var roomNumber = this.room ? this.room.roomNumber : null;
     var form = {
         appointmentId: selection.id,
-        roomNumber: this.room.roomNumber,
+        roomNumber: roomNumber,
         approved: accept
     };
 
-    if(this.room.firstFreeDate)
+    if(this.room != null && this.room.firstFreeDate)
       form['newDate'] = this.room.firstFreeDate;
 
     this.appointmentService.solveRequest(form).subscribe(data => {
@@ -92,6 +99,7 @@ export class ApprovementComponent implements OnInit {
       this.newDateRooms = null;
       this.room = undefined;
       this.message = 'Zahtev je obrađen';
+      this.spinner.hide();
     },
     error => {
       this.alert = true;
@@ -101,6 +109,7 @@ export class ApprovementComponent implements OnInit {
       else {
         this.message = 'Došlo je do greške';
       }
+      this.spinner.hide();
     });
   }
 }
