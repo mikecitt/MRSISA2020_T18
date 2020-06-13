@@ -189,12 +189,12 @@ public class RoomController {
 
     }
 
-    @GetMapping(value = "/events/{id}")
+    @GetMapping(value = "/events/{roomNumber}")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Response> getEvents(@PathVariable Integer id, Principal user) {
+    public ResponseEntity<Response> getEvents(@PathVariable Integer roomNumber, Principal user) {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
         List<Event> events = null;
-        Room room = roomService.findOne(id);
+        Room room = roomService.findByRoomNumber(roomNumber);
         Response resp = new Response();
         resp.setStatus("error");
 

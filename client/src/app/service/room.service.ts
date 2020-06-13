@@ -46,4 +46,8 @@ export class RoomService {
 	updateRoom(payload) {
     return this.http.put(`${environment.api_url}/room/`, payload);
   }
+
+	getEvents(id) {
+    return this.http.get<any>(`${environment.api_url}/room/events/${id}`);
+  }
 }

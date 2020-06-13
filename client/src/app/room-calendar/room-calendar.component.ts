@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { RoomService } from '../service';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -34,9 +35,18 @@ export class RoomCalendarComponent implements OnInit {
   selectionEnabled = false;
   dateSelection = null;
 
-  constructor(public modal: NgbActiveModal) { }
+  id = 1; // test
+
+  constructor(private service: RoomService, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
+    this.service.getEvents(this.id).subscribe(data => {
+      this.calendarEvents = data['data'];
+    });
   }
 
   closeDialog() {
