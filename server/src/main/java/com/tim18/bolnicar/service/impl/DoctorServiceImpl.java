@@ -2,6 +2,7 @@ package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.Appointment;
+import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.TimeOff;
 import com.tim18.bolnicar.repository.AppointmentRepository;
@@ -63,6 +64,11 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void remove(int id) {
         doctorRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Doctor> findDoctorsFromClinic(Integer clinicId) {
+        return doctorRepository.findAllByClinicIdOrderByIdAsc(clinicId);
     }
 
     @Override

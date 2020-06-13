@@ -48,10 +48,14 @@ public class DoctorController {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
         List<DoctorDTO> doctors = new ArrayList<>();
         if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
-            for(MedicalWorker medicalWorker : clinicAdmin.getClinic().getWorkers()) {
+            List<Doctor> doctorsFromClinic= doctorService.findDoctorsFromClinic(clinicAdmin.getClinic().getId());
+            for(Doctor d : doctorsFromClinic)
+                doctors.add(new DoctorDTO(d));
+            /*for(MedicalWorker medicalWorker : clinicAdmin.getClinic().getWorkers()) {
                 if(medicalWorker instanceof Doctor)
                     doctors.add(new DoctorDTO((Doctor) medicalWorker));
-            }
+            }*/
+
             return ResponseEntity.ok(doctors);
         }
         return new ResponseEntity<>(doctors, HttpStatus.BAD_REQUEST);
