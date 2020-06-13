@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { RoomService } from '../service';
+import { RoomService, ToastService } from '../service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,12 +16,16 @@ export class RoomEditComponent implements OnInit {
         id: ['', Validators.compose([Validators.required])],
 		    roomNumber: ['', Validators.compose([Validators.required])],
 		    type: ['', Validators.compose([Validators.required])],
+        firstFreeDate: []
 		  });
 
   close = false;
   fail: boolean;
 
-  constructor(private service: RoomService, private fb: FormBuilder, public modal: NgbActiveModal) { }
+  constructor(private service: RoomService,
+              private fb: FormBuilder,
+              public modal: NgbActiveModal,
+              private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.service.getRoom(this.id).subscribe(result => {
@@ -40,8 +44,12 @@ export class RoomEditComponent implements OnInit {
   	let payload = this.roomEditForm.getRawValue();
 
   	this.service.updateRoom(payload).subscribe(result => {
+      this.toastService.show('Izmena uspešna.', { classname: 'bg-success text-light', delay: 3000 });
   		this.modal.dismiss('cancel click')
-  	})
+  	}, err => {
+      this.modal.dismiss('cancel click')
+      this.toastService.show('Broj sale već postoji.', { classname: 'bg-danger text-light', delay: 3000 });
+    })
   }
 
   closeDialog() {

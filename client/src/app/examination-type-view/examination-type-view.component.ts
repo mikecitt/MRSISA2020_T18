@@ -73,7 +73,6 @@ export class ExaminationTypeViewComponent implements OnInit {
       this.toastService.show('Brisanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
     },
     err => {
-      console.log(err);
       this.toastService.show('Nije moguće obrisati stavku.', { classname: 'bg-danger text-light', delay: 3000 });
     });
   }

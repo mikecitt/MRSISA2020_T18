@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { RoomService } from '../service';
+import { RoomService, ToastService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -41,7 +41,8 @@ export class RoomsTableComponent implements OnInit {
   pipe: DecimalPipe;
 
   constructor(private roomService: RoomService,
-    pipe: DecimalPipe, private modalService: NgbModal) {
+    pipe: DecimalPipe, private modalService: NgbModal,
+    private toastService: ToastService) {
       this.pipe = pipe;
 
       this.filter.valueChanges.subscribe(val => {
@@ -79,7 +80,10 @@ export class RoomsTableComponent implements OnInit {
 
   removeRoom(id) {
     this.roomService.removeRoom(id).subscribe(data => {
+      this.toastService.show('Brisanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
       this.initTable();
+    }, err => {
+      this.toastService.show('Nije moguće obrisati stavku.', { classname: 'bg-danger text-light', delay: 3000 });
     });
   }
 

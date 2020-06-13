@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ExaminationTypeService } from '../service';
+import { ToastService, ExaminationTypeService } from '../service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,7 +21,10 @@ export class ExaminationTypeEditComponent implements OnInit {
   close = false;
   fail: boolean;
 
-  constructor(private service: ExaminationTypeService, private fb: FormBuilder, public modal: NgbActiveModal) { }
+  constructor(private service: ExaminationTypeService,
+              private fb: FormBuilder,
+              public modal: NgbActiveModal,
+              private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.service.getExaminationType(this.id).subscribe(result => {
@@ -40,6 +43,7 @@ export class ExaminationTypeEditComponent implements OnInit {
   	let payload = this.examinationTypeEditForm.getRawValue();
 
   	this.service.updateExaminationType(payload).subscribe(result => {
+      this.toastService.show('Izmena uspešna.', { classname: 'bg-success text-light', delay: 3000 });
   		this.modal.dismiss('cancel click')
   	})
   }
