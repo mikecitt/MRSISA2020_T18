@@ -11,7 +11,7 @@ export class SearchExaminationComponent implements OnInit {
 	date = new FormControl('');
 	examinationTypeId = new FormControl('');
 	address = new FormControl('');
-	grade = new FormControl('');
+	grade: number = 0;
 	examinationTypes = [];
 
 	@Output()
@@ -35,6 +35,9 @@ export class SearchExaminationComponent implements OnInit {
   	if (this.address.value)
   		payload['address'] = this.address.value;
 
+    if (this.grade > 0)
+      payload['grade'] = this.grade;
+
   	//TODO: ocena
 
   	this.clinicService.getExaminationClinics(payload).subscribe(result => {
@@ -49,6 +52,7 @@ export class SearchExaminationComponent implements OnInit {
   		this.date.reset();
 	  	this.examinationTypeId.reset();
 	  	this.address.reset();
+      this.grade = 0;
   	})
   }
 
