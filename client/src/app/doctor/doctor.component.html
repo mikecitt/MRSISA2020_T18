@@ -3,57 +3,59 @@
   <app-doctors-table [events]="eventsSubject.asObservable()"></app-doctors-table>
   <hr>
   <h2>Dodavanje lekara</h2>
-  <form>
-    <div class="form-group">
-      <label for="">Email adresa</label>
-      <input type="email" class="form-control" name="email" [(ngModel)]="email">
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">Šifra</label>
-        <input type="password" class="form-control" name="password" [(ngModel)]="password">
+  <div class="col-sm-6 container">
+    <form>
+      <div class="form-group">
+        <label for="">Email adresa</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="email">
       </div>
-      <div class="form-group col-md-6">
-        <label for="">Potvrdite šifru</label>
-        <input type="password" class="form-control" name="repeat" [(ngModel)]="repeat">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="">Šifra</label>
+          <input type="password" class="form-control" name="password" [(ngModel)]="password">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">Potvrdite šifru</label>
+          <input type="password" class="form-control" name="repeat" [(ngModel)]="repeat">
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">Ime</label>
-        <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="">Ime</label>
+          <input type="text" class="form-control" name="firstname" [(ngModel)]="firstname">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">Prezime</label>
+          <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname">
+        </div>
       </div>
-      <div class="form-group col-md-6">
-        <label for="">Prezime</label>
-        <input type="text" class="form-control" name="lastname" [(ngModel)]="lastname">
-      </div>
-    </div>
 
-    <div class="form-row">
-      <div class="form-group col-md-5">
-        <label for="">Adresa</label>
-        <input type="text" class="form-control" name="address" [(ngModel)]="address">
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="">Adresa</label>
+          <input type="text" class="form-control" name="address" [(ngModel)]="address">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="">Grad</label>
+          <input type="text" class="form-control" name="city" [(ngModel)]="city">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="">Država</label>
+          <input type="text" class="form-control" name="country" [(ngModel)]="country">
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <label for="">Grad</label>
-        <input type="text" class="form-control" name="city" [(ngModel)]="city">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="">JMBG</label>
+          <input type="text" class="form-control" name="jmbg" [(ngModel)]="jmbg">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="">Kontakt telefon</label>
+          <input type="text" class="form-control" name="contact" [(ngModel)]="contact">
+        </div>
       </div>
-      <div class="form-group col-md-3">
-        <label for="">Država</label>
-        <input type="text" class="form-control" name="country" [(ngModel)]="country">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="">JMBG</label>
-        <input type="text" class="form-control" name="jmbg" [(ngModel)]="jmbg">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="">Kontakt telefon</label>
-        <input type="text" class="form-control" name="contact" [(ngModel)]="contact">
-      </div>
-    </div>
-    <button (click)="addDoctor()" class="btn btn-primary" type="button">Dodaj</button>
-  </form>
+      <button (click)="addDoctor()" class="btn btn-primary" type="button">Dodaj</button>
+    </form>
+  </div>
   <p *ngIf="message">{{message}}</p>
 </div>
