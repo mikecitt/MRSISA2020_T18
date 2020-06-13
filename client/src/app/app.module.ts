@@ -104,7 +104,7 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
     ActivationPageComponent,
     ClinicReportComponent,
     ClinicCardComponent,
-    RoomCalendarComponent
+    RoomCalendarComponent,
   ],
   imports: [
     BrowserModule,

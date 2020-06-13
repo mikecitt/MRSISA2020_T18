@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PatientService } from '../service';
 
 @Component({
@@ -8,12 +8,14 @@ import { PatientService } from '../service';
 })
 export class MedicalRecordComponent implements OnInit {
 	public medicalRecord;
+  @Input() patientId: number;
 
   constructor(private service: PatientService) { }
 
   ngOnInit(): void {
   	//console.log('call')
-  	this.service.getMedicalRecord().subscribe(data => {
+    console.log(this.patientId)
+  	this.service.getMedicalRecord(this.patientId).subscribe(data => {
   		//console.log(data[''])
       this.medicalRecord = data['data'][0];
   	})

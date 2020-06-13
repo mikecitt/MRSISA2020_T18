@@ -26,15 +26,36 @@ public class PatientController {
     @Autowired
     private UserService userService;
 
-    //TODO: get patient id from session token
-    @GetMapping(value = {"/medicalRecord", "/medicalRecord/{id}"})
-    @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<Response> getMedicalReport(@PathVariable(required = false) Integer patientId, Principal user) {
+    @GetMapping("/medicalRecord/{patientId}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getMedicalReport(@PathVariable Integer patientId) {
         MedicalRecordDTO record = null;
-        if (patientId == null)
-            record = this.patientService.getMedicalRecord(user.getName());
-        else
+        Response resp = new Response();
+
+        if (patientId != null)
             record = this.patientService.getMedicalRecord(patientId);
+        else {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        if (record == null) {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        resp.setStatus("ok");
+        resp.setData(new Object[] { record });
+        return ResponseEntity.ok(resp);
+    }
+
+
+    @GetMapping("/medicalRecord")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Response> getMedicalReport(Principal user) {
+        MedicalRecordDTO record = null;
+
+        record = this.patientService.getMedicalRecord(user.getName());
 
         Response resp = new Response();
 
