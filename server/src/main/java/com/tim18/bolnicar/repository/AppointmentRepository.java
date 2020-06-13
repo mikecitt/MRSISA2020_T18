@@ -1,9 +1,6 @@
 package com.tim18.bolnicar.repository;
 
-import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.model.Clinic;
-import com.tim18.bolnicar.model.Doctor;
-import com.tim18.bolnicar.model.Patient;
+import com.tim18.bolnicar.model.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +24,5 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
     Iterable<Appointment> findAllFreeByDoctor(@Param("doctor_id") int doctor_id);
 
     List<Appointment> findAllByActiveAndClinic(boolean active, Clinic clinic);
+    List<Appointment> findAllByRoom(Room room);
 }

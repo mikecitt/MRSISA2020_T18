@@ -6,6 +6,7 @@ import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.Doctor;
+import com.tim18.bolnicar.model.Room;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public interface AppointmentService {
     boolean bookAppointment(Integer appointmentId, Integer patientId);
     boolean bookAppointment(Integer appointmentId, String patientEmail);
     List<Appointment> findDoctorsAppointments(Doctor doctor);
+    List<Appointment> findRoomsAppointments(Room room);
     List<AppointmentDTO> getFreeAppointments(Integer clinicId);
     Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail);
     boolean addAppointment(Appointment appointment);

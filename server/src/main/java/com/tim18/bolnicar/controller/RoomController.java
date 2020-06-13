@@ -1,9 +1,6 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.Response;
-import com.tim18.bolnicar.dto.ResponseReport;
-import com.tim18.bolnicar.dto.RoomDTO;
-import com.tim18.bolnicar.dto.TimeIntervalDTO;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.service.AppointmentService;
 import com.tim18.bolnicar.service.ClinicAdminService;
@@ -190,5 +187,27 @@ public class RoomController {
         }
 
 
+    }
+
+    @GetMapping(value = "/events/{id}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getEvents(@PathVariable Integer id, Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<Event> events = null;
+        Room room = roomService.findOne(id);
+        Response resp = new Response();
+        resp.setStatus("error");
+
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null && room != null) {
+            if(clinicAdmin.getClinic().getRooms().contains(room)) {
+                events = Event.convertToEvents(appointmentService.findRoomsAppointments(room));
+
+                resp.setData(events.toArray());
+                resp.setStatus("ok");
+                return ResponseEntity.ok(resp);
+            }
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }

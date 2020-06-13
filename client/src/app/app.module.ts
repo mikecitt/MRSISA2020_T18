@@ -58,6 +58,7 @@ import { ActivationPageComponent } from './activation-page/activation-page.compo
 import { BarRatingModule } from "ngx-bar-rating";
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { ClinicCardComponent } from './clinic-card/clinic-card.component';
+import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { ClinicCardComponent } from './clinic-card/clinic-card.component';
     AppointmentStartModalComponent,
     ActivationPageComponent,
     ClinicReportComponent,
-    ClinicCardComponent
+    ClinicCardComponent,
+    RoomCalendarComponent
   ],
   imports: [
     BrowserModule,

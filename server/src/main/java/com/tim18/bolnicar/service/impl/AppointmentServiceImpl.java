@@ -82,6 +82,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> findRoomsAppointments(Room room) {
+        return this.appointmentRepository.findAllByRoom(room);
+    }
+
+    @Override
     public List<AppointmentDTO> getFreeAppointments(Integer clinicId) {
         Optional<Clinic> clinic = this.clinicRepository.findById(clinicId);
 
