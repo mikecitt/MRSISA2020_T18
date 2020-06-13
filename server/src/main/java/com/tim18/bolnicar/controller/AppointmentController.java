@@ -195,7 +195,7 @@ public class AppointmentController {
                         appointment.setDatetime(approval.getNewDate());
                     }
 
-                    if(!this.roomService.isRoomAlreadyTaken(room, appointment)) {
+                    if(this.roomService.isRoomAlreadyTaken(room, appointment)) {
                         appointment.setRoom(room);
                         this.appointmentService.save(appointment);
                         resp.setStatus("ok");
