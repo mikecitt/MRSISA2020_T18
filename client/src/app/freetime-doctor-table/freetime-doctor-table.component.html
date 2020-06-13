@@ -13,10 +13,10 @@
 				<th>{{ i + 1 }}</th>
 				<td>{{ d.firstName }} {{ d.lastName }}</td>
 				<td>
-					<bar-rating 
+					<bar-rating
 						[readOnly]="true"
-						[theme]="'default'" 
-						[rate]="d.grade" 
+						[theme]="'default'"
+						[rate]="d.grade"
 						[max]="5">
 					</bar-rating>
 				</td>
@@ -40,3 +40,4 @@
   	<strong>Ups!</strong> Došlo je do neočekivane greške prilikom rezervacije termina, molimo Vas da pokušate kasnije.
   </div>
 </ngb-alert>
+<ngx-spinner></ngx-spinner>

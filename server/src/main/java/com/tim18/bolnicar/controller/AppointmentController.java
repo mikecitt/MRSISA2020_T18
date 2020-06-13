@@ -23,10 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -156,9 +153,11 @@ public class AppointmentController {
             if (app == null)
                 return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
 
-
+            Object[] objArray = this.clinicAdminService.getAllEmails(app.getClinic()).toArray();
+            String[] stringArray = Arrays.copyOf(objArray,
+                    objArray.length, String[].class);
             this.emailService.sendMessages(
-                    (String[])this.clinicAdminService.getAllEmails(app.getClinic()).toArray(),
+                    stringArray,
                     "[INFO] TERMINI",
                     "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
                          this.appointmentService.appointmentInfo(app)

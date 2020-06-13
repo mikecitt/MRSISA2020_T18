@@ -108,8 +108,8 @@ export class ApprovementComponent implements OnInit {
       }
       else {
         this.message = 'Došlo je do greške';
-        this.spinner.hide();
       }
+      this.spinner.hide();
     });
   }
 }

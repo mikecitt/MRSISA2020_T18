@@ -11,7 +11,7 @@ public interface ClinicAdminRepository extends CrudRepository<ClinicAdmin, Integ
 
     ClinicAdmin findByEmailAddress(String emailAddress);
 
-    @Query(value = "SELECT email FROM CLINIC_ADMIN WHERE clinic_id = :clinic_id",
+    @Query(value = "SELECT email_address FROM CLINIC_ADMIN WHERE clinic_id = :clinic_id",
             nativeQuery = true)
     List<String> findAllClinicAdminMails(@Param("clinic_id") int clinic_id);
 }
