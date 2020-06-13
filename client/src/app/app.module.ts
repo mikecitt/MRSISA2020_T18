@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -56,6 +56,7 @@ import { AppointmentStartModalComponent } from './appointment-start-modal/appoin
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
 import { BarRatingModule } from "ngx-bar-rating";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { ClinicCardComponent } from './clinic-card/clinic-card.component';
 import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
@@ -115,7 +116,8 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
     ReactiveFormsModule,
     StorageServiceModule,
     FullCalendarModule,
-    BarRatingModule
+    BarRatingModule,
+    NgxSpinnerModule
   ],
   providers: [
   {
@@ -125,6 +127,7 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
   },
   CookieService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

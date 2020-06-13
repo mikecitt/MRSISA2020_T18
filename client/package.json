@@ -33,6 +33,7 @@
     "moment": "^2.26.0",
     "ngx-bar-rating": "^1.1.0",
     "ngx-cookie-service": "^3.0.4",
+    "ngx-spinner": "^9.0.2",
     "ngx-webstorage-service": "^4.1.0",
     "npm": "^6.14.5",
     "ol": "^6.3.1",

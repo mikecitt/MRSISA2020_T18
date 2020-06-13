@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AppointmentService } from '../service';
 import { FormControl } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-freetime-doctor-table',
@@ -26,7 +27,8 @@ export class FreetimeDoctorTableComponent implements OnInit {
 	filter = new FormControl('');
 
 
-  constructor(private service: AppointmentService) { 
+  constructor(private service: AppointmentService,
+              private spinner: NgxSpinnerService) {
   	this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.freeDoctors.filter(entity => {
 				const term = val.toLowerCase();
@@ -37,11 +39,15 @@ export class FreetimeDoctorTableComponent implements OnInit {
   	})
   }
 
+  ngAfterViewInit(): void {
+  }
+
   ngOnInit(): void {
   	this.tableData = this.freeDoctors;
   }
 
   requestAppointment(payload, doctorId, event) {
+    this.spinner.show();
   	payload['doctorId'] = doctorId;
   	payload['clinicId'] = this.clinicId;
   	payload['examinationTypeId'] = this.examinationTypeId;
@@ -53,9 +59,11 @@ export class FreetimeDoctorTableComponent implements OnInit {
   		this.examinationTime = payload.start;
       //Hack B|
       payload['marker'] = 1
+      this.spinner.hide();
   	},
   	err => {
   		this.alertType = 'danger';
+  		this.spinner.hide();
   	})
   }
 

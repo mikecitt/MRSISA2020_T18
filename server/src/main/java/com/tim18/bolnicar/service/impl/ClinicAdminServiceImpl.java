@@ -1,5 +1,6 @@
 package com.tim18.bolnicar.service.impl;
 
+import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.repository.ClinicAdminRepository;
 import com.tim18.bolnicar.service.ClinicAdminService;
@@ -27,5 +28,10 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
     @Override
     public ClinicAdmin save(ClinicAdmin clinicAdmin) {
         return clinicAdminRepository.save(clinicAdmin);
+    }
+
+    @Override
+    public List<String> getAllEmails(Clinic clinic) {
+        return this.clinicAdminRepository.findAllClinicAdminMails(clinic.getId());
     }
 }
