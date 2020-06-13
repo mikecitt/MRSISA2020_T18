@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { environment } from './../../environments/environment';
 
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -45,7 +46,7 @@ export class AuthService {
 	}
 
 	register(registration: RegistrationForm) {
-		return this.http.post<any>('http://localhost:8080/auth/register', registration)
+		return this.http.post<any>(`${environment.api_url}/auth/register`, registration)
 	}
 
 	login(user) {
@@ -59,7 +60,7 @@ export class AuthService {
       'password' : user.password
     };
 
-    return this.http.post('http://localhost:8080/auth/login', body)
+    return this.http.post(`${environment.api_url}/auth/login`, body)
       .pipe(map((res) => {
         console.log('Login success:' + res['accessToken']);
         this.access_token = res['accessToken'];
@@ -89,7 +90,7 @@ export class AuthService {
   }
 
   whoAmI() {
-  	return this.http.get<any>('http://localhost:8080/whoami')
+  	return this.http.get<any>(`${environment.api_url}/whoami`)
   }
 
   getCurrentRoute() {

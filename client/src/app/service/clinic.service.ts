@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 export interface Clinic {
 	id: number;
@@ -22,35 +23,35 @@ export class ClinicService {
   constructor(private http:HttpClient) { }
 
   getClinics() {
-  	return this.http.get<Clinic[]>('http://localhost:8080/clinic');
+  	return this.http.get<Clinic[]>(`${environment.api_url}/clinic`);
   }
 
 	getClinicProfile() {
-    return this.http.get<Clinic>('http://localhost:8080/clinic/profile');
+    return this.http.get<Clinic>(`${environment.api_url}/clinic/profile`);
   }
 
 	getClinicIncome(payload) {
-		return this.http.get('http://localhost:8080/clinic/income', { params: payload, headers: httpOptions.headers });
+		return this.http.get(`${environment.api_url}/clinic/income`, { params: payload, headers: httpOptions.headers });
 	}
 
 	updateClinicProfile(payload) {
-    return this.http.put('http://localhost:8080/clinic/profile', payload, httpOptions);
+    return this.http.put(`${environment.api_url}/clinic/profile`, payload, httpOptions);
   }
 
   addClinic(payload) {
-    return this.http.post('http://localhost:8080/clinic/add', payload, httpOptions);
+    return this.http.post(`${environment.api_url}/clinic/add`, payload, httpOptions);
   }
 
   getExaminationClinics(payload) {
-    return this.http.get('http://localhost:8080/clinic/free', { params: payload, headers: httpOptions.headers });
+    return this.http.get(`${environment.api_url}/clinic/free`, { params: payload, headers: httpOptions.headers });
   }
 
   gradeClinic(payload) {
-    return this.http.post('http://localhost:8080/clinic/grade', payload, httpOptions)
+    return this.http.post(`${environment.api_url}/clinic/grade`, payload, httpOptions)
   }
 
   getClinic(clinicId) {
-    return this.http.get(`http://localhost:8080/clinic/${clinicId}`, httpOptions)
+    return this.http.get(`${environment.api_url}/clinic/${clinicId}`, httpOptions)
   }
 
 }

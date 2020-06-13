@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -14,39 +15,39 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
 
   getFreeAppointments(clinicId) {
-  	return this.http.get<any>(`http://localhost:8080/appointment/free/${clinicId}`,
+  	return this.http.get<any>(`${environment.api_url}/appointment/free/${clinicId}`,
   															httpOptions);
   }
 
 	startAppointment() {
-		return this.http.get<any>(`http://localhost:8080/appointment/start`,
+		return this.http.get<any>(`${environment.api_url}/appointment/start`,
   															httpOptions);
 	}
 
   bookAppointment(appointmentId) {
-  	return this.http.post<any>(`http://localhost:8080/appointment/book/${appointmentId}`,
+  	return this.http.post<any>(`${environment.api_url}/appointment/book/${appointmentId}`,
   															httpOptions)
   }
 
   requestAppointment(payload) {
-    return this.http.post<any>('http://localhost:8080/appointment/request', payload, httpOptions);
+    return this.http.post<any>(`${environment.api_url}/appointment/request`, payload, httpOptions);
   }
 
 	addPredefinedAppointment(appointment) {
-		return this.http.post<any>(`http://localhost:8080/appointment`, appointment,
+		return this.http.post<any>(`${environment.api_url}/appointment`, appointment,
 																httpOptions)
 	}
 
 	getAppointmentRequests() {
-	  return this.http.get<any>('http://localhost:8080/appointment/request');
+	  return this.http.get<any>(`${environment.api_url}/appointment/request`);
 	}
 
 	solveRequest(approval) {
-	  return this.http.post<any>('http://localhost:8080/appointment/approve', approval);
+	  return this.http.post<any>(`${environment.api_url}/appointment/approve`, approval);
 	}
 
   // read doctor!
   gradeAppointment(grade) {
-    return this.http.post<any>('http://localhost:8080/appointment/grade', grade, httpOptions);
+    return this.http.post<any>(`${environment.api_url}/appointment/grade`, grade, httpOptions);
   }
 }
