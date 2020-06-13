@@ -2,6 +2,7 @@ package com.tim18.bolnicar.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Appointment {
@@ -12,8 +13,9 @@ public class Appointment {
     @Column(nullable = true)
     private Date datetime;
 
+    // in hours
     @Column
-    private Double duration;
+    private Integer duration;
 
     // positive percents
     @Column(nullable = false)
@@ -33,6 +35,9 @@ public class Appointment {
 
     @OneToOne
     private Doctor doctor;
+
+    @ManyToMany
+    private Set<Doctor> additionalDoctors;
 
     @ManyToOne
     private Clinic clinic;
@@ -59,11 +64,11 @@ public class Appointment {
         this.datetime = datetime;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -113,6 +118,14 @@ public class Appointment {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Set<Doctor> getAdditionalDoctors() {
+        return additionalDoctors;
+    }
+
+    public void setAdditionalDoctors(Set<Doctor> additionalDoctors) {
+        this.additionalDoctors = additionalDoctors;
     }
 
     public Clinic getClinic() {

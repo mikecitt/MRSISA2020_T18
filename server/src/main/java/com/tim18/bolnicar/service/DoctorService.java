@@ -15,5 +15,5 @@ public interface DoctorService {
     Doctor save(Doctor doctor);
     void remove(int id);
     List<Appointment> getAppointmentsForDate(Date date, Integer doctorId);
-    List<TimeIntervalDTO> getFreeDayTime(Date date, Integer doctorId);
+    List<TimeIntervalDTO> getFreeDayTime(Date date, Integer doctorId, Integer duration);
 }

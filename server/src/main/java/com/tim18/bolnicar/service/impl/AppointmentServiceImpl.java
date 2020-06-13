@@ -75,7 +75,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> findDoctorsAppointments(Doctor doctor) {
-        return (List<Appointment>)this.appointmentRepository.findAllByDoctor(doctor);
+        List<Appointment> result = (List<Appointment>)this.appointmentRepository
+                .findAllFreeByDoctor(doctor.getId());
+        result.addAll(this.appointmentRepository.findAdditionalAppointments(doctor.getId()));
+        return result;
     }
 
     @Override
@@ -127,7 +130,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         long diff = appointment.getEnd().getTime() - appointment.getStart().getTime();
         long diffMinutes = diff / (60 * 1000) % 60;
-        app.setDuration(diffMinutes / 60.0);
+        app.setDuration((int)diffMinutes);
 
         app = this.appointmentRepository.save(app);
 
@@ -141,11 +144,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 Date date = a.getDatetime();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                calendar.add(Calendar.MINUTE, a.getDuration().intValue());
+                calendar.add(Calendar.MINUTE, a.getDuration());
                 Date dateEnd = calendar.getTime();
                 Date appointmentDate = appointment.getDatetime();
                 calendar.setTime(appointmentDate);
-                calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                calendar.add(Calendar.MINUTE, appointment.getDuration());
                 Date appointmentDateEnd = calendar.getTime();
 
                 if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
@@ -155,6 +158,28 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointmentRepository.save(appointment);
         return true;
+    }
+
+    @Override
+    public List<AppointmentDTO> findAllAppointmentRequests(Clinic clinic) {
+        List<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+
+        for(Appointment appointment : appointmentRepository
+                .findAllByActiveAndClinic(false, clinic)) {
+            result.add(new AppointmentDTO(appointment));
+        }
+
+        return result;
+    }
+
+    @Override
+    public Appointment findById(int id) {
+        return this.appointmentRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void remove(int id) {
+        this.appointmentRepository.deleteById(id);
     }
 
     @Override

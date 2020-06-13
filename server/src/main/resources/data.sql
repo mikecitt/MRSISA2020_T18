@@ -66,6 +66,11 @@ INSERT INTO clinic_admin (
     2, 'cadmin@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
     'Jovan', 'Obradović', '21129796554639', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 1
+),
+(
+    20, 'cadmin1@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    CURRENT_TIMESTAMP(),
+    'Jovan', 'Obradović', '21129796554239', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 1
 );
 
 INSERT INTO doctor (
@@ -81,27 +86,34 @@ INSERT INTO doctor (
     country,
     contact,
     active,
-    clinic_id
+    clinic_id,
+    shift_start,
+    shift_end,
+    working_days
 ) VALUES
 (
     3, 'zdravko.dugi@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Zdravko', 'Dugonjić', '0402989200984', 'Lenjinova 26', 'Veternik', 'Srbija', '0625467890', TRUE, 1
+    'Zdravko', 'Dugonjić', '0402989200984', 'Lenjinova 26', 'Veternik', 'Srbija', '0625467890', TRUE, 1,
+    PARSEDATETIME('06:00', 'HH:mm'), PARSEDATETIME('18:00', 'HH:mm'), 85
 ),
 (
     4, 'rodusek021@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Vladimir', 'Rodušek', '0511989800018', 'Svetog Save 15', 'Srbobran', 'Srbija', '0615679087', TRUE, 2
+    'Vladimir', 'Rodušek', '0511989800018', 'Svetog Save 15', 'Srbobran', 'Srbija', '0615679087', TRUE, 2,
+    PARSEDATETIME('09:00', 'HH:mm'), PARSEDATETIME('21:00', 'HH:mm'), 51
 ),
 (
     9, 'mikecitt@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3
+    'Milan', 'Pavlov', '2406986000120', 'Moravska 26', 'Žabalj', 'Srbija', '0694259875', TRUE, 3,
+    PARSEDATETIME('12:00', 'HH:mm'), PARSEDATETIME('23:00', 'HH:mm'), 57
 ),
 (
     12, 'testdoca@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     null,
-    'Mica', 'Micic', '2401286000120', 'Moravska 20', 'Žabalj', 'Srbija', '0694259475', TRUE, 1
+    'Mica', 'Micic', '2401286000120', 'Moravska 20', 'Žabalj', 'Srbija', '0694259475', TRUE, 1,
+    PARSEDATETIME('12:00', 'HH:mm'), PARSEDATETIME('23:00', 'HH:mm'), 57
 );
 
 INSERT INTO nurse (
@@ -117,17 +129,22 @@ INSERT INTO nurse (
     country,
     contact,
     active,
-    clinic_id
+    clinic_id,
+    shift_start,
+    shift_end,
+    working_days
 ) VALUES
 (
     5, 'nevena@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Nevena', 'Nevenić', '2506982201967', 'Bulevar Evrope 22', 'Novi Sad', 'Srbija', '065125998', TRUE, 1
+    'Nevena', 'Nevenić', '2506982201967', 'Bulevar Evrope 22', 'Novi Sad', 'Srbija', '065125998', TRUE, 1,
+    PARSEDATETIME('08:00', 'HH:mm'), PARSEDATETIME('16:00', 'HH:mm'), 31
 ),
 (
     6, 'petar.p@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP(),
-    'Petar', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1
+    'Petar', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1,
+    PARSEDATETIME('16:00', 'HH:mm'), PARSEDATETIME('00:00', 'HH:mm'), 31
 );
 
 INSERT INTO patient (
@@ -242,15 +259,23 @@ INSERT INTO appointment (
     active
 ) VALUES
     -- not free
-    (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 7, NULL, 1, 5, TRUE),
-    (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 0.5, 1, 3, 8, NULL, 1, 5, TRUE),
-    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 1, 3, 9, 10, NULL, 12, 14, TRUE),
-    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, 11, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE),
+    (PARSEDATETIME('2020-06-01 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 8, NULL, 1, 5, TRUE),
+    (PARSEDATETIME('2020-06-29 12:00', 'yyyy-MM-dd HH:mm'), 0.0, 60, 3, 9, 10, NULL, 12, 14, TRUE),
+    (PARSEDATETIME('2020-07-02 16:00', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, 11, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 10, NULL, NULL, 5, FALSE),
+    (PARSEDATETIME('2020-07-07 17:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 8, NULL, NULL, 5, FALSE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 2, 5, TRUE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 6, 5, TRUE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 7, 5, TRUE),
+    (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
+    (PARSEDATETIME('2020-07-07 08:00', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
 
     -- free
-        (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
-        (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE),
-        (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 1, 2, 4, NULL, NULL, 16, 3, TRUE);
+    (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-09-02 17:00', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE),
+    (PARSEDATETIME('2020-10-19 19:30', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE);
 
 INSERT INTO medical_report (description, appointment_id) VALUES
     ('Pacijent se žalio na otežano mokrenje i bol u oblasti bešike.', 1),

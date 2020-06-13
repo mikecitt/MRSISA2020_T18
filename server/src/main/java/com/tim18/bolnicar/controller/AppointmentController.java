@@ -4,6 +4,9 @@ import com.tim18.bolnicar.dto.AppointmentDTO;
 import com.tim18.bolnicar.dto.AppointmentPredefDTO;
 import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
+import com.tim18.bolnicar.model.Appointment;
+import com.tim18.bolnicar.model.ClinicAdmin;
+import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.MedicalReportRepository;
 import com.tim18.bolnicar.service.*;
@@ -155,6 +158,69 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
+    @GetMapping("/request")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getRequests(Principal user) {
+        Response resp = new Response();
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+
+        if(clinicAdmin != null) {
+            resp.setStatus("ok");
+            resp.setData(this.appointmentService
+                    .findAllAppointmentRequests(clinicAdmin.getClinic()).toArray());
+        }
+        else {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/approve")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> approveAppointment(@RequestBody Approval approval, Principal user) {
+        Response resp = new Response();
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+        String emailMessage = "";
+
+        Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
+        Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
+
+        if(clinicAdmin != null) {
+            if(approval.isApproved()) {
+                if(room != null && appointment != null) {
+                    appointment.setActive(true);
+                    if(approval.getNewDate() != null) {
+                        appointment.setDatetime(approval.getNewDate());
+                    }
+
+                    if(!this.roomService.isRoomAlreadyTaken(room, appointment)) {
+                        appointment.setRoom(room);
+                        this.appointmentService.save(appointment);
+                        resp.setStatus("ok");
+                        resp.setDescription("true");
+                    }
+                    else {
+                        resp.setStatus("error");
+                        resp.setDescription("taken");
+                        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+                    }
+                }
+                else {
+                    resp.setStatus("error");
+                    return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+                }
+            }
+            else {
+                this.appointmentService.remove(appointment.getId());
+                resp.setDescription("false");
+            }
+        }
+
+        return ResponseEntity.ok(resp);
+    }
+
     @GetMapping("/start")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<Response> startAppointment(Principal user) {
@@ -167,7 +233,7 @@ public class AppointmentController {
                     Date start = appointment.getDatetime();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(appointment.getDatetime());
-                    calendar.add(Calendar.MINUTE, appointment.getDuration().intValue());
+                    calendar.add(Calendar.MINUTE, appointment.getDuration());
                     Date end = calendar.getTime();
                     if (!now.after(end) && !now.before(start)) {
                         MedicalReport medicalReport = new MedicalReport();

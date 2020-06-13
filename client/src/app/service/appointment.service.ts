@@ -37,6 +37,14 @@ export class AppointmentService {
 																httpOptions)
 	}
 
+	getAppointmentRequests() {
+	  return this.http.get<any>('http://localhost:8080/appointment/request');
+	}
+
+	solveRequest(approval) {
+	  return this.http.post<any>('http://localhost:8080/appointment/approve', approval);
+	}
+
   // read doctor!
   gradeAppointment(grade) {
     return this.http.post<any>('http://localhost:8080/appointment/grade', grade, httpOptions);

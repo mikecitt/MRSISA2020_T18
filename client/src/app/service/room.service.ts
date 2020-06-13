@@ -30,6 +30,10 @@ export class RoomService {
 		return this.http.get('http://localhost:8080/room/availableExamination/'+datetime+'/'+duration)
 	}
 
+	getNewFreeRooms(appointmentId) {
+	  return this.http.get(`http://localhost:8080/room/availableRooms/${appointmentId}`);
+	}
+
 	getRoom(id) {
 		return this.http.get('http://localhost:8080/room/'+id)
 	}

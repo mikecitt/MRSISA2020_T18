@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.model;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,15 @@ public abstract class MedicalWorker extends User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     protected Set<TimeOff> calendar; // change name...
+
+    @Column
+    protected byte workingDays;
+
+    @Column
+    protected LocalTime shiftStart;
+
+    @Column
+    protected LocalTime shiftEnd;
 
     public Clinic getClinic() {
         return clinic;

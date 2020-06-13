@@ -51,6 +51,7 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
 import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
+import { ApprovementComponent } from './approvement/approvement.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
@@ -96,6 +97,7 @@ import { ClinicCardComponent } from './clinic-card/clinic-card.component';
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
     AppointmentPredefComponent,
+    ApprovementComponent,
     AppointmentStartModalComponent,
     ActivationPageComponent,
     ClinicReportComponent,

@@ -1,0 +1,82 @@
+<div class="container">
+  <h2>Zahtevi za preglede/operacije</h2>
+
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Datum početka</th>
+      <th scope="col">Trajanje</th>
+      <th scope="col">Tip pregleda</th>
+      <th scope="col">Doktor</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let appointment of requests">
+      <td>
+        <ngb-highlight [result]="appointment.id"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="appointment.datetime | date: 'dd-MM-yyyy HH:mm'"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="appointment.duration"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="appointment.type"></ngb-highlight>
+      </td>
+      <td>
+        <ngb-highlight [result]="appointment.doctor"></ngb-highlight>
+      </td>
+      <td>
+        <i (click)="getAvailableRooms(appointment);" style="font-size:22px; cursor: pointer;" class="fa fa-check mr-3"></i>
+        <i (click)="disapprove(appointment);" style="font-size:22px; cursor: pointer;" class="fa fa-times"></i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="rooms || newDateRooms" class="container col-sm-5 mt-6">
+    <div *ngIf="rooms">
+      <h3>Dodeli salu pregledu</h3>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pregled</label>
+        <label class="col-sm-1 col-form-label">#{{selected.id}}</label>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-1 col-form-label" for="roomSelect">Sale</label>
+        <div class="col-sm-11">
+          <select class="custom-select mr-sm-2" id="roomSelect" name="room" [(ngModel)]="room">
+            <option *ngFor="let room of rooms" [ngValue]="room">{{room.roomNumber}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="newDateRooms">
+      <h3>Dodeli salu pregledu</h3>
+      <h5>Izaberite prvi slobodan termin neke sale</h5>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Pregled</label>
+        <label class="col-sm-1 col-form-label">#{{selected.id}}</label>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-1 col-form-label" for="freeRoomSelect">Sale</label>
+        <div class="col-sm-11">
+          <select class="custom-select mr-sm-2" id="freeRoomSelect" name="room" [(ngModel)]="room">
+            <option *ngFor="let room of newDateRooms" [ngValue]="room">
+              {{room.roomNumber}} - {{room.firstFreeDate | date: 'dd-MM-yyyy HH:mm'}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" [disabled]="room == null"
+              class="btn btn-primary col-md-4 " (click)="processApproval();">Obradi zahtev</button>
+    </div>
+    <div *ngIf="alert" class="alert alert-danger mt-2 text-center container mt-6" role="alert">
+      <p *ngIf="message">{{message}}</p>
+    </div>
+  </div>
+</div>
