@@ -14,6 +14,7 @@
 				<th scope="col" sortable="jmbg" (sort)="onSort($event)">JMBG</th>
 				<th scope="col" sortable="firstName" (sort)="onSort($event)">Ime</th>
 				<th scope="col" sortable="lastName" (sort)="onSort($event)">Prezime</th>
+        <th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,6 +23,22 @@
 				<td>{{ patient.jmbg }}</td>
 				<td>{{ patient.firstName }}</td>
 				<td>{{ patient.lastName }}</td>
+        <td>
+          <div *ngIf="isThatPatient(patient.jmbg); then thenStart else elseStart"></div>
+          <ng-template #thenStart>
+            <i class="fa fa-play mr-sm-3 enabled" aria-hidden="true"></i>
+          </ng-template>
+          <ng-template #elseStart>
+            <i class="fa fa-play mr-sm-3 disabled" aria-hidden="true"></i>
+          </ng-template>
+          <div *ngIf="patient.medicalReports.length == 0; then thenInfo else elseInfo"></div>
+          <ng-template #thenInfo>
+            <i class="fa fa-info-circle disabled" aria-hidden="true"></i>
+          </ng-template>
+          <ng-template #elseInfo>
+            <i class="fa fa-info-circle enabled" aria-hidden="true"></i>
+          </ng-template>
+        </td>
 			</tr>
 		</tbody>
 	</table>

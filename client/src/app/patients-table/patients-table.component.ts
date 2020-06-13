@@ -1,6 +1,6 @@
 import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { Subject, Observable, Subscription, of } from 'rxjs';
-import { PatientService, Patient } from '../service';
+import { PatientService, Patient, AppointmentService } from '../service';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
@@ -17,6 +17,7 @@ export class PatientsTableComponent implements OnInit {
 
 	//tableData: Patient[];
   data: Patient[];
+  startedAppointment;
 
 	@ViewChildren(NgSortableHeader) headers: QueryList<NgSortableHeader>;
 
@@ -43,7 +44,8 @@ export class PatientsTableComponent implements OnInit {
 
   }
 
-  constructor(private patientService: PatientService) {
+  constructor(private patientService: PatientService,
+              private appointmentService: AppointmentService) {
 		this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.data.filter(entity => {
 				const term = val.toLowerCase();
@@ -55,9 +57,27 @@ export class PatientsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activeAppointment();
   	this.patientService.getPatients().subscribe(result => {
   		this.data = result;
 			this.tableData = result;
   	})
+  }
+
+  activeAppointment() {
+    this.appointmentService.canStartAppointment().subscribe(result => {
+      if(result['data'].length !== 0)
+        this.startedAppointment = result['data'];
+    })
+  }
+
+  isThatPatient(jmbg) {
+    if(!this.startedAppointment)
+      return false;
+
+    if(this.startedAppointment.patientJmbg === jmbg)
+      return true;
+    else
+      return false;
   }
 }

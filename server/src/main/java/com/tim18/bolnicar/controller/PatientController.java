@@ -71,13 +71,14 @@ public class PatientController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
-    public ResponseEntity<List<PatientDTO>> getPatients(Principal user) {
-        List<PatientDTO> patientDTOList = new ArrayList<>();
+    public ResponseEntity<List<MedicalRecordDTO>> getPatients(Principal user) {
+        List<MedicalRecordDTO> patientDTOList = new ArrayList<>();
         MedicalWorker medicalWorker = (MedicalWorker) userService.findByEmailAddress(user.getName());
         if(medicalWorker != null && medicalWorker.getClinic() != null)
             for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
                 if(appointment.getPatient() != null) {
-                    PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
+                    MedicalRecordDTO patientDTO = this.patientService.
+                            getMedicalRecord(appointment.getPatient().getId());
                     if (!patientDTOList.contains(patientDTO))
                         patientDTOList.add(patientDTO);
                 }

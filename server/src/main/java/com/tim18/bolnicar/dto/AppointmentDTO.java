@@ -16,6 +16,7 @@ public class AppointmentDTO {
     private ExaminationType type;
     private Integer medicalReportId;
     private Integer patientId;
+    private String jmbg;
     private String doctor;
     private String clinicName;
     private Integer clinicId;
@@ -62,6 +63,7 @@ public class AppointmentDTO {
         this.type = appointment.getType();
         this.medicalReportId = appointment.getReport() != null ? appointment.getReport().getId() : null;
         this.patientId = appointment.getPatient() != null ? appointment.getPatient().getId() : null;
+        this.jmbg = appointment.getPatient() != null ? appointment.getPatient().getJmbg() : null;
         this.doctor = appointment.getDoctor() != null ?
                 appointment.getDoctor().getFirstName() + " " + appointment.getDoctor().getLastName() : null;
         this.clinicName = appointment.getClinic().getName();
@@ -135,6 +137,14 @@ public class AppointmentDTO {
 
     public void setPatientId(Integer patientId) {
         this.patientId = patientId;
+    }
+
+    public String getJmbg() {
+        return jmbg;
+    }
+
+    public void setJmbg(String jmbg) {
+        this.jmbg = jmbg;
     }
 
     public String getDoctor() {

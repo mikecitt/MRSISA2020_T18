@@ -50,4 +50,8 @@ export class AppointmentService {
   gradeAppointment(grade) {
     return this.http.post<any>(`${environment.api_url}/appointment/grade`, grade, httpOptions);
   }
+
+  canStartAppointment() {
+    return this.http.get<any>(`${environment.api_url}/appointment/canStart`, httpOptions);
+  }
 }
