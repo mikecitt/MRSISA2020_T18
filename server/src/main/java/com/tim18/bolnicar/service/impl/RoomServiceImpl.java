@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.RoomDTO;
+import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.RoomRepository;
 import com.tim18.bolnicar.service.RoomService;
@@ -89,5 +90,35 @@ public class RoomServiceImpl implements RoomService {
         }
 
         return false;
+    }
+
+    @Override
+    public List<RoomDTO> findRoomsFreeForDay(Clinic clinic, List<TimeIntervalDTO> intervals) {
+        List<RoomDTO> rooms = new ArrayList<RoomDTO>();
+        List<Room> allRooms = new ArrayList<Room>(clinic.getRooms());
+
+        for(TimeIntervalDTO interval : intervals) {
+            String date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").format(interval.getStart());
+            long duration = TimeUnit.MILLISECONDS.toMinutes(
+                    interval.getEnd().getTime() - interval.getStart().getTime());
+            List<RoomDTO> freeRooms = new ArrayList<RoomDTO>();
+
+            try {
+                freeRooms = this.freeRoomsByDateInterval(clinic, date, (int)duration);
+                for(RoomDTO room : freeRooms) {
+                    room.setFirstFreeDate(interval.getStart());
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            freeRooms.removeAll(rooms);
+            rooms.addAll(freeRooms);
+
+            if(rooms.size() == allRooms.size())
+                break;
+        }
+
+        return rooms;
     }
 }

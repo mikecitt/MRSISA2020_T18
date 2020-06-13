@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.service;
 
 import com.tim18.bolnicar.dto.RoomDTO;
+import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.Room;
@@ -17,4 +18,5 @@ public interface RoomService {
     List<RoomDTO> freeRoomsByDateInterval(Clinic clinic, String dateTime, int duration)
             throws ParseException;
     boolean isRoomAlreadyTaken(Room room, Appointment appointment);
+    List<RoomDTO> findRoomsFreeForDay(Clinic clinic, List<TimeIntervalDTO> intervals);
 }

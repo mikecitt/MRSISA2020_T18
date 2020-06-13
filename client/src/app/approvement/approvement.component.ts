@@ -14,7 +14,9 @@ export class ApprovementComponent implements OnInit {
   dataTableSubscription: Subscription;
   requests: any[];
   rooms: any[];
+  newDateRooms: any[];
   message = null;
+  alert = false;
 
   accept;
   room;
@@ -39,12 +41,25 @@ export class ApprovementComponent implements OnInit {
   }
 
   getAvailableRooms(selection) {
+    this.rooms = null;
+    this.newDateRooms = null;
+    this.room = null;
     this.selected = selection;
     var datetime = this.datePipe.transform(new Date(selection.datetime),"yyyy-MM-dd'T'HH:mm")
     this.roomService.getAvailableExaminationRooms(datetime, selection.duration).subscribe(data => {
-      this.rooms = [];
-      for(let i in data) {
-        this.rooms.push(data[i]);
+      console.log(data);
+      if((data as any[]).length === 0) {
+        this.roomService.getNewFreeRooms(selection.id).subscribe(data => {
+          this.newDateRooms = [];
+          for(let elem of data['data']) {
+            this.newDateRooms.push(elem);
+          }
+        });
+      } else {
+        this.rooms = [];
+        for(let i in data) {
+          this.rooms.push(data[i]);
+        }
       }
     });
   }
@@ -60,9 +75,13 @@ export class ApprovementComponent implements OnInit {
   sendProcess(accept, selection) {
     var form = {
         appointmentId: selection.id,
-        roomNumber: this.room,
+        roomNumber: this.room.roomNumber,
         approved: accept
     };
+
+    if(this.room.firstFreeDate)
+      form['newDate'] = this.room.firstFreeDate;
+
     this.appointmentService.solveRequest(form).subscribe(data => {
       var index = this.requests.indexOf(selection);
 
@@ -70,7 +89,18 @@ export class ApprovementComponent implements OnInit {
         this.requests.splice(index, 1);
 
       this.rooms = null;
+      this.newDateRooms = null;
+      this.room = undefined;
       this.message = 'Zahtev je obrađen';
+    },
+    error => {
+      this.alert = true;
+      if(error.error['description'] === 'taken') {
+        this.message = 'Sala je već zauzeta';
+      }
+      else {
+        this.message = 'Došlo je do greške';
+      }
     });
   }
 }

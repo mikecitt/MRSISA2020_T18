@@ -187,19 +187,25 @@ public class AppointmentController {
         Appointment appointment = this.appointmentService.findById(approval.getAppointmentId());
         Room room = this.roomService.findByRoomNumber(approval.getRoomNumber());
 
-        if(clinicAdmin != null &&
-                this.roomService.isRoomAlreadyTaken(room, appointment)) {
+        if(clinicAdmin != null) {
             if(approval.isApproved()) {
                 if(room != null && appointment != null) {
                     appointment.setActive(true);
-                    appointment.setRoom(room);
                     if(approval.getNewDate() != null) {
                         appointment.setDatetime(approval.getNewDate());
                     }
 
-                    this.appointmentService.save(appointment);
-                    resp.setStatus("ok");
-                    resp.setDescription("true");
+                    if(!this.roomService.isRoomAlreadyTaken(room, appointment)) {
+                        appointment.setRoom(room);
+                        this.appointmentService.save(appointment);
+                        resp.setStatus("ok");
+                        resp.setDescription("true");
+                    }
+                    else {
+                        resp.setStatus("error");
+                        resp.setDescription("taken");
+                        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+                    }
                 }
                 else {
                     resp.setStatus("error");
@@ -207,13 +213,11 @@ public class AppointmentController {
                 }
             }
             else {
-
                 this.appointmentService.remove(appointment.getId());
                 resp.setDescription("false");
             }
         }
 
-        // TODO: posalati mejl lekaru i pacijentu
         return ResponseEntity.ok(resp);
     }
 

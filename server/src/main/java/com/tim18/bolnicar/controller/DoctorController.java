@@ -128,6 +128,7 @@ public class DoctorController {
     public ResponseEntity<List<TimeIntervalDTO>> getFreeTime(@PathVariable Integer doctorId, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Response resp = new Response();
 
-        return ResponseEntity.ok(this.doctorService.getFreeDayTime(date, doctorId));
+        // check if duration is always the same
+        return ResponseEntity.ok(this.doctorService.getFreeDayTime(date, doctorId, 30));
     }
 }

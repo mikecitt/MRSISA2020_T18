@@ -150,7 +150,7 @@ public class ClinicServiceImpl implements ClinicService {
                         continue;
 
                     // yes, it is
-                    List<TimeIntervalDTO> free = this.doctorService.getFreeDayTime(date, worker.getId());
+                    List<TimeIntervalDTO> free = this.doctorService.getFreeDayTime(date, worker.getId(), 30);
                     DoctorDTO doc = new DoctorDTO((Doctor)worker);
                     doc.setFreeIntervals(free);
                     freeDoctors.add(doc);

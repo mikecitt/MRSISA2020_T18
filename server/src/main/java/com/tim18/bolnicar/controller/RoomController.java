@@ -1,10 +1,14 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.RoomDTO;
+import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.service.AppointmentService;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import com.tim18.bolnicar.service.ClinicService;
+import com.tim18.bolnicar.service.DoctorService;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +36,12 @@ public class RoomController {
 
     @Autowired
     private ClinicService clinicService;
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @GetMapping(path = "/")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -62,7 +72,46 @@ public class RoomController {
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
+    @GetMapping("/availableRooms/{appointmentId}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getAvailableRooms(@PathVariable int appointmentId, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+        Appointment appointment = this.appointmentService.findById(appointmentId);
+
+        if(clinicAdmin != null && appointment != null) {
+            Doctor doctor = appointment.getDoctor();
+            if(doctor != null) {
+                Date current = appointment.getDatetime();
+                List<RoomDTO> freeRooms = new ArrayList<RoomDTO>();
+                while(true) {
+                    freeRooms = this.roomService
+                            .findRoomsFreeForDay(clinicAdmin.getClinic(), this.doctorService
+                            .getFreeDayTime(current, doctor.getId(), appointment.getDuration()));
+
+                    if(freeRooms.size() > 0)
+                        break;
+
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(current);
+                    c.add(Calendar.DAY_OF_MONTH, 1);
+                    current = c.getTime();
+                }
+                resp.setData(freeRooms.toArray());
+                resp.setStatus("ok");
+            }
+            else {
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(resp);
     }
 
     @PostMapping(
