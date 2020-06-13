@@ -43,9 +43,11 @@ public class PatientController {
         MedicalWorker medicalWorker = (MedicalWorker) userService.findByEmailAddress(user.getName());
         if(medicalWorker != null && medicalWorker.getClinic() != null)
             for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
-                PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
-                if(!patientDTOList.contains(patientDTO))
-                    patientDTOList.add(patientDTO);
+                if(appointment.getPatient() != null) {
+                    PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
+                    if (!patientDTOList.contains(patientDTO))
+                        patientDTOList.add(patientDTO);
+                }
             }
 
         return ResponseEntity.ok(patientDTOList);
