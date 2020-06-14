@@ -204,10 +204,23 @@ public class ClinicServiceImpl implements ClinicService {
         if (clinic.isEmpty())
             return false;
 
+        System.out.println("TU SAM!");
+
         // grade exists?
         for (ClinicGrade grade : clinic.get().getGrades()) {
             if (grade.getPatient().getId() == patient.getId()) {
                 grade.setGrade(req.getGrade());
+
+                System.out.printf("Ok, ima ocena, probacu da uradim update: %d\n", req.getGrade());
+
+                try {
+                    Thread.sleep(10000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.printf("Update to: %d\n", req.getGrade());
+
                 this.clinicGradeRepository.save(grade);
                 return true;
             }
@@ -223,6 +236,18 @@ public class ClinicServiceImpl implements ClinicService {
                 grade.setClinic(clinic.get());
                 grade.setPatient(patient);
                 clinic.get().addGrade(grade);
+
+                System.out.printf("Pendding: %d\n", grade.getGrade());
+
+                try {
+                    Thread.sleep(10000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.printf("Write: %d\n", grade.getGrade());
+
+
                 this.clinicRepository.save(clinic.get());
                 return true;
             }

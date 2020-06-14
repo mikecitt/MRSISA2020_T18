@@ -129,6 +129,7 @@ public class DoctorController {
         Response resp = new Response();
 
         // check if duration is always the same
+        System.out.println("Prosledjen datum: " + date);
         return ResponseEntity.ok(this.doctorService.getFreeDayTime(date, doctorId, 30));
     }
 }

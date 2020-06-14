@@ -112,6 +112,7 @@ public class DoctorServiceImpl implements DoctorService {
         if (doctor.isEmpty())
             return free;
 
+        System.out.println("Prosledjujem: " + date);
         List<Appointment> appointments = this.getAppointmentsForDate(date, doctorId);
 
         if (isHoliday(date, doctor.get()) || !isWorkingDay(date, doctor.get()))
