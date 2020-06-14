@@ -2,7 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { AppointmentService } from '../service';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { AppointmentDoctorModalComponent } from '../appointment-doctor-modal/appointment-doctor-modal.component';
 
 const STORAGE_KEY = 'appointmentId';
 
@@ -24,7 +26,8 @@ export class AppointmentReportComponent implements OnInit {
 
   constructor(@Inject(SESSION_STORAGE) private storage: StorageService,
               private appointmentService: AppointmentService,
-              private router: Router) { }
+              private router: Router,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.activeAppointment();
@@ -77,6 +80,11 @@ export class AppointmentReportComponent implements OnInit {
     this.appointmentService.saveAppointment(form).subscribe(result => {
 
     });
+  }
+
+  book() {
+    const modalRef = this.modalService.open(AppointmentDoctorModalComponent);
+    modalRef.componentInstance.patientId = this.appointment.patientId;
   }
 
 
