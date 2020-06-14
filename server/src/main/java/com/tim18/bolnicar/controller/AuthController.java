@@ -48,8 +48,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                                     HttpServletResponse response) {
-        System.out.printf("Username %s\n", authenticationRequest.getUsername());
-        System.out.printf("Password %s\n", authenticationRequest.getPassword());
+        //System.out.printf("Username %s\n", authenticationRequest.getUsername());
+        //System.out.printf("Password %s\n", authenticationRequest.getPassword());
 
         //
         Authentication authentication = authenticationManager

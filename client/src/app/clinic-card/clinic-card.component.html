@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+    	<div id="mapa-klinike"></div>
+      <p><strong>Klinika:</strong> {{ clinicName }}</p>
+      <ng-template>
+    		<p><strong>Adresa:</strong> {{ clinicAddress }}</p>
+    	</ng-template>
+			<div class="container star-container">
+				<div class="row">
+					<div class="col" class="float-right"><strong>Ocena:</strong></div>
+					<div class="col">
+						<bar-rating 
+						[readOnly]="true"
+						[theme]="'default'" 
+						[(rate)]="clinicGrade" 
+						[max]="5">
+						</bar-rating>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="patientGrade != undefined" class="container star-container">
+				<div class="row">
+					<div class="col" class="float-right"><strong>Ocenite kliniku:</strong></div>
+					<div class="col">
+						<bar-rating 
+						[theme]="'default'" 
+						[(rate)]="patientGrade" 
+						[max]="5"
+						(rateChange)="rateClinic($event)">
+						</bar-rating>
+					</div>
+				</div>
+			</div>
+			<p class="description">{{ clinicDescription }}</p>
+    </div>
+  </div>
+</div>

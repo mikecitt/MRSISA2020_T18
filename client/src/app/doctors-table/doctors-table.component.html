@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <form>
+  <h3>Lista lekara</h3>
   <div class="form-group form-inline">
       Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
   </div>
@@ -8,22 +8,26 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">#</th>
-    <th scope="col">Ime</th>
     <th scope="col">Prezime</th>
+    <th scope="col">Ime</th>
+    <th scope="col">Email</th>
+    <th scope="col">JMBG</th>
     <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let doctor of tableData; index as i">
-    <th>
-      {{ doctor.id }}
-    </th>
+    <td>
+      {{ doctor.lastName }}
+    </td>
     <td>
       {{ doctor.firstName }}
     </td>
     <td>
-      {{ doctor.lastName }}
+      {{ doctor.emailAddress }}
+    </td>
+    <td>
+      {{ doctor.jmbg }}
     </td>
     <td>
       <i (click)="removeDoctor(doctor.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>

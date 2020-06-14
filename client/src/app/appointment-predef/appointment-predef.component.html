@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="but">
-      <button [disabled]="!loaded2 || !loaded1" type="button" (click)="add()" class="btn btn-primary mb-2 mr-3">Dodaj</button>
+      <button [disabled]="!loaded2 || !loaded1 || form.invalid" type="button" (click)="add()" class="btn btn-primary mb-2 mr-3">Dodaj</button>
       <button [disabled]="!loaded2 && !loaded1" type="button" (click)="cancel()" class="btn btn-secondary mb-2">Ponisti</button>
     </div>
     <div class="alert alert-success" *ngIf="message" role="alert">

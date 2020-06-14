@@ -4,6 +4,7 @@ import com.tim18.bolnicar.dto.Acceptance;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.dto.VacationRequest;
 import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.service.ClinicService;
 import com.tim18.bolnicar.service.EmailService;
 import com.tim18.bolnicar.service.TimeOffService;
 import com.tim18.bolnicar.service.UserService;
@@ -39,23 +40,28 @@ public class AdminClController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping(
-            path="/add",
-            consumes = { MediaType.APPLICATION_JSON_VALUE },
-            produces = { MediaType.APPLICATION_JSON_VALUE }
-    )
+    @Autowired
+    private ClinicService clinicService;
+
+    @PostMapping("/add/{cId}")
     @PreAuthorize("hasRole('CENTER_ADMIN')")
-    public ResponseEntity<Map<String, String>> addAdmin(@RequestBody ClinicAdmin newClinicAdmin) {
+    public ResponseEntity<Map<String, String>> addAdmin(@RequestBody ClinicAdmin newClinicAdmin, @PathVariable Integer cId) {
         HashMap<String, String> response = new HashMap<>();
+        Clinic clinic = clinicService.findOne(cId);
+        if(clinic != null) {
+            newClinicAdmin.setClinic(clinic);
 
-        try {
-            clinicAdminService.save(newClinicAdmin);
-            response.put("message", "true");
-        } catch(Exception e) {
-            response.put("message", "false");
+            if(clinicAdminService.register(newClinicAdmin)) {
+                response.put("message", "true");
+            }
+            else {
+                response.put("message", "false");
+            }
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        response.put("message", "false");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "/vacations")

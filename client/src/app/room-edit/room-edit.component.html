@@ -8,7 +8,7 @@
   	<label class="col-sm-3 col-form-label">Broj sobe</label>
     <div class="col">
 			<input type="text" class="form-control" hidden formControlName="id"> <!-- skloniti nekako -->
-      <input type="text" class="form-control" [class.is-invalid]="roomEditForm.get('roomNumber').invalid" formControlName="roomNumber">
+      <input type="number" min="10001" class="form-control" [class.is-invalid]="roomEditForm.get('roomNumber').invalid" formControlName="roomNumber">
     </div>
   </div>
   <div class="form-group row">

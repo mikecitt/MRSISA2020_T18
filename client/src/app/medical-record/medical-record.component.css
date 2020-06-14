@@ -1,0 +1,10 @@
+.box {
+	background-color: #f2f2f2;
+	padding: 10px;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.box-wrap {
+	padding: 10px;
+}

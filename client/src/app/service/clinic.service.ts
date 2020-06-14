@@ -30,6 +30,10 @@ export class ClinicService {
     return this.http.get<Clinic>(`${environment.api_url}/clinic/profile`);
   }
 
+	getClinicIncome(payload) {
+		return this.http.get(`${environment.api_url}/clinic/income`, { params: payload, headers: httpOptions.headers });
+	}
+
 	updateClinicProfile(payload) {
     return this.http.put(`${environment.api_url}/clinic/profile`, payload, httpOptions);
   }
@@ -45,5 +49,12 @@ export class ClinicService {
   gradeClinic(payload) {
     return this.http.post(`${environment.api_url}/clinic/grade`, payload, httpOptions)
   }
-  
+
+  getClinic(clinicId) {
+    return this.http.get(`${environment.api_url}/clinic/${clinicId}`, httpOptions)
+  }
+
+	getClinicChartData() {
+    return this.http.get(`${environment.api_url}/clinic/appointmentsSummary`, httpOptions)
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { RoomService } from '../service';
+import { RoomService, ToastService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoomEditComponent } from '../room-edit/room-edit.component';
+import { RoomCalendarComponent } from '../room-calendar/room-calendar.component';
 
 
 import { Observable, Subscription } from 'rxjs';
@@ -40,13 +41,14 @@ export class RoomsTableComponent implements OnInit {
   pipe: DecimalPipe;
 
   constructor(private roomService: RoomService,
-    pipe: DecimalPipe, private modalService: NgbModal) {
+    pipe: DecimalPipe, private modalService: NgbModal,
+    private toastService: ToastService) {
       this.pipe = pipe;
 
       this.filter.valueChanges.subscribe(val => {
         this.tableData = this.data.filter(entity => {
             const term = val.toLowerCase();
-            return entity.type.toLowerCase().includes(term) 
+            return entity.type.toLowerCase().includes(term)
                     || String(entity.roomNumber).includes(term);
           })
       })
@@ -78,7 +80,20 @@ export class RoomsTableComponent implements OnInit {
 
   removeRoom(id) {
     this.roomService.removeRoom(id).subscribe(data => {
+      this.toastService.show('Brisanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
       this.initTable();
+    }, err => {
+      this.toastService.show('Nije moguće obrisati stavku.', { classname: 'bg-danger text-light', delay: 3000 });
+    });
+  }
+
+  openCalendar(id): void {
+    const modalRef = this.modalService.open(RoomCalendarComponent, {size: 'lg'});
+    modalRef.componentInstance.id = id;
+
+    modalRef.result.then((data) => {
+    }, (reason) => {
+      this.initTable(); // TODO: make better
     });
   }
 

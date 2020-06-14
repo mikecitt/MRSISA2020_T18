@@ -22,7 +22,10 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+<<<<<<< HEAD
 			<scope>runtime</scope>
+=======
+>>>>>>> master
 		</dependency>
 
 		<dependency>

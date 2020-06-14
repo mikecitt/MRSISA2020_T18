@@ -17,6 +17,15 @@ export class MedicalGuard implements CanActivate {
       let authorities = JSON.stringify(this.userService.currentUser.authorities);
       if (authorities.search('ROLE_DOCTOR') !== -1 ||
           authorities.search('ROLE_NURSE') !== -1) {
+          if(authorities.search('ROLE_NURSE') !== -1 && state.url === '/appointment-rep') {
+            this.router.navigate(['/403']);
+            return false;
+          }
+
+          if(authorities.search('ROLE_DOCTOR') !== -1 && state.url === '/check-recipe') {
+            this.router.navigate(['/403']);
+            return false;
+          }
         return true;
       } else {
         this.router.navigate(['/403']);

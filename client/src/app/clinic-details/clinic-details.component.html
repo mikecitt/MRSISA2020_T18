@@ -21,19 +21,6 @@
 				</div>
 			</div>
 			<p><strong>Adresa:</strong> {{ clinic.address }}</p>
-			<div *ngIf="clinic.patientGrade != undefined" class="container star-container">
-				<div class="row">
-					<div class="col" class="float-right"><strong>Vaša ocena:</strong></div>
-					<div class="col">
-						<bar-rating 
-						[theme]="'default'" 
-						[(rate)]="clinic.patientGrade" 
-						[max]="5"
-						(rateChange)="rateClinic($event)">
-						</bar-rating>
-					</div>
-				</div>
-			</div>
 			<p class="description">{{ clinic.description }}</p>
     </div>
     <div class="col-8" *ngIf="quick; else freeDoctors">

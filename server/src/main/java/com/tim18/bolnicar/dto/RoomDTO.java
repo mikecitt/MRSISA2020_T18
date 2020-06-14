@@ -5,12 +5,14 @@ import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.model.RoomType;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 public class RoomDTO {
     private Integer id;
     private Integer roomNumber;
     private RoomType type;
+    private Date firstFreeDate;
 
     public RoomDTO(Room room) {
         id = room.getId();
@@ -46,6 +48,14 @@ public class RoomDTO {
 
     public void setType(RoomType type) {
         this.type = type;
+    }
+
+    public Date getFirstFreeDate() {
+        return firstFreeDate;
+    }
+
+    public void setFirstFreeDate(Date firstFreeDate) {
+        this.firstFreeDate = firstFreeDate;
     }
 
     @Override

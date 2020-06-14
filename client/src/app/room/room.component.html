@@ -1,10 +1,13 @@
 <app-rooms-table [events]="eventsSubject.asObservable()"></app-rooms-table>
-<div class="w-50">
-  <h2>Dodavanje sale</h2>
+<button type="button" class="btn btn-primary" [hidden]="isCollapsed == false" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+  Dodaj salu
+</button>
+<div class="col-sm-6" [@smoothCollapse]="isCollapsed?'initial':'final'">
   <form>
     <div class="form-group">
       <label for="">Broj sale</label>
-      <input type="number" class="form-control" name="roomNumber" [(ngModel)]="roomNumber">
+      <input type="number" min="10001" class="form-control" name="roomNumber" [(ngModel)]="roomNumber">
     </div>
     <div class="form-group">
       <label for="">Tip sale</label>
@@ -13,7 +16,9 @@
         <option value="OPERATION">Operaciona sala</option>
       </select>
     </div>
-    <button (click)="addRoom()" class="btn btn-primary" type="button">Dodaj</button>
+    <button [disabled]="roomNumber == '' || roomType == null" (click)="addRoom()" class="btn btn-primary" type="button">Dodaj</button>
   </form>
-  <p *ngIf="message">{{message}}</p>
+  <div class="alert alert-danger mt-sm-3" *ngIf="errorMessage" role="alert">
+    {{ errorMessage }}
+  </div>
 </div>

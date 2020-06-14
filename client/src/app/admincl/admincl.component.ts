@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule } from "@angular/forms";
-import { CladminService } from '../service';
+import { FormControl, FormGroup, FormsModule, FormBuilder, Validators } from "@angular/forms";
+import { CladminService, ClinicService, Clinic } from '../service';
+
+/*interface Clinic {
+	id: number;
+	name: string;
+}*/
 
 @Component({
   selector: 'app-admincl',
@@ -9,57 +14,60 @@ import { CladminService } from '../service';
 })
 
 export class AdminClComponent implements OnInit {
+  form = this.formBuilder.group({
+    clinicId: ['', Validators.compose([Validators.required])],
+    emailAddress: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
+    password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])],
+    repeat: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])],
+    firstName: ['', Validators.compose([Validators.required])],
+    lastName: ['', Validators.compose([Validators.required])],
+    address: ['', Validators.compose([Validators.required])],
+    city: ['', Validators.compose([Validators.required])],
+    country: ['', Validators.compose([Validators.required])],
+    contact: ['', Validators.compose([Validators.required, Validators.pattern("[+]?^[0-9]+"),])],
+    jmbg: ['', Validators.compose([Validators.required, Validators.minLength(13), Validators.pattern("^[0-9]+"), Validators.maxLength(13)])],
+  });
 
-  firstname:string = '';
-  lastname:string = '';
-  email:string = '';
-  password:string = '';
-  repeat:string = '';
-  address:string = '';
-  city:string = '';
-  country:string = '';
-  jmbg:string = '';
-  contact:string = '';
+  clinics: Clinic[] = [];
+
   message:string = null;
   alertType:string = null;
 
-  constructor(private service:CladminService) { }
+  errorRePassword = false;
 
-  ngOnInit() { }
+  constructor(private service:CladminService,
+              private clinicService:ClinicService,
+              private formBuilder: FormBuilder) { }
 
-  addAdmin() {
-    var formData = {
-      "firstName"   : this.firstname,
-      "lastName"    : this.lastname,
-      "emailAddress": this.email,
-      "password"    : this.password,
-      "address"     : this.address,
-      "city"        : this.city,
-      "country"     : this.country,
-      "jmbg"        : this.jmbg,
-      "contact"     : this.contact
-    }
-
-    if(this.firstname == "" || this.lastname == "" || this.email == "" ||
-      this.password == "" || this.repeat == "" || this.address == "" ||
-      this.city == "" || this.country == "" || this.contact == "") {
-      this.message = "Sva polja moraju biti popunjena.";
-    }
-    else if(this.password == this.repeat)
-      return this.service.addClAdmin(formData).subscribe(data => {
-        if(data['message'] == "true") {
-          this.message = "Admin klinike uspesno dodat."
-          this.alertType = "success"
-        }
-        else {
-          this.message = "Admin klinike vec postoji."
-          this.alertType = "danger"
-        }
-      });
-    else {
-      this.message = "Lozinke se ne poklapaju."
-      this.alertType = "warning"
-    }
+  ngOnInit() {
+    this.clinicService.getClinics().subscribe(data => {
+      this.clinics = data as Clinic[];
+      //console.log(data);
+    })
   }
 
+  addAdmin() {
+    this.errorRePassword = false;
+
+    if (this.form.controls['repeat'].value !== this.form.controls['password'].value) {
+      this.errorRePassword = true;
+      return;
+    }
+
+    let formObj = this.form.getRawValue();
+    delete formObj['repeat'];
+    let clinicId = formObj['clinicId'];
+    delete formObj['clinicId'];
+
+    return this.service.addClAdmin(formObj, clinicId).subscribe(data => {
+      if(data['message'] == "true") {
+        this.message = "Admin klinike uspesno dodat."
+        this.alertType = "success"
+      }
+      else {
+        this.message = "Korisnik vec postoji."
+        this.alertType = "danger"
+      }
+    });
+  }
 }

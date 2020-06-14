@@ -12,10 +12,12 @@ public interface ClinicService {
     ClinicDTO getClinicProfile(int id);
     boolean updateClinicProfile(int id, ClinicDTO clinic);
     Clinic findSingle(String name);
+    Clinic findOne(int id);
     List<Clinic> findAll();
     List<ClinicDTO> findAll(String patientEmail); // check patient voting right
     Clinic save(Clinic clinic);
     List<ClinicDTO> getClinicsWithFreeAppointments(
-            Date date, Integer examinationTypeId, String address, Integer grade, String patientEmail);
+            Date date, Integer examinationTypeId, String address, Integer grade);
     boolean gradeClinic(String patientEmail, GradeRequest req);
+    ClinicDTO getClinic(String patientEmail, Integer clinicId);
 }

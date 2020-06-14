@@ -2,6 +2,7 @@ package com.tim18.bolnicar.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Appointment {
@@ -12,8 +13,9 @@ public class Appointment {
     @Column(nullable = true)
     private Date datetime;
 
+    // in hours
     @Column
-    private Double duration;
+    private Integer duration;
 
     // positive percents
     @Column(nullable = false)
@@ -34,11 +36,21 @@ public class Appointment {
     @OneToOne
     private Doctor doctor;
 
+    @ManyToMany
+    private Set<Doctor> additionalDoctors;
+
     @ManyToOne
     private Clinic clinic;
 
     @Column
     private Boolean active;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private RoomType appointmentType;
+
+    @Column
+    private Double price;
 
     @OneToOne(cascade = CascadeType.ALL)
     private DoctorGrade doctorGrade;
@@ -59,11 +71,11 @@ public class Appointment {
         this.datetime = datetime;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
@@ -115,6 +127,14 @@ public class Appointment {
         this.doctor = doctor;
     }
 
+    public Set<Doctor> getAdditionalDoctors() {
+        return additionalDoctors;
+    }
+
+    public void setAdditionalDoctors(Set<Doctor> additionalDoctors) {
+        this.additionalDoctors = additionalDoctors;
+    }
+
     public Clinic getClinic() {
         return clinic;
     }
@@ -137,5 +157,21 @@ public class Appointment {
 
     public void setDoctorGrade(DoctorGrade doctorGrade) {
         this.doctorGrade = doctorGrade;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public RoomType getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(RoomType type) {
+        this.appointmentType = type;
     }
 }

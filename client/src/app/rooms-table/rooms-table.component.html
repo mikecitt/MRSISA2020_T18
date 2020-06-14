@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <h3>Lista sala</h3>
 
 <form>
@@ -24,8 +23,9 @@
       {{ room.type }}
     </td>
     <td>
-      <i title="Izmena" (click)="openRoomEdit(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil"></i>&nbsp;
-      <i title="Brisanje" (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>
+      <i title="Kalendar zauzeca" (click)="openCalendar(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fas fa-info-circle mr-sm-3"></i>
+      <i title="Izmena" (click)="openRoomEdit(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-pencil-alt mr-sm-3"></i>
+      <i title="Brisanje" (click)="removeRoom(room.roomNumber)" style="font-size:22px; cursor: pointer;" class="fa fa-trash mr-sm-3"></i>
     </td>
   </tr>
   </tbody>

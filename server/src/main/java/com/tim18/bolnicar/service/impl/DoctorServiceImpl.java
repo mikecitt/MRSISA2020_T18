@@ -2,10 +2,12 @@ package com.tim18.bolnicar.service.impl;
 
 import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.Appointment;
+import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.TimeOff;
 import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.DoctorRepository;
+import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,18 +27,22 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public boolean register(Doctor doctor) {
-        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-        doctor.setLastPasswordResetDate(null);
-        doctor.setActive(false);
+        if(userRepository.findByEmailAddress(doctor.getEmailAddress()) == null && userRepository.findByJmbg(doctor.getJmbg()) == null) {
+            doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+            doctor.setLastPasswordResetDate(null);
+            doctor.setActive(false);
 
-        try {
-            save(doctor);
-            return true;
-        } catch (Exception ex) {
+            try {
+                save(doctor);
+                return true;
+            } catch (Exception ignored) {
+            }
         }
-
         return false;
     }
 
@@ -66,16 +72,29 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public List<Doctor> findDoctorsFromClinic(Integer clinicId) {
+        return doctorRepository.findAllByClinicIdOrderByLastNameAsc(clinicId);
+    }
+
+    @Override
     public List<Appointment> getAppointmentsForDate(Date date, Integer doctorId) {
         return this.appointmentRepository.findDoctorAppointmentsForDay(date, doctorId);
     }
 
     private boolean isHoliday(Date date, Doctor doctor) {
+        // added because it only needs to compare date without time portion
+        Calendar compare = Calendar.getInstance();
+        compare.setTime(date);
+        compare.set(Calendar.HOUR, 0);
+        compare.set(Calendar.MINUTE, 0);
+        compare.set(Calendar.SECOND, 0);
+        compare.set(Calendar.MILLISECOND, 0);
         //TODO: sorted?! no?
         for (TimeOff to : doctor.getActiveCalendar()) {
             // start_date <= date <= end_date, is date in holiday interval
             //TODO: test
-            if (to.getStartDate().compareTo(date) <= 0 && to.getEndDate().compareTo(date) >= 0) {
+            if (to.getStartDate().compareTo(compare.getTime()) <= 0 &&
+                    to.getEndDate().compareTo(compare.getTime()) >= 0) {
                 return true;
             }
         }
@@ -97,13 +116,14 @@ public class DoctorServiceImpl implements DoctorService {
 
     //TODO: test
     @Override
-    public List<TimeIntervalDTO> getFreeDayTime(Date date, Integer doctorId) {
+    public List<TimeIntervalDTO> getFreeDayTime(Date date, Integer doctorId, Integer duration) {
         List<TimeIntervalDTO> free = new ArrayList<>();
         Optional<Doctor> doctor = this.doctorRepository.findById(doctorId);
 
         if (doctor.isEmpty())
             return free;
 
+        System.out.println("Prosledjujem: " + date);
         List<Appointment> appointments = this.getAppointmentsForDate(date, doctorId);
 
         if (isHoliday(date, doctor.get()) || !isWorkingDay(date, doctor.get()))
@@ -134,14 +154,14 @@ public class DoctorServiceImpl implements DoctorService {
         while (begin.before(end)) {
             Calendar intervalEnd = Calendar.getInstance();
             intervalEnd.setTime(begin.getTime());
-            intervalEnd.add(Calendar.MINUTE, 30); // add 30min step
+            intervalEnd.add(Calendar.MINUTE, duration);
 
             // appointment end
             Calendar appEnd = null;
             if (app != null) {
                 appEnd = Calendar.getInstance();
                 appEnd.setTime(app.getDatetime());
-                appEnd.add(Calendar.MINUTE, (int) (60 * app.getDuration()));
+                appEnd.add(Calendar.MINUTE, (app.getDuration()));
             }
 
             // begin - a

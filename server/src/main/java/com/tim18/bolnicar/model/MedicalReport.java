@@ -16,7 +16,7 @@ public class MedicalReport {
     @ManyToMany
     private Set<MedicalDiagnosis> diagnoses;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Recipe> recipes;
 
     @OneToOne

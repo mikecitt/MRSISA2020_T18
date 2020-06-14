@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { environment } from './../../environments/environment';
 
 import { environment } from './../../environments/environment';
 

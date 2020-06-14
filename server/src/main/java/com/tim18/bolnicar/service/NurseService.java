@@ -11,4 +11,5 @@ public interface NurseService {
     List<Nurse> findAll();
     Nurse save(Nurse nurse);
     void remove(int id);
+    List<Nurse> findNursesFromClinic(Integer clinicId);
 }

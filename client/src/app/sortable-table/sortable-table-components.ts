@@ -2,7 +2,9 @@ import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, V
 
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
-export const compare = (v1: string, v2: string) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+export const compare = (v1, v2) => {
+  return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
+}
 
 export interface SortEvent {
   column: any;

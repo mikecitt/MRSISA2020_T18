@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PatientService, MedicalReport } from '../service';
+import { Component, OnInit, Input } from '@angular/core';
+import { PatientService } from '../service';
 
 @Component({
   selector: 'app-medical-record',
@@ -7,16 +7,18 @@ import { PatientService, MedicalReport } from '../service';
   styleUrls: ['./medical-record.component.css']
 })
 export class MedicalRecordComponent implements OnInit {
-	medicalRecord: MedicalReport[] = []
+	public medicalRecord;
+  @Input() patientId: number;
 
   constructor(private service: PatientService) { }
 
   ngOnInit(): void {
   	//console.log('call')
-  	this.service.getMedicalRecord().subscribe(data => {
+    console.log(this.patientId)
+  	this.service.getMedicalRecord(this.patientId).subscribe(data => {
   		//console.log(data[''])
-  		for (let r of data['data'])
-  			this.medicalRecord.push(r)
+      this.medicalRecord = data['data'][0];
+      console.log(this.medicalRecord);
   	})
   }
 

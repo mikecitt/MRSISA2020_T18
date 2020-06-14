@@ -1,62 +1,78 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule } from "@angular/forms";
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { FormControl, FormGroup, FormsModule, FormBuilder, Validators } from "@angular/forms";
 import { Subject } from 'rxjs';
-import { NurseService } from '../service';
+import { NurseService, ToastService } from '../service';
 @Component({
   selector: 'app-nurse',
   templateUrl: './nurse.component.html',
-  styleUrls: ['./nurse.component.css']
+  styleUrls: ['./nurse.component.css'],
+  animations: [
+    trigger('smoothCollapse', [
+      state('initial', style({
+        height:'0',
+        overflow:'hidden',
+        opacity:'0'
+      })),
+      state('final', style({
+        overflow:'hidden',
+        opacity:'1'
+      })),
+      transition('initial=>final', animate('750ms')),
+      transition('final=>initial', animate('750ms'))
+    ]),
+  ]
 })
 export class NurseComponent implements OnInit {
+  form = this.formBuilder.group({
+    emailAddress: ['', Validators.compose([Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")])],
+    password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])],
+    repeat: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(64)])],
+    firstName: ['', Validators.compose([Validators.required])],
+    lastName: ['', Validators.compose([Validators.required])],
+    address: ['', Validators.compose([Validators.required])],
+    city: ['', Validators.compose([Validators.required])],
+    country: ['', Validators.compose([Validators.required])],
+    contact: ['', Validators.compose([Validators.required, Validators.pattern("[+]?^[0-9]+"),])],
+    jmbg: ['', Validators.compose([Validators.required, Validators.minLength(13), Validators.pattern("^[0-9]+"), Validators.maxLength(13)])],
+  });
 
   eventsSubject: Subject<void> = new Subject<void>();
 
-  firstname:string = '';
-  lastname:string = '';
-  email:string = '';
-  password:string = '';
-  repeat:string = '';
-  address:string = '';
-  city:string = '';
-  country:string = '';
-  jmbg:string = '';
-  contact:string = '';
-  message:string = null;
+  errorRePassword = false;
+  errorMessage = null;
 
-  constructor(private service:NurseService) { }
+  public isCollapsed = true;
+
+  constructor(private service:NurseService,
+              private formBuilder:FormBuilder,
+              private toastService:ToastService) { }
 
   ngOnInit() { }
 
-  addDoctor() {
-    var formData = {
-      "firstName"   : this.firstname,
-      "lastName"    : this.lastname,
-      "emailAddress": this.email,
-      "password"    : this.password,
-      "address"     : this.address,
-      "city"        : this.city,
-      "country"     : this.country,
-      "jmbg"        : this.jmbg,
-      "contact"     : this.contact
+  addNurse() {
+    this.errorRePassword = false;
+    this.errorMessage = null;
+
+    if (this.form.controls['repeat'].value !== this.form.controls['password'].value) {
+      this.errorRePassword = true;
+      return;
     }
 
-    if(this.firstname == "" || this.lastname == "" || this.email == "" ||
-      this.password == "" || this.repeat == "" || this.address == "" ||
-      this.city == "" || this.country == "" || this.contact == "") {
-      this.message = "Sva polja moraju biti popunjena.";
-    }
-    else if(this.password == this.repeat)
-      return this.service.addNurse(formData).subscribe(data => {
-        if(data['message'] == "true") {
-          this.message = "Medicinska sestra uspešno dodata."
-          this.eventsSubject.next();
-        }
-        else {
-          this.message = "Medicinska sestra već postoji."
-        }
-      });
-    else {
-      this.message = "Lozinke se ne poklapaju."
-    }
+    let formObj = this.form.getRawValue();
+    delete formObj['repeat'];
+
+    return this.service.addNurse(formObj).subscribe(data => {
+      if(data['message'] == "true") {
+        this.toastService.show('Dodavanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
+        this.form.reset();
+        this.isCollapsed = true;
+        this.eventsSubject.next();
+      }
+      else {
+        this.errorMessage = "Korisnik vec postoji."
+      }
+    });
+
   }
 }

@@ -5,18 +5,20 @@ import com.tim18.bolnicar.dto.DoctorDTO;
 import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.ClinicGradeRepository;
 import com.tim18.bolnicar.repository.ClinicRepository;
 import com.tim18.bolnicar.repository.PatientRepository;
+import com.tim18.bolnicar.service.ClinicGradeTransService;
 import com.tim18.bolnicar.service.ClinicService;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.security.Timestamp;
 import java.util.*;
 
+@Transactional
 @Service
 public class ClinicServiceImpl implements ClinicService {
 
@@ -29,9 +31,15 @@ public class ClinicServiceImpl implements ClinicService {
     @Autowired
     private ClinicGradeRepository clinicGradeRepository;
 
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     //TODO: discuss
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private ClinicGradeTransService clinicGradeTransService;
 
     @Override
     public ClinicDTO getClinicProfile(int id) {
@@ -57,6 +65,11 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     public Clinic findSingle(String name) {
         return clinicRepository.findByName(name);
+    }
+
+    @Override
+    public Clinic findOne(int id) {
+        return clinicRepository.findById(id).orElseGet(null);
     }
 
     @Override
@@ -116,21 +129,40 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     public List<ClinicDTO> getClinicsWithFreeAppointments(Date date, Integer examinationTypeId,
-                                                       String address, Integer grade, String patientEmail) {
+                                                       String address, Integer grade) {
         if (date == null || examinationTypeId == null)
             return null;
 
+        Date now = new Date();
+        
         List<ClinicDTO> clinics = new ArrayList<>();
 
-        //TODO: filter by address and grade
+        if (now.after(date)) {
+            return clinics;
+        }
+
         for (Clinic it : this.clinicRepository.findAll()) {
             ClinicDTO cl = new ClinicDTO(it);
             cl.setPatientGrade(null);
             List<DoctorDTO> freeDoctors = new ArrayList<>();
 
+            // filter address
             if (address != null && !it.getAddress().toLowerCase().equals(address.toLowerCase()))
                 continue;
-            //TODO: check grade
+
+            // filter grade
+            if (grade != null && grade > 0) {
+                double sum = 0.0;
+                for (ClinicGrade c : it.getGrades()) {
+                    sum += c.getGrade();
+                }
+
+                if (it.getGrades().size() > 0)
+                    sum /= it.getGrades().size();
+
+                if ((int)Math.rint(sum) != grade)
+                    continue;
+            }
 
             for (MedicalWorker worker : it.getWorkers()) {
                 if (worker instanceof Doctor) {
@@ -150,7 +182,7 @@ public class ClinicServiceImpl implements ClinicService {
                         continue;
 
                     // yes, it is
-                    List<TimeIntervalDTO> free = this.doctorService.getFreeDayTime(date, worker.getId());
+                    List<TimeIntervalDTO> free = this.doctorService.getFreeDayTime(date, worker.getId(), 30);
                     DoctorDTO doc = new DoctorDTO((Doctor)worker);
                     doc.setFreeIntervals(free);
                     freeDoctors.add(doc);
@@ -160,32 +192,6 @@ public class ClinicServiceImpl implements ClinicService {
             // free doctors?
             if (freeDoctors.size() > 0) {
                 cl.setFreeDoctors(freeDoctors);
-
-                // pack grade
-                Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
-                if (patient != null) {
-                    boolean hasGrade = false;
-                    for (ClinicGrade g : it.getGrades()) {
-                        if (g.getPatient().getId() == patient.getId()) {
-                            cl.setPatientGrade(g.getGrade());
-                            hasGrade = true;
-                            break;
-                        }
-                    }
-
-                    if (!hasGrade) {
-                        for (Appointment a : it.getAppointments()) {
-                            if (a.getPatient() != null &&
-                                    a.getPatient().getId() == patient.getId() &&
-                                    a.getReport() != null) {
-                                //TODO: better check done?
-                                cl.setPatientGrade(0);
-                                break;
-                            }
-                        }
-                    }
-                }
-
                 clinics.add(cl);
             }
         }
@@ -195,7 +201,6 @@ public class ClinicServiceImpl implements ClinicService {
 
 
     @Override
-    //TODO: optimise
     public boolean gradeClinic(String patientEmail, GradeRequest req) {
 
         if (req.getGrade() == null || req.getGrade() < 1 || req.getGrade() > 5 || req.getEntityId() == null)
@@ -206,35 +211,53 @@ public class ClinicServiceImpl implements ClinicService {
         if (patient == null)
             return false;
 
-        Optional<Clinic> clinic = this.clinicRepository.findById(req.getEntityId());
+        Integer patientId = patient.getId();
 
-        if (clinic.isEmpty())
-            return false;
+        // transaction: required
+        if (this.clinicGradeTransService.updateClinicGrade(patientId, req))
+            return true;
 
-        // grade exists?
-        for (ClinicGrade grade : clinic.get().getGrades()) {
-            if (grade.getPatient().getId() == patient.getId()) {
-                grade.setGrade(req.getGrade());
-                this.clinicGradeRepository.save(grade);
+        try {
+            if (this.clinicGradeTransService.addClinicGrade(patient, req)) {
                 return true;
             }
-        }
-
-        // has appointment?
-        for (Appointment app : clinic.get().getAppointments()) {
-            if (app.getPatient() != null &&
-                    app.getPatient().getId() == patient.getId() &&
-                    app.getReport() != null) {
-                ClinicGrade grade = new ClinicGrade();
-                grade.setGrade(req.getGrade());
-                grade.setClinic(clinic.get());
-                grade.setPatient(patient);
-                clinic.get().addGrade(grade);
-                this.clinicRepository.save(clinic.get());
-                return true;
-            }
+        } catch (Exception e) {
         }
 
         return false;
+    }
+
+
+    @Override
+    public ClinicDTO getClinic(String patientEmail, Integer clinicId) {
+        Optional<Clinic> clinic = this.clinicRepository.findById(clinicId);
+        Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
+
+        //TODO: null or exception?
+        if (clinic.isEmpty() || patient == null)
+            return null;
+
+        ClinicDTO cl = new ClinicDTO(clinic.get());
+        boolean graded = false;
+
+        for (ClinicGrade c : clinic.get().getGrades()) {
+            if (c.getPatient().getId() == patient.getId()) {
+                graded = true;
+                cl.setPatientGrade(c.getGrade());
+                break;
+            }
+        }
+
+        if (!graded)
+            for (Appointment a : clinic.get().getAppointments()) {
+                if (a.getPatient() != null &&
+                        a.getPatient().getId() == patient.getId() &&
+                        a.getReport() != null) {
+                    cl.setPatientGrade(0);
+                    break;
+                }
+            }
+
+        return cl;
     }
 }

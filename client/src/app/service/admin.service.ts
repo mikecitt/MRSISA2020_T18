@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 import { environment } from './../../environments/environment';
 
@@ -16,8 +17,8 @@ export class AdminService {
   }
 
   addAdmin(data) {
-  	return this.http.post<any>(`${environment.api_url}/admin/add`, 
-  															data, 
+  	return this.http.post<any>(`${environment.api_url}/admin/add`,
+  															data,
   															httpOptions);
   }
 }

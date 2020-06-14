@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <form>
   <div class="form-group form-inline">
     Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
@@ -8,22 +7,26 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">#</th>
-    <th scope="col">Ime</th>
     <th scope="col">Prezime</th>
+    <th scope="col">Ime</th>
+    <th scope="col">Email</th>
+    <th scope="col">JMBG</th>
     <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let nurse of tableData; index as i">
-    <th>
-      {{ nurse.id }}
-    </th>
+    <td>
+      {{ nurse.lastName }}
+    </td>
     <td>
       {{ nurse.firstName }}
     </td>
     <td>
-      {{ nurse.lastName }}
+      {{ nurse.emailAddress }}
+    </td>
+    <td>
+      {{ nurse.jmbg }}
     </td>
     <td>
       <i (click)="removeNurse(nurse.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>

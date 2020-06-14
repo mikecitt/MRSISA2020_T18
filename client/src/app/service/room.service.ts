@@ -30,6 +30,14 @@ export class RoomService {
 		return this.http.get(`${environment.api_url}/room/availableExamination/`+datetime+'/'+duration)
 	}
 
+	getAvailableRooms(datetime, duration) {
+		return this.http.get(`${environment.api_url}/room/available` + '/' + datetime + '/' + duration)
+	}
+
+	getNewFreeRooms(appointmentId) {
+	  return this.http.get(`${environment.api_url}/room/availableRooms/${appointmentId}`);
+	}
+
 	getRoom(id) {
 		return this.http.get(`${environment.api_url}/room/${id}`)
 	}
@@ -40,5 +48,9 @@ export class RoomService {
 
 	updateRoom(payload) {
     return this.http.put(`${environment.api_url}/room/`, payload);
+  }
+
+	getEvents(id) {
+    return this.http.get<any>(`${environment.api_url}/room/events/${id}`);
   }
 }

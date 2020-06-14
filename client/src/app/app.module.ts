@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -51,10 +51,20 @@ import { NursesTableComponent } from './nurses-table/nurses-table.component';
 import { AppointmentPredefComponent } from './appointment-predef/appointment-predef.component';
 import { SearchExaminationComponent } from './search-examination/search-examination.component';
 import { FreetimeDoctorTableComponent } from './freetime-doctor-table/freetime-doctor-table.component';
+import { ApprovementComponent } from './approvement/approvement.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BarRatingModule } from "ngx-bar-rating";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ClinicReportComponent } from './clinic-report/clinic-report.component';
+import { ClinicCardComponent } from './clinic-card/clinic-card.component';
+import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
+import { ChartsModule } from 'ng2-charts';
+import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
+import { AppointmentDoctorModalComponent } from './appointment-doctor-modal/appointment-doctor-modal.component';
+import { CheckRecipeComponent } from './check-recipe/check-recipe.component';
 
 @NgModule({
   declarations: [
@@ -94,8 +104,15 @@ import { BarRatingModule } from "ngx-bar-rating";
     SearchExaminationComponent,
     FreetimeDoctorTableComponent,
     AppointmentPredefComponent,
+    ApprovementComponent,
     AppointmentStartModalComponent,
-    ActivationPageComponent
+    ActivationPageComponent,
+    ClinicReportComponent,
+    ClinicCardComponent,
+    RoomCalendarComponent,
+    AppointmentDoctorModalComponent,
+    AppointmentReportComponent,
+    CheckRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,7 +124,10 @@ import { BarRatingModule } from "ngx-bar-rating";
     ReactiveFormsModule,
     StorageServiceModule,
     FullCalendarModule,
-    BarRatingModule
+    BarRatingModule,
+    NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    ChartsModule
   ],
   providers: [
   {
@@ -117,6 +137,7 @@ import { BarRatingModule } from "ngx-bar-rating";
   },
   CookieService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

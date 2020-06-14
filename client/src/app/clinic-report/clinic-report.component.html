@@ -1,0 +1,82 @@
+<h4>Klinika: "{{ clinicName }}"</h4>
+<h5>{{ clinicAddress }}</h5>
+<h5>{{ clinicDescription }}</h5>
+<hr>
+<h5>Prosečna ocena: {{ clinicGrade }}</h5>
+<hr>
+<h5>Prihodi klinike: </h5>
+<form [formGroup]="incomeForm">
+  <div class="form-group row">
+    <label class="col-sm-1 col-form-label">Od</label>
+    <div class="col">
+      <input class="form-control col-sm-2" formControlName="dateFrom" type="date" value="2020-01-01">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-1 col-form-label">Do</label>
+    <div class="col">
+      <input class="form-control col-sm-2" formControlName="dateTo" type="date" value="2020-06-12">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <button type="button" [disabled]="incomeForm.invalid" class="btn btn-primary" (click)="calculateIncome()" name="button">Izračunaj</button>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col">
+      <label *ngIf="clinicIncome != -1" class="col-form-label">Prihodi klinike za uneti period iznose: <b>{{clinicIncome}}RSD</b></label>
+      <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</form>
+<hr>
+<h5>Spisak lekara: </h5>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Ime</th>
+    <th scope="col">Prezime</th>
+    <th scope="col">Prosečna ocena</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let doctor of tableData; index as i">
+    <th>
+      {{ doctor.id }}
+    </th>
+    <td>
+      {{ doctor.firstName }}
+    </td>
+    <td>
+      {{ doctor.lastName }}
+    </td>
+    <td>
+      {{ doctor.doctorGrade }}
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="col-sm-6">
+  <div>
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [chartType]="lineChartType"
+            [options]="lineChartOptions"></canvas>
+  </div>
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="choice">
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(0)" [value]="0"> Dnevni
+    </label>
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(1)" value="1"> Nedeljni
+    </label>
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(2)" [value]="2"> Mesečni
+    </label>
+  </div>
+</div>

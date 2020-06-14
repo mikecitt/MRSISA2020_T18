@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
-
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }
@@ -21,6 +20,10 @@ export class DoctorService {
 
 	getAvailableDoctors(datetime, duration, examinationType) {
 		return this.http.get(`${environment.api_url}/doctor/available/`+datetime+'/'+duration+'/'+examinationType)
+	}
+
+	isDoctorAvailable(datetime, duration) {
+		return this.http.get(`${environment.api_url}/doctor/available/`+datetime+'/'+duration)
 	}
 
   getDoctors() {

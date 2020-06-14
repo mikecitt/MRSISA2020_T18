@@ -38,6 +38,7 @@ export interface Appointment {
   doctor: string;
   clinicName: string;
   patientGrade: number;
+  price: number;
 
 }
 
@@ -53,10 +54,11 @@ export class PatientService {
 
   constructor(private http:HttpClient) { }
 
-  // specify type?
-  getMedicalRecord() {
-  	//TODO: hardcoded
-  	return this.http.get<any>(`${environment.api_url}/patient/medicalRecord`);
+  getMedicalRecord(patientId=undefined) {
+  	if (patientId == undefined)
+      return this.http.get<any>(`${environment.api_url}/patient/medicalRecord`);
+    else
+      return this.http.get<any>(`${environment.api_url}/patient/medicalRecord/${patientId}`);
   }
 
   getPatients() {
@@ -64,6 +66,6 @@ export class PatientService {
   }
 
   getAppointmentsHistory() {
-    return this.http.get<any>(`${environment.api_url}/patient/appointments`)
+    return this.http.get<any>(`${environment.api_url}/patient/appointments`);
   }
 }

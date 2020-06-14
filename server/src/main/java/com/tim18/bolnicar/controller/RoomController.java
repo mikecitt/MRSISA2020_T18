@@ -1,10 +1,8 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.ResponseReport;
-import com.tim18.bolnicar.dto.RoomDTO;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
-import com.tim18.bolnicar.service.ClinicAdminService;
-import com.tim18.bolnicar.service.ClinicService;
+import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +31,15 @@ public class RoomController {
     @Autowired
     private ClinicService clinicService;
 
+    @Autowired
+    private AppointmentService appointmentService;
+
+    @Autowired
+    private DoctorService doctorService;
+
+    @Autowired
+    private UserService userService;
+
     @GetMapping(path = "/")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<RoomDTO>> getRooms(Principal user) {
@@ -46,37 +54,105 @@ public class RoomController {
     }
 
     @GetMapping(path = "/availableExamination/{dateTime}/{duration}")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
-        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
-        List<RoomDTO> roomDTOList = new ArrayList<>();
-        List<RoomDTO> busyRooms = new ArrayList<>();
-        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
-            for (Room room : clinicAdmin.getClinic().getRooms()) {
-                if (room.getType() == RoomType.EXAMINATION)
-                    roomDTOList.add(new RoomDTO(room));
-            }
-            for (Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        User user1 = userService.findByEmailAddress(user.getName());
+        List<RoomDTO> roomDTOList = new ArrayList<RoomDTO>();
+        if(user1 instanceof ClinicAdmin) {
+            if(((ClinicAdmin) user1).getClinic() != null) {
                 try {
-                    Date date = sdf.parse(dateTime);
-                    Date dateEnd = new Date(date.getTime() + TimeUnit.MINUTES.toMillis(duration));
-                    Date appointmentDate = appointment.getDatetime();
-                    Date appointmentDateEnd = new Date(appointmentDate.getTime() + TimeUnit.MINUTES.toMillis(appointment.getDuration().longValue()));
-                    if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd))
-                        busyRooms.add(new RoomDTO(appointment.getRoom()));
-
-                } catch (Exception ignored) {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration, RoomType.EXAMINATION);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
             }
-            roomDTOList.removeAll(busyRooms);
-
-            return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+        } else if(user1 instanceof Doctor) {
+            if(((Doctor) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration, RoomType.EXAMINATION);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(path = "/available/{dateTime}/{duration}")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN', 'DOCTOR')")
+    public ResponseEntity<List<RoomDTO>> getAvailableRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
+        User user1 = userService.findByEmailAddress(user.getName());
+        List<RoomDTO> roomDTOList = new ArrayList<RoomDTO>();
+        if(user1 instanceof ClinicAdmin) {
+            if(((ClinicAdmin) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration, null);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        } else if(user1 instanceof Doctor) {
+            if(((Doctor) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration, null);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/availableRooms/{appointmentId}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getAvailableRooms(@PathVariable int appointmentId, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        ClinicAdmin clinicAdmin = this.clinicAdminService.findSingle(user.getName());
+        Appointment appointment = this.appointmentService.findById(appointmentId);
+
+        if(clinicAdmin != null && appointment != null) {
+            Doctor doctor = appointment.getDoctor();
+            if(doctor != null) {
+                Date current = appointment.getDatetime();
+                List<RoomDTO> freeRooms = new ArrayList<RoomDTO>();
+                while(true) {
+                    freeRooms = this.roomService
+                            .findRoomsFreeForDay(clinicAdmin.getClinic(), this.doctorService
+                            .getFreeDayTime(current, doctor.getId(), appointment.getDuration()));
+
+                    if(freeRooms.size() > 0)
+                        break;
+
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(current);
+                    c.add(Calendar.DAY_OF_MONTH, 1);
+                    current = c.getTime();
+                }
+                resp.setData(freeRooms.toArray());
+                resp.setStatus("ok");
+            }
+            else {
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(resp);
     }
 
     @PostMapping(
@@ -136,6 +212,11 @@ public class RoomController {
         ResponseReport report = new ResponseReport("error", "Forbidden action, contact admin.");
         Room room = this.roomService.findOne(roomUpdates.getId());
         if(room != null && clinicAdmin != null && clinicAdmin.getClinic() != null && clinicAdmin.getClinic().getRooms().contains(room)) {
+            if(roomUpdates.getType() != room.getType()) { // ako je doslo do promene tipa sobe, spreciti ukoliko ima appointmenta
+                if(appointmentService.findRoomsAppointments(room).size() > 0) {
+                    return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
+                }
+            }
             roomUpdates.setClinic(room.getClinic());
             if(this.roomService.save(roomUpdates) != null) {
                 report.setStatus("ok");
@@ -155,5 +236,27 @@ public class RoomController {
         }
 
 
+    }
+
+    @GetMapping(value = "/events/{roomNumber}")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> getEvents(@PathVariable Integer roomNumber, Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<Event> events = null;
+        Room room = roomService.findByRoomNumber(roomNumber);
+        Response resp = new Response();
+        resp.setStatus("error");
+
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null && room != null) {
+            if(clinicAdmin.getClinic().getRooms().contains(room)) {
+                events = Event.convertToEvents(appointmentService.findRoomsAppointments(room));
+
+                resp.setData(events.toArray());
+                resp.setStatus("ok");
+                return ResponseEntity.ok(resp);
+            }
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }
