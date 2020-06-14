@@ -49,13 +49,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomDTO> freeRoomsByDateInterval(Clinic clinic, String dateTime, int duration)
+    public List<RoomDTO> freeRoomsByDateInterval(Clinic clinic, String dateTime, int duration, RoomType roomType)
             throws ParseException {
         List<RoomDTO> roomDTOList = new ArrayList<>();
         List<RoomDTO> busyRooms = new ArrayList<>();
         if(clinic != null) {
             for (Room room : clinic.getRooms()) {
-                if (room.getType() == RoomType.EXAMINATION)
+                if (roomType == null || room.getType() == roomType)
                     roomDTOList.add(new RoomDTO(room));
             }
             for (Appointment appointment : clinic.getAppointments()) {
@@ -83,7 +83,7 @@ public class RoomServiceImpl implements RoomService {
         try {
             List<RoomDTO> rooms = freeRoomsByDateInterval(
                     appointment.getClinic(), date,
-                    appointment.getDuration());
+                    appointment.getDuration(), RoomType.EXAMINATION);
             return rooms.contains(new RoomDTO(room));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class RoomServiceImpl implements RoomService {
             List<RoomDTO> freeRooms = new ArrayList<RoomDTO>();
 
             try {
-                freeRooms = this.freeRoomsByDateInterval(clinic, date, (int)duration);
+                freeRooms = this.freeRoomsByDateInterval(clinic, date, (int)duration, RoomType.EXAMINATION);
                 for(RoomDTO room : freeRooms) {
                     room.setFirstFreeDate(interval.getStart());
                 }

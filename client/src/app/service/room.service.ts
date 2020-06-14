@@ -31,6 +31,10 @@ export class RoomService {
 		return this.http.get(`${environment.api_url}/room/availableExamination` + '/' + datetime + '/' + duration)
 	}
 
+	getAvailableRooms(datetime, duration) {
+		return this.http.get(`${environment.api_url}/room/available` + '/' + datetime + '/' + duration)
+	}
+
 	getNewFreeRooms(appointmentId) {
 	  return this.http.get(`${environment.api_url}/room/availableRooms/${appointmentId}`);
 	}

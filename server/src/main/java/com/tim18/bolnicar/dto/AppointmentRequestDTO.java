@@ -16,6 +16,15 @@ public class AppointmentRequestDTO {
     private Integer doctorId;
     private Integer examinationTypeId;
     private Integer clinicId;
+    private RoomType roomType;
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
 
     public Date getStart() {
         return start;
