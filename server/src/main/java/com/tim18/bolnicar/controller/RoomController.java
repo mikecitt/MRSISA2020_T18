@@ -62,7 +62,7 @@ public class RoomController {
             if(((ClinicAdmin) user1).getClinic() != null) {
                 try {
                     roomDTOList = roomService
-                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration);
+                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration, RoomType.EXAMINATION);
                     return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
                 } catch (ParseException e) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -72,7 +72,7 @@ public class RoomController {
             if(((Doctor) user1).getClinic() != null) {
                 try {
                     roomDTOList = roomService
-                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration);
+                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration, RoomType.EXAMINATION);
                     return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
                 } catch (ParseException e) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -83,6 +83,35 @@ public class RoomController {
 
 
 
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(path = "/available/{dateTime}/{duration}")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN', 'DOCTOR')")
+    public ResponseEntity<List<RoomDTO>> getAvailableRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
+        User user1 = userService.findByEmailAddress(user.getName());
+        List<RoomDTO> roomDTOList = new ArrayList<RoomDTO>();
+        if(user1 instanceof ClinicAdmin) {
+            if(((ClinicAdmin) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration, null);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        } else if(user1 instanceof Doctor) {
+            if(((Doctor) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration, null);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 

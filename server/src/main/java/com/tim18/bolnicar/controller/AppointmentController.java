@@ -21,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -55,6 +56,9 @@ public class AppointmentController {
 
     @Autowired
     private DrugService drugService;
+
+    @Autowired
+    private PatientService patientService;
 
 
     @PostMapping("/{aid}/{pid}")
@@ -175,40 +179,58 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
-    /*@PostMapping("/request")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<Response> makeRequest2(@RequestBody AppointmentRequestDTO requestAppointment, Principal principal) {
+    @PostMapping("/request-doc/{patientId}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> makeRequestByDoctor(@RequestBody AppointmentPredefDTO requestAppointment, @PathVariable Integer patientId, Principal principal) {
         Response resp = new Response();
+        resp.setStatus("error");
 
-        //TODO: check two users
-        if (requestAppointment.getAppointmentId() != null) {
-            boolean flag =
-                    this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
-            resp.setStatus(flag ? "ok" : "error");
-            // resp.setDescription(flag ? "" : "");
-            if (!flag)
-                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
-        } else {
-            // create new
-            Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
-            resp.setStatus(app != null ? "ok" : "error");
+        Doctor doctor = doctorService.findOne(principal.getName());
+        if(doctor == null)
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
 
-            if (app == null)
-                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        Patient patient = patientService.getPatient(patientId);
+        if(patient == null)
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
 
-            Object[] objArray = this.clinicAdminService.getAllEmails(app.getClinic()).toArray();
-            String[] stringArray = Arrays.copyOf(objArray,
-                    objArray.length, String[].class);
-            this.emailService.sendMessages(
-                    stringArray,
-                    "[INFO] TERMINI",
-                    "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
-                            this.appointmentService.appointmentInfo(app)
-            );
+        if(!patientService.isDoctorPatient(patient, doctor.getId()))
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+
+        AppointmentRequestDTO appointmentRequestDTO = new AppointmentRequestDTO();
+        appointmentRequestDTO.setClinicId(doctor.getClinic().getId());
+        appointmentRequestDTO.setDoctorId(doctor.getId());
+        appointmentRequestDTO.setRoomType(requestAppointment.getRoomType());
+        appointmentRequestDTO.setExaminationTypeId(requestAppointment.getType());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(sdf.parse(requestAppointment.getDatetime()));
+        } catch (ParseException e) {
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
+        appointmentRequestDTO.setStart(calendar.getTime());
+        calendar.add(Calendar.MINUTE, requestAppointment.getDuration());
+        appointmentRequestDTO.setEnd(calendar.getTime());
+
+
+        Appointment app = this.appointmentService.addAppointmentRequest(appointmentRequestDTO, patient.getEmailAddress());
+        resp.setStatus(app != null ? "ok" : "error");
+
+        if (app == null)
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+
+        Object[] objArray = this.clinicAdminService.getAllEmails(app.getClinic()).toArray();
+        String[] stringArray = Arrays.copyOf(objArray,
+                objArray.length, String[].class);
+        this.emailService.sendMessages(
+                stringArray,
+                "[INFO] TERMINI",
+                "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
+                        this.appointmentService.appointmentInfo(app)
+        );
 
         return ResponseEntity.ok(resp);
-    }*/
+    }
 
     @GetMapping("/request")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

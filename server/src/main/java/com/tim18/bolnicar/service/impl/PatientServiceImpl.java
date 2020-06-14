@@ -177,6 +177,11 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findByJmbg(patientJmbg);
     }
 
+    @Override
+    public Patient getPatient(Integer id) {
+        return this.patientRepository.findById(id).orElseGet(null);
+    }
+
     public Patient save(Patient patient) {
         return this.patientRepository.save(patient);
     }

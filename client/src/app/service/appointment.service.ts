@@ -33,6 +33,10 @@ export class AppointmentService {
     return this.http.post<any>(`${environment.api_url}/appointment/request`, payload, httpOptions);
   }
 
+	requestAppointmentByDoctor(payload, patientId) {
+    return this.http.post<any>(`${environment.api_url}/appointment/request-doc/${patientId}`, payload, httpOptions);
+  }
+
 	addPredefinedAppointment(appointment) {
 		return this.http.post<any>(`${environment.api_url}/appointment`, appointment,
 																httpOptions)

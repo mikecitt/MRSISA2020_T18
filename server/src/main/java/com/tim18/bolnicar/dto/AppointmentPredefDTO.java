@@ -1,5 +1,7 @@
 package com.tim18.bolnicar.dto;
 
+import com.tim18.bolnicar.model.RoomType;
+
 import java.util.Date;
 
 public class AppointmentPredefDTO {
@@ -8,6 +10,7 @@ public class AppointmentPredefDTO {
     private Integer room;
     private Integer type;
     private Integer doctor;
+    private RoomType roomType;
 
     public AppointmentPredefDTO() {
     }
@@ -50,5 +53,13 @@ public class AppointmentPredefDTO {
 
     public void setDoctor(Integer doctor) {
         this.doctor = doctor;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 }
