@@ -60,6 +60,11 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
     @Override
+    public Clinic findOne(int id) {
+        return clinicRepository.findById(id).orElseGet(null);
+    }
+
+    @Override
     public List<Clinic> findAll() {
         return (List<Clinic>)clinicRepository.findAll();
     }

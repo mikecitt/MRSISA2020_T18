@@ -8,4 +8,5 @@ public interface CCAdminService {
     ClinicCenterAdmin findSingle(String emailAddress);
     List<ClinicCenterAdmin> findAll();
     ClinicCenterAdmin save(ClinicCenterAdmin ccAdmin);
+    boolean register(ClinicCenterAdmin ccAdmin);
 }

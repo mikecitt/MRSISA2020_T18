@@ -5,6 +5,7 @@ import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.repository.ClinicAdminRepository;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     private ClinicAdminRepository clinicAdminRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public ClinicAdmin findSingle(String emailAddress) {
@@ -33,5 +37,19 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
     @Override
     public List<String> getAllEmails(Clinic clinic) {
         return this.clinicAdminRepository.findAllClinicAdminMails(clinic.getId());
+    }
+
+    @Override
+    public boolean register(ClinicAdmin clinicAdmin) {
+        clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
+        clinicAdmin.setLastPasswordResetDate(null);
+        clinicAdmin.setActive(true);
+
+        try {
+            save(clinicAdmin);
+            return true;
+        } catch (Exception ignored) {}
+
+        return false;
     }
 }
