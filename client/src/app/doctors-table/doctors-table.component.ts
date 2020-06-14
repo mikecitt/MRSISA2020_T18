@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
-import { DoctorService } from '../service';
+import { DoctorService, ToastService } from '../service';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
@@ -42,7 +42,8 @@ export class DoctorsTableComponent implements OnInit {
 
 	pipe: DecimalPipe;
 
-  constructor(private doctorService: DoctorService, pipe: DecimalPipe) {
+  constructor(private doctorService: DoctorService, pipe: DecimalPipe,
+							private toastService: ToastService) {
   	this.pipe = pipe;
 
     this.filter.valueChanges.subscribe(val => {
@@ -83,7 +84,10 @@ export class DoctorsTableComponent implements OnInit {
 	removeDoctor(id) {
 		console.log(id);
 		this.doctorService.removeDoctor(id).subscribe(data => {
+			this.toastService.show('Brisanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
 			this.initTable();
+		}, err => {
+			this.toastService.show('Nije moguće obrisati stavku.', { classname: 'bg-danger text-light', delay: 3000 });
 		});
 	}
 
