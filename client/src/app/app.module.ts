@@ -63,6 +63,7 @@ import { ClinicCardComponent } from './clinic-card/clinic-card.component';
 import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
 import { ChartsModule } from 'ng2-charts';
 import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
+import { CheckRecipeComponent } from './check-recipe/check-recipe.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { AppointmentReportComponent } from './appointment-report/appointment-rep
     ClinicCardComponent,
     RoomCalendarComponent,
     AppointmentReportComponent,
+    CheckRecipeComponent,
   ],
   imports: [
     BrowserModule,

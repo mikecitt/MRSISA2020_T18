@@ -21,6 +21,7 @@
       <a routerLink="/appointment-predef" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Predefinisani termini</a>
       <a routerLink="/approvement" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Obrada zahteva za pregled</a>
       <a routerLink="/clinic-report" *ngIf="authority == 'ROLE_CLINIC_ADMIN'" class="list-group-item list-group-item-action">Izveštaj klinike</a>
+      <a routerLink="/check-recipe" *ngIf="authority == 'ROLE_NURSE'" class="list-group-item list-group-item-action">Overa recepata</a>
     </div>
   </div>
   <!-- /#sidebar-wrapper -->
