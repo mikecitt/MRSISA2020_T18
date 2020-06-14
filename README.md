@@ -24,6 +24,8 @@
 #### Pokretanje
 
     run BolnicarApplication
+    // dodatno podesiti konekciju ka bazi u application.properties
+    // u ovom slučaju je podešeno na postgresql
 
 ## Client
 #### Korišćene tehnologije:
