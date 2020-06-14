@@ -41,13 +41,13 @@ public class DoctorController {
 
     @GetMapping
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<MedicalWorkerDTO>> getDoctors(Principal user) {
+    public ResponseEntity<List<DoctorDTO>> getDoctors(Principal user) {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
-        List<MedicalWorkerDTO> doctors = new ArrayList<>();
+        List<DoctorDTO> doctors = new ArrayList<>();
         if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
             List<Doctor> doctorsFromClinic= doctorService.findDoctorsFromClinic(clinicAdmin.getClinic().getId());
             for(Doctor d : doctorsFromClinic)
-                doctors.add(new MedicalWorkerDTO(d));
+                doctors.add(new DoctorDTO(d));
 
             return ResponseEntity.ok(doctors);
         }
