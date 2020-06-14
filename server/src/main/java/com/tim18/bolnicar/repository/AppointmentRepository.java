@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Integer> {
-    Iterable<Appointment> findAllByDoctor(Doctor doctor);
+    List<Appointment> findAllByDoctor(Doctor doctor);
 
     @Query(value = "SELECT * FROM Appointment WHERE DATEDIFF(day, DATETIME, :pdate) = 0 AND DOCTOR_ID = :did ORDER BY DATETIME ASC",
             nativeQuery = true)

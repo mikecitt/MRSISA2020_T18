@@ -1,8 +1,10 @@
 import { Component, OnInit, Directive, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { AppointmentDoctorModalComponent } from '../appointment-doctor-modal/appointment-doctor-modal.component';
 import { Subject, Observable, Subscription, of } from 'rxjs';
 import { PatientService, Patient } from '../service';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgSortableHeader, SortDirection, SortEvent, compare } from '../sortable-table';
 
@@ -43,7 +45,8 @@ export class PatientsTableComponent implements OnInit {
 
   }
 
-  constructor(private patientService: PatientService) {
+  constructor(private patientService: PatientService,
+              private modalService: NgbModal) {
 		this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.data.filter(entity => {
 				const term = val.toLowerCase();
@@ -59,5 +62,11 @@ export class PatientsTableComponent implements OnInit {
   		this.data = result;
 			this.tableData = result;
   	})
+  }
+
+  zakazi(patientId) {
+    console.log(patientId);
+    const modalRef = this.modalService.open(AppointmentDoctorModalComponent, {size: 'lg'});
+    modalRef.componentInstance.patientId = patientId;
   }
 }

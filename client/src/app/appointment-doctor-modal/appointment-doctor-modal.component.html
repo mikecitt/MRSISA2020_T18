@@ -1,0 +1,48 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Zakaži sledeći pregled ili operaciju</h5>
+</div>
+<div class="modal-body">
+	<form [formGroup]="form">
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Datum i vreme pregleda</label>
+			<div class="col">
+				<input [class.is-invalid]="errorDate" [readonly]="loaded" class="form-control" type="datetime-local" formControlName="datetime" value="2011-08-19T20:30">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Tip pregleda</label>
+			<div class="col">
+				<select [class.is-invalid]="errorType" formControlName="type" class="form-control"> // value is a string or number
+					<option *ngFor="let obj of examinationTypes; let i = index" [attr.selected]="!i" [value]="obj.id">{{obj.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Trajanje pregleda</label>
+			<div class="col">
+				<input [class.is-invalid]="errorDuration" [readonly]="loaded" type="number" formControlName="time" formControlName="duration" class="form-control">
+			</div>
+		</div>
+		<div class="but">
+			<button [disabled]="form.invalid || loaded" type="button" (click)="search()" class="btn btn-primary mb-2">Pretraži slobodne sale</button>
+			<button [disabled]="!loaded" type="button" (click)="cancel()" class="btn btn-secondary mb-2 ml-2">Ponisti</button>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Broj sale</label>
+			<div class="col">
+				<select formControlName="room" class="form-control"> // value is a string or number
+					<option *ngFor="let obj of rooms" [value]="obj.id">{{obj.roomNumber}}</option>
+				</select>
+			</div>
+		</div>
+	</form>
+	<div *ngIf="doctorFree == 'false'" class="alert alert-danger" role="alert">
+		Lekar nije slobodan u datom terminu.
+	</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" [disabled]="!loaded || doctorFree == 'false'" ngbAutofocus class="btn btn-primary" (click)="book()">Zakaži</button>
+</div>
+</div>

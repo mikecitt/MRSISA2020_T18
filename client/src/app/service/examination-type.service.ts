@@ -22,6 +22,10 @@ export class ExaminationTypeService {
   	return this.http.get<any[]>(`${environment.api_url}/examination-type/`)
   }
 
+	getDoctorsSpecialists() {
+		return this.http.get<any[]>(`${environment.api_url}/examination-type/spec`)
+	}
+
 	getExaminationType(id) {
   	return this.http.get(`${environment.api_url}/examination-type/${id}`)
   }

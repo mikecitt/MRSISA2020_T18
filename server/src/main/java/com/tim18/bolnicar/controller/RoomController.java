@@ -2,10 +2,7 @@ package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
-import com.tim18.bolnicar.service.AppointmentService;
-import com.tim18.bolnicar.service.ClinicAdminService;
-import com.tim18.bolnicar.service.ClinicService;
-import com.tim18.bolnicar.service.DoctorService;
+import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.service.impl.RoomServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +37,9 @@ public class RoomController {
     @Autowired
     private DoctorService doctorService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(path = "/")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<List<RoomDTO>> getRooms(Principal user) {
@@ -54,19 +54,34 @@ public class RoomController {
     }
 
     @GetMapping(path = "/availableExamination/{dateTime}/{duration}")
-    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    @PreAuthorize("hasAnyRole('CLINIC_ADMIN', 'DOCTOR')")
     public ResponseEntity<List<RoomDTO>> getAvailableExaminationRooms(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
-        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        User user1 = userService.findByEmailAddress(user.getName());
         List<RoomDTO> roomDTOList = new ArrayList<RoomDTO>();
-        if(clinicAdmin != null) {
-            try {
-                roomDTOList = roomService
-                        .freeRoomsByDateInterval(clinicAdmin.getClinic(), dateTime, duration);
-                return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
-            } catch (ParseException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(user1 instanceof ClinicAdmin) {
+            if(((ClinicAdmin) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((ClinicAdmin)user1).getClinic(), dateTime, duration);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        } else if(user1 instanceof Doctor) {
+            if(((Doctor) user1).getClinic() != null) {
+                try {
+                    roomDTOList = roomService
+                            .freeRoomsByDateInterval(((Doctor)user1).getClinic(), dateTime, duration);
+                    return new ResponseEntity<>(roomDTOList, HttpStatus.OK);
+                } catch (ParseException e) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
             }
         }
+
+
+
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

@@ -168,6 +168,41 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
+    @PostMapping("/request")
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<Response> makeRequest2(@RequestBody AppointmentRequestDTO requestAppointment, Principal principal) {
+        Response resp = new Response();
+
+        //TODO: check two users
+        if (requestAppointment.getAppointmentId() != null) {
+            boolean flag =
+                    this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
+            resp.setStatus(flag ? "ok" : "error");
+            // resp.setDescription(flag ? "" : "");
+            if (!flag)
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        } else {
+            // create new
+            Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
+            resp.setStatus(app != null ? "ok" : "error");
+
+            if (app == null)
+                return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+
+            Object[] objArray = this.clinicAdminService.getAllEmails(app.getClinic()).toArray();
+            String[] stringArray = Arrays.copyOf(objArray,
+                    objArray.length, String[].class);
+            this.emailService.sendMessages(
+                    stringArray,
+                    "[INFO] TERMINI",
+                    "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
+                            this.appointmentService.appointmentInfo(app)
+            );
+        }
+
+        return ResponseEntity.ok(resp);
+    }
+
     @GetMapping("/request")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Response> getRequests(Principal user) {

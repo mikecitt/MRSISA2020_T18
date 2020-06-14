@@ -5,10 +5,7 @@ import com.tim18.bolnicar.model.Appointment;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.MedicalWorker;
-import com.tim18.bolnicar.service.ClinicAdminService;
-import com.tim18.bolnicar.service.ClinicService;
-import com.tim18.bolnicar.service.DoctorService;
-import com.tim18.bolnicar.service.ExaminationTypeService;
+import com.tim18.bolnicar.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -38,6 +35,9 @@ public class DoctorController {
 
     @Autowired
     private ExaminationTypeService examinationTypeService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -90,6 +90,38 @@ public class DoctorController {
         }
 
         return ResponseEntity.ok(new ArrayList<>());
+    }
+
+    @GetMapping("/available/{dateTime}/{duration}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> isDoctorAvailable(@PathVariable String dateTime, @PathVariable int duration, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        Doctor doctor = this.doctorService.findOne(user.getName());
+        if(doctor != null && doctor.getClinic() != null) {
+            resp.setDescription("true");
+            for (Appointment appointment : appointmentService.findAllDoctorsAppointments(doctor)) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                try {
+                    Date date = sdf.parse(dateTime);
+                    Date dateEnd = new Date(date.getTime() + TimeUnit.MINUTES.toMillis(duration));
+                    Date appointmentDate = appointment.getDatetime();
+                    Date appointmentDateEnd = new Date(appointmentDate.getTime() + TimeUnit.MINUTES.toMillis(appointment.getDuration().longValue()));
+                    if(date.before(appointmentDateEnd) && appointmentDate.before(dateEnd)) {
+                        resp.setDescription("false");
+                        break;
+                    }
+
+                } catch (Exception ignored) {
+                    return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+                }
+            }
+
+            resp.setStatus("ok");
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(

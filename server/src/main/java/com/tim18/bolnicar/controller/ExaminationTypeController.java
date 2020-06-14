@@ -1,8 +1,10 @@
 package com.tim18.bolnicar.controller;
 
+import com.tim18.bolnicar.dto.Response;
 import com.tim18.bolnicar.dto.ResponseReport;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.ExaminationType;
+import com.tim18.bolnicar.service.DoctorService;
 import com.tim18.bolnicar.service.ExaminationTypeService;
 import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +27,27 @@ public class ExaminationTypeController {
     @Autowired
     ExaminationTypeService examinationTypeService;
 
+    @Autowired
+    DoctorService doctorService;
+
     @GetMapping
     public ResponseEntity<List<ExaminationType>> getExaminationTypes() {
         return new ResponseEntity<>(examinationTypeService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/spec")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getDoctorsSpecialists(Principal user) {
+        Doctor doctor = doctorService.findOne(user.getName());
+        Response resp = new Response();
+        resp.setStatus("error");
+        if(doctor != null) {
+            resp.setStatus("ok");
+            resp.setData(doctor.getSpecialization().toArray());
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(
