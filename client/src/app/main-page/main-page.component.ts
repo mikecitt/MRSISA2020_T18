@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { AuthService, ToastService } from '../service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from '../profile/profile.component';
 import { ClinicProfileComponent } from '../clinic-profile/clinic-profile.component';
@@ -30,7 +30,8 @@ export class MainPageComponent implements OnInit {
 
   authority;
 
-  constructor(private service: AuthService, private modalService: NgbModal) { }
+  constructor(private service: AuthService, private modalService: NgbModal,
+  public toastService: ToastService) { }
 
   toggle() {
     this.isSideBarCollapsed = !this.isSideBarCollapsed;
@@ -54,4 +55,6 @@ export class MainPageComponent implements OnInit {
   openClinicProfile(): void {
     this.modalService.open(ClinicProfileComponent, { size: 'lg' });
   }
+
+  isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
 }

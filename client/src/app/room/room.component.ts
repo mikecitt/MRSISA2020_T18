@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { Subject } from 'rxjs';
-import { RoomService } from '../service';
+import { RoomService, ToastService } from '../service';
 
 @Component({
   selector: 'app-room',
@@ -34,7 +34,8 @@ export class RoomComponent implements OnInit {
   roomType:string = null;
   errorMessage:string = null;
 
-  constructor(private service:RoomService) { }
+  constructor(private service:RoomService,
+              private toastService:ToastService) { }
 
   ngOnInit(): void {
   }
@@ -52,6 +53,8 @@ export class RoomComponent implements OnInit {
         this.roomType = null;
         this.eventsSubject.next();
         this.isCollapsed = true;
+        this.toastService.show('Dodavanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
+
       }
       else {
         this.errorMessage = "Sala već postoji.";

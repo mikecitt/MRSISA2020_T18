@@ -54,7 +54,7 @@ export class PatientService {
 
   constructor(private http:HttpClient) { }
 
-  getMedicalRecord(patientId) {
+  getMedicalRecord(patientId=undefined) {
   	if (patientId == undefined)
       return this.http.get<any>(`${environment.api_url}/patient/medicalRecord`);
     else

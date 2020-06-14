@@ -1,57 +1,60 @@
-<h3>Zdravstveni karton</h3>
-<div class="box-wrap d-flex justify-content-center">
-  <div *ngIf="medicalRecord != undefined" class="box">
-    <div class="row">
-      <label class="col-sm-3 col-form-label"><strong>Ime</strong></label>
-      <div class="col">
-        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.firstName">
+<div *ngIf="medicalRecord" class="m-sm-5">
+  <h3>Zdravstveni karton</h3>
+  <div class="box-wrap d-flex justify-content-center">
+    <div *ngIf="medicalRecord != undefined" class="box">
+      <div class="row">
+        <label class="col-sm-3 col-form-label"><strong>Ime</strong></label>
+        <div class="col">
+          <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.firstName">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <label class="col-sm-3 col-form-label"><strong>Prezime</strong></label>
-      <div class="col">
-        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.lastName">
+      <div class="row">
+        <label class="col-sm-3 col-form-label"><strong>Prezime</strong></label>
+        <div class="col">
+          <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.lastName">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <label class="col-sm-3 col-form-label"><strong>JMBG</strong></label>
-      <div class="col">
-        <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.jmbg">
+      <div class="row">
+        <label class="col-sm-3 col-form-label"><strong>JMBG</strong></label>
+        <div class="col">
+          <input type="text" readonly class="form-control-plaintext" [value]="medicalRecord.jmbg">
+        </div>
       </div>
     </div>
   </div>
-</div>
-<table class="table table-striped">
-  <thead>
+  <table class="table table-striped">
+    <thead>
     <tr>
-    <th scope="col">#</th>
-    <th scope="col">Opis</th>
-    <th scope="col">Datum</th>
-    <th scope="col">Dijagnoza</th>
-    <th scope="col">Lekovi</th>
-  </tr>
-  </thead>
-  <tbody *ngIf="medicalRecord != undefined">
-  <tr *ngFor="let r of medicalRecord.medicalReports; let i = index">
-    <th scope="row">{{ i + 1 }}</th>
-    <td>
-     	{{ r.description }}
-    </td>
-    <td>
-    	{{ r.appointmentDate | date: 'dd-MM-yy' }}
-    </td>
-    <td>
-      <div *ngFor="let d of r.diagnoses">
-        {{ d.name }}
-      </div>
-    </td>
-    <td>
-      <ng-container *ngFor="let r of r.recipes">
-        <div *ngFor="let l of r.drugs">
-          {{ l.name }}
+      <th scope="col">#</th>
+      <th scope="col">Opis</th>
+      <th scope="col">Datum</th>
+      <th scope="col">Dijagnoza</th>
+      <th scope="col">Lekovi</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="medicalRecord != undefined">
+    <tr *ngFor="let r of medicalRecord.medicalReports; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        {{ r.description }}
+      </td>
+      <td>
+        {{ r.appointmentDate | date: 'dd-MM-yy' }}
+      </td>
+      <td>
+        <div *ngFor="let d of r.diagnoses">
+          {{ d.name }}
         </div>
-      </ng-container>
-    </td>
-  </tr>
-  </tbody>
-</table>
+      </td>
+      <td>
+        <ng-container *ngFor="let r of r.recipes">
+          {{r.drug.name}}
+        </ng-container>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="m-sm-5 alert alert-danger" *ngIf="!medicalRecord" role="alert">
+  Nemate pristup kartonu
+</div>

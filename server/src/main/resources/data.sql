@@ -70,7 +70,12 @@ INSERT INTO clinic_admin (
 (
     20, 'mikec4n@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP,
-    'Jovan', 'Obradović', '21129796554239', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 1
+    'Jovan', 'Obradović', '21129796554239', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 2
+),
+(
+    21, 'z.dravko.dugi@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    CURRENT_TIMESTAMP,
+    'Zdravko', 'Kratki', '21129796654239', 'Bulevar Oslobođenja 24', 'Novi Sad', 'Srbija', '063546789', TRUE, 3
 );
 
 INSERT INTO doctor (
@@ -145,9 +150,9 @@ INSERT INTO nurse (
     to_timestamp('08:00', 'HH24:MI'), to_timestamp('16:00', 'HH24:MI'), 31
 ),
 (
-    6, 'petar.p@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
+    6, 'petra.p@gmail.com', '$2a$10$SHepdD5KBoQUkeVLwEJmvu90794GPxBLZ2Ps0hWttClzrM8QGcd4.',
     CURRENT_TIMESTAMP,
-    'Petar', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1,
+    'Petra', 'Filipović', '2506987201967', 'Gajeva 10', 'Novi Sad', 'Srbija', '0664523345', TRUE, 1,
     to_timestamp('16:00', 'HH24:MI'), to_timestamp('00:00', 'HH24:MI'), 31
 );
 
@@ -261,25 +266,21 @@ INSERT INTO appointment (
     room_id,
     type_id,
     active,
-    price
+    price,
+    appointment_type
 ) VALUES
     -- not free
-    (to_timestamp('2020-06-02 10:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE, 1232.43),
-    (to_timestamp('2020-06-29 12:00', 'yyyy-MM-dd HH24:MI'), 0.0, 60, 3, 9, 10, NULL, 12, 14, TRUE, 13.43),
-    (to_timestamp('2020-07-02 16:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, 11, NULL, 16, 3, TRUE, 232.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 10, NULL, NULL, 5, FALSE, 1632.43),
-    (to_timestamp('2020-07-07 17:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 8, NULL, NULL, 5, FALSE, 64.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE, 1.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 2, 5, TRUE, 666.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 6, 5, TRUE, 345.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 7, 5, TRUE, 2456.43),
-    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE, 234554.43),
-    (to_timestamp('2020-07-07 08:00', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE, 52434.43),
+    (to_timestamp('2020-06-02 10:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE, 1232.43, 'EXAMINATION'),
+    (to_timestamp('2020-06-29 12:00', 'yyyy-MM-dd HH24:MI'), 0.0, 60, 3, 9, 10, NULL, 12, 14, TRUE, 13.43, 'EXAMINATION'),
+    (to_timestamp('2020-07-02 16:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, 11, NULL, 16, 3, TRUE, 232.43, 'EXAMINATION'),
+    (to_timestamp('2020-07-07 11:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 10, NULL, NULL, 5, FALSE, 1632.43, 'EXAMINATION'),
+    (to_timestamp('2020-07-07 17:30', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 8, NULL, NULL, 5, FALSE, 64.43, 'EXAMINATION'),
+    (to_timestamp('2020-07-07 08:00', 'yyyy-MM-dd HH24:MI'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE, 52434.43, 'EXAMINATION'),
 
     -- free
-    (to_timestamp('2020-09-02 13:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 53245.43),
-    (to_timestamp('2020-09-02 17:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 32452.43),
-    (to_timestamp('2020-10-19 19:30', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 19999.43);
+    (to_timestamp('2020-09-02 13:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 53245.43, 'EXAMINATION'),
+    (to_timestamp('2020-09-02 17:00', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 32452.43, 'EXAMINATION'),
+    (to_timestamp('2020-10-19 19:30', 'yyyy-MM-dd HH24:MI'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE, 19999.43, 'EXAMINATION');
 
 INSERT INTO medical_report (description, appointment_id) VALUES
     ('Pacijent se žalio na otežano mokrenje i bol u oblasti bešike.', 1),
@@ -288,11 +289,8 @@ INSERT INTO medical_report (description, appointment_id) VALUES
 INSERT INTO medical_report_diagnoses (medical_report_id, diagnoses_id) VALUES
     (1, 7), (2, 6);
 
-INSERT INTO recipe (sealed, nurse_id) VALUES
-    (TRUE, 5);
-
-INSERT INTO recipe_drugs (recipe_id, drugs_id) VALUES
-    (1, 13);
+INSERT INTO recipe (sealed, drug_id, nurse_id) VALUES
+    (TRUE, 13, 5);
 
 INSERT INTO medical_report_recipes (medical_report_id, recipes_id) VALUES
     (1, 1);

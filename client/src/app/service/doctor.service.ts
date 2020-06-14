@@ -22,6 +22,10 @@ export class DoctorService {
 		return this.http.get(`${environment.api_url}/doctor/available/`+datetime+'/'+duration+'/'+examinationType)
 	}
 
+	isDoctorAvailable(datetime, duration) {
+		return this.http.get(`${environment.api_url}/doctor/available/`+datetime+'/'+duration)
+	}
+
   getDoctors() {
   	return this.http.get(`${environment.api_url}/doctor`);
   }

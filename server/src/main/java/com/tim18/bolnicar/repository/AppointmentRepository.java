@@ -13,10 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Integer> {
-    Iterable<Appointment> findAllByDoctor(Doctor doctor);
+    List<Appointment> findAllByDoctor(Doctor doctor);
 // DATE_PART('day', :pdate) = DATE_PART('day', DATETIME) AND DATE_PART('month', :pdate) = DATE_PART('month', DATETIME) AND DATE_PART('year', :pdate) = DATE_PART('year', DATETIME) AND
     @Query(value = "SELECT * FROM Appointment WHERE TO_DATE(:pdate, 'yyyy-MM-dd') <= DATETIME AND TO_DATE(:pdate, 'yyyy-MM-dd') + 24 * INTERVAL '1 hour' > DATETIME AND DOCTOR_ID = :did ORDER BY DATETIME ASC",
-            nativeQuery = true)
+        nativeQuery = true)
     List<Appointment> findDoctorAppointmentsForDay(@Param("pdate") Date date, @Param("did")  Integer doctorId);
 
     @Query(value = "SELECT * FROM APPOINTMENT WHERE APPOINTMENT.ID = ( SELECT APPOINTMENT_ID FROM APPOINTMENT_ADDITIONAL_DOCTORS WHERE ADDITIONAL_DOCTORS_ID = :doctor_id)",

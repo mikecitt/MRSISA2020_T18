@@ -8,22 +8,26 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th scope="col">#</th>
-    <th scope="col">Ime</th>
     <th scope="col">Prezime</th>
+    <th scope="col">Ime</th>
+    <th scope="col">Email</th>
+    <th scope="col">JMBG</th>
     <th scope="col">Akcija</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let doctor of tableData; index as i">
-    <th>
-      {{ doctor.id }}
-    </th>
+    <td>
+      {{ doctor.lastName }}
+    </td>
     <td>
       {{ doctor.firstName }}
     </td>
     <td>
-      {{ doctor.lastName }}
+      {{ doctor.emailAddress }}
+    </td>
+    <td>
+      {{ doctor.jmbg }}
     </td>
     <td>
       <i (click)="removeDoctor(doctor.id)" style="font-size:22px; cursor: pointer;" class="fa fa-trash"></i>

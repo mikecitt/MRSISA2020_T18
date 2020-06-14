@@ -12,6 +12,8 @@ public class DoctorDTO {
     private int id;
     private String firstName;
     private String lastName;
+    private String emailAddress;
+    private String jmbg;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<TimeIntervalDTO> freeIntervals;
 
@@ -27,8 +29,27 @@ public class DoctorDTO {
             this.grade += grade.getGrade();
         }
 
+        this.emailAddress = doctor.getEmailAddress();
+        this.jmbg = doctor.getJmbg();
+
         if (doctor.getGrades().size() > 0)
             this.grade = (int)Math.rint(this.grade * 1.0 / doctor.getGrades().size());
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getJmbg() {
+        return jmbg;
+    }
+
+    public void setJmbg(String jmbg) {
+        this.jmbg = jmbg;
     }
 
     public int getId() {

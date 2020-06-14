@@ -28,10 +28,10 @@ public class AdminController {
     public ResponseEntity<HashMap<String, String>> addAdmin(@RequestBody ClinicCenterAdmin newAdmin) {
         HashMap<String, String> response = new HashMap<>();
 
-        try {
-            ccAdminService.save(newAdmin);
+        if(ccAdminService.register(newAdmin)) {
             response.put("message", "true");
-        } catch (Exception ex) {
+        }
+        else {
             response.put("message", "false");
         }
 

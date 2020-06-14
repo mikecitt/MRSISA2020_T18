@@ -1,0 +1,43 @@
+<div class="modal-content" [class.close-animation]="close">
+<div class="modal-header">
+	 <h5 class="modal-title">Zakaži sledeći pregled ili operaciju</h5>
+</div>
+<div class="modal-body">
+	<form [formGroup]="form">
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Datum i vreme</label>
+			<div class="col">
+				<input [class.is-invalid]="errorDate" [readonly]="loaded" class="form-control" type="datetime-local" formControlName="datetime" value="2011-08-19T20:30">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Tip</label>
+			<div class="col">
+				<select [class.is-invalid]="errorType" formControlName="type" class="form-control"> // value is a string or number
+					<option *ngFor="let obj of examinationTypes; let i = index" [attr.selected]="!i" [value]="obj.id">{{obj.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Trajanje</label>
+			<div class="col">
+				<input [class.is-invalid]="errorDuration" [readonly]="loaded" type="number" formControlName="time" formControlName="duration" class="form-control">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-5 col-form-label">Vrsta</label>
+			<div class="col">
+				<select formControlName="roomType" class="form-control"> // value is a string or number
+					<option value="OPERATION">Operacija</option>
+					<option value="EXAMINATION">Pregled</option>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Zatvori</button>
+  <button type="button" [disabled]="form.invalid" ngbAutofocus class="btn btn-primary" (click)="book()">Zakaži</button>
+</div>
+</div>
+<ngx-spinner></ngx-spinner>

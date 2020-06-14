@@ -55,11 +55,16 @@ import { ApprovementComponent } from './approvement/approvement.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BarRatingModule } from "ngx-bar-rating";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { ClinicCardComponent } from './clinic-card/clinic-card.component';
 import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
+import { ChartsModule } from 'ng2-charts';
+import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
+import { AppointmentDoctorModalComponent } from './appointment-doctor-modal/appointment-doctor-modal.component';
+import { CheckRecipeComponent } from './check-recipe/check-recipe.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +110,9 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
     ClinicReportComponent,
     ClinicCardComponent,
     RoomCalendarComponent,
+    AppointmentDoctorModalComponent,
+    AppointmentReportComponent,
+    CheckRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,7 +125,9 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
     StorageServiceModule,
     FullCalendarModule,
     BarRatingModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    ChartsModule
   ],
   providers: [
   {

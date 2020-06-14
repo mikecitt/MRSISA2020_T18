@@ -1,0 +1,49 @@
+<h3>Trenutni termin</h3>
+<div class="box-wrap d-flex justify-content-center">
+  <div *ngIf="appointment != undefined" class="box">
+    <div class="row">
+      <label class="col-sm-5 col-form-label"><strong>Ime i prezime</strong></label>
+      <div class="col">
+        <input type="text" readonly class="form-control-plaintext" [value]="appointment.patient">
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-5 col-form-label"><strong>JMBG</strong></label>
+      <div class="col">
+        <input type="text" readonly class="form-control-plaintext" [value]="appointment.jmbg">
+      </div>
+    </div>
+  </div>
+</div>
+<form>
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label>Dijagnoze</label>
+      <ng-multiselect-dropdown
+        name="diag"
+        [settings]="dropdownSettings"
+        [data]="dropdownListDiag"
+        [(ngModel)]="diagnosis"
+      >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label>Recepti</label>
+      <ng-multiselect-dropdown
+      name="recipe"
+      [settings]="dropdownSettings"
+      [data]="dropdownListRecip"
+      [(ngModel)]="recipe"
+    >
+    </ng-multiselect-dropdown>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <label for="reportId">Izveštaj</label>
+      <textarea class="form-control" id="reportId" rows="13" name="report" [(ngModel)]="report"></textarea>
+    </div>
+  </div>
+  <button (click)="saveReport()" class="btn btn-primary" type="button">Sačuvaj</button>
+  <button type="button" (click)="book()" class="btn btn-primary ml-2">Zakaži sledeći pregled</button>
+</form>

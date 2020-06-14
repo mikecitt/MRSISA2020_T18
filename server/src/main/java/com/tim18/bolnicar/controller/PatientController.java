@@ -1,10 +1,9 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.*;
-import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.model.MedicalReport;
-import com.tim18.bolnicar.model.MedicalWorker;
-import com.tim18.bolnicar.model.Patient;
+import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.service.AppointmentService;
+import com.tim18.bolnicar.service.DoctorService;
 import com.tim18.bolnicar.service.PatientService;
 import com.tim18.bolnicar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,21 @@ public class PatientController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     @GetMapping("/medicalRecord/{patientId}")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Response> getMedicalReport(@PathVariable Integer patientId) {
+    public ResponseEntity<Response> getMedicalReport(@PathVariable Integer patientId, Principal user) {
         MedicalRecordDTO record = null;
+        Doctor doctor = this.doctorService.findOne(user.getName());
         Response resp = new Response();
 
-        if (patientId != null)
-            record = this.patientService.getMedicalRecord(patientId);
+        if (patientId != null && doctor != null) {
+            if(this.patientService.isDoctorPatient(
+                    this.patientService.getPatient(patientId), doctor.getId()))
+                record = this.patientService.getMedicalRecord(patientId);
+        }
         else {
             resp.setStatus("error");
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
@@ -71,13 +77,14 @@ public class PatientController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('NURSE', 'DOCTOR')")
-    public ResponseEntity<List<PatientDTO>> getPatients(Principal user) {
-        List<PatientDTO> patientDTOList = new ArrayList<>();
+    public ResponseEntity<List<MedicalRecordDTO>> getPatients(Principal user) {
+        List<MedicalRecordDTO> patientDTOList = new ArrayList<>();
         MedicalWorker medicalWorker = (MedicalWorker) userService.findByEmailAddress(user.getName());
         if(medicalWorker != null && medicalWorker.getClinic() != null)
             for(Appointment appointment : medicalWorker.getClinic().getAppointments()) {
                 if(appointment.getPatient() != null) {
-                    PatientDTO patientDTO = new PatientDTO(appointment.getPatient());
+                    MedicalRecordDTO patientDTO = this.patientService.
+                            getMedicalRecord(appointment.getPatient().getId());
                     if (!patientDTOList.contains(patientDTO))
                         patientDTOList.add(patientDTO);
                 }

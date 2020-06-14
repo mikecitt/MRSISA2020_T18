@@ -13,9 +13,9 @@ export class CladminService {
 
   constructor(private http: HttpClient) { }
 
-  addClAdmin(data) {
-  	return this.http.post<any>(`${environment.api_url}/admincl/add`, 
-  															data, 
+  addClAdmin(data, clinicId) {
+  	return this.http.post<any>(`${environment.api_url}/admincl/add/${clinicId}`,
+  															data,
   															httpOptions);
   }
 }

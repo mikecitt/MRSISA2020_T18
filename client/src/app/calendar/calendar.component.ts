@@ -21,6 +21,8 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('fc') calendar: FullCalendarComponent;
 
+  customButtons;
+
   calendarPlugins = [
     dayGridPlugin,
     timeGridPlugin,
@@ -55,20 +57,18 @@ export class CalendarComponent implements OnInit {
     return this.selectionEnabled;
   }
 
-  startAppointment() {
-    this.appointmentService.startAppointment().subscribe(result => {
-      const modalRef = this.modalService.open(AppointmentStartModalComponent);
-      if(result.description == "started")
-        modalRef.componentInstance.message = "Uspesno ste pokrenuli pregled.";
-      else
-        modalRef.componentInstance.errorMessage = "Nema trenutnih pregleda za pokretanje.";
-    })
-  }
-
   isMedical() {
     let authority = this.userService.getRole();
     if(authority === 'ROLE_DOCTOR' || authority === 'ROLE_NURSE') {
       this.selectionEnabled = true;
+      this.customButtons = {
+        timeOffButton: {
+          text: 'Zatraži odsustvo',
+          click: () => {
+            this.showTimeOffModal();
+          }
+        }
+      };
     }
     return this.selectionEnabled;
   }

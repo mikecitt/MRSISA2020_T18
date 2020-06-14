@@ -10,4 +10,5 @@ public interface ClinicAdminService {
     List<ClinicAdmin> findAll();
     ClinicAdmin save(ClinicAdmin clinicAdmin);
     List<String> getAllEmails(Clinic clinic);
+    boolean register(ClinicAdmin clinicAdmin);
 }

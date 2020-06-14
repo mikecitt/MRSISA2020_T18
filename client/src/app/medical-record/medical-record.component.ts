@@ -18,6 +18,7 @@ export class MedicalRecordComponent implements OnInit {
   	this.service.getMedicalRecord(this.patientId).subscribe(data => {
   		//console.log(data[''])
       this.medicalRecord = data['data'][0];
+      console.log(this.medicalRecord);
   	})
   }
 

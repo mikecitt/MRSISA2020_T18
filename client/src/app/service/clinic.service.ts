@@ -54,4 +54,7 @@ export class ClinicService {
     return this.http.get(`${environment.api_url}/clinic/${clinicId}`, httpOptions)
   }
 
+	getClinicChartData() {
+    return this.http.get(`${environment.api_url}/clinic/appointmentsSummary`, httpOptions)
+  }
 }

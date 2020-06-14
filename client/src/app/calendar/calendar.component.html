@@ -18,6 +18,7 @@
           columnHeaderFormat: 'dddd'
         }
       }"
+      [customButtons]="customButtons"
       eventTimeFormat="HH:mm"
       slotLabelFormat="HH:mm"
       [selectable]="selectionEnabled"
@@ -33,10 +34,4 @@
       [plugins]="calendarPlugins"
       [events]="calendarEvents"
       [locales]="locales"></full-calendar>
-  <button class="btn btn-primary mb-3 mt-2 col-sm-2 float-left"
-          *ngIf="isDoctor();"
-          (click)="startAppointment();">Pokreni pregled</button>
-  <button class="btn btn-primary mb-3 mt-2 col-sm-2 float-right"
-          *ngIf="isMedical();"
-          (click)="showTimeOffModal();">Zatraži odsustvo</button>
 </div>

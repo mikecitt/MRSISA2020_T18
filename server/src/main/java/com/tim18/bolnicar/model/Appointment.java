@@ -45,6 +45,10 @@ public class Appointment {
     @Column
     private Boolean active;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private RoomType appointmentType;
+
     @Column
     private Double price;
 
@@ -161,5 +165,13 @@ public class Appointment {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public RoomType getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(RoomType type) {
+        this.appointmentType = type;
     }
 }

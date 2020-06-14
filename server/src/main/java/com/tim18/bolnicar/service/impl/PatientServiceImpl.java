@@ -3,6 +3,7 @@ package com.tim18.bolnicar.service.impl;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.PatientRepository;
+import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,28 +21,33 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     //TODO: make annotation call of email notification
     @Override
     public boolean registerPatient(UserDTO user) {
-        Patient patient = new Patient();
+        if(userRepository.findByEmailAddress(user.getEmailAddress()) == null && userRepository.findByJmbg(user.getJmbg()) == null) {
 
-        patient.setEmailAddress(user.getEmailAddress());
-        patient.setPassword(passwordEncoder.encode(user.getPassword()));
-        patient.setFirstName(user.getFirstName());
-        patient.setLastName(user.getLastName());
-        patient.setAddress(user.getAddress());
-        patient.setCity(user.getCity());
-        patient.setCountry(user.getCountry());
-        patient.setContact(user.getContact());
-        patient.setJmbg(user.getJmbg());
-        patient.setActive(null);
+            Patient patient = new Patient();
 
-        try {
-            patientRepository.save(patient);
-            return true;
-        } catch (Exception e) {
+            patient.setEmailAddress(user.getEmailAddress());
+            patient.setPassword(passwordEncoder.encode(user.getPassword()));
+            patient.setFirstName(user.getFirstName());
+            patient.setLastName(user.getLastName());
+            patient.setAddress(user.getAddress());
+            patient.setCity(user.getCity());
+            patient.setCountry(user.getCountry());
+            patient.setContact(user.getContact());
+            patient.setJmbg(user.getJmbg());
+            patient.setActive(null);
+
+            try {
+                patientRepository.save(patient);
+                return true;
+            } catch (Exception ignored) {
+            }
         }
-
         return false;
     }
 
@@ -58,6 +64,7 @@ public class PatientServiceImpl implements PatientService {
         mr.setFirstName(patient.get().getFirstName());
         mr.setLastName(patient.get().getLastName());
         mr.setJmbg(patient.get().getJmbg());
+        mr.setPatientId(patient.get().getId());
 
         for (MedicalReport m : patient.get().getMedicalRecord()) {
             MedicalReportDTO report = new MedicalReportDTO();
@@ -92,6 +99,7 @@ public class PatientServiceImpl implements PatientService {
         mr.setFirstName(patient.getFirstName());
         mr.setLastName(patient.getLastName());
         mr.setJmbg(patient.getJmbg());
+        mr.setPatientId(patient.getId());
 
         for (MedicalReport m : patient.getMedicalRecord()) {
             MedicalReportDTO report = new MedicalReportDTO();
@@ -171,7 +179,21 @@ public class PatientServiceImpl implements PatientService {
         return this.patientRepository.findByJmbg(patientJmbg);
     }
 
+    @Override
+    public Patient getPatient(Integer id) {
+        return this.patientRepository.findById(id).orElseGet(null);
+    }
+
     public Patient save(Patient patient) {
         return this.patientRepository.save(patient);
+    }
+
+    public boolean isDoctorPatient(Patient patient, int doctor_id) {
+        for(Patient patient1 : this.patientRepository.isDoctorPatient(doctor_id)) {
+            if(patient1.getId().intValue() == patient.getId().intValue())
+                return true;
+        }
+
+        return false;
     }
 }

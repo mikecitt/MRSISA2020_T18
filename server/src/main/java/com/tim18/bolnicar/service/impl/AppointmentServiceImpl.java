@@ -94,6 +94,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> findAllDoctorsAppointments(Doctor doctor) {
+        return this.appointmentRepository.findAllByDoctor(doctor);
+    }
+
+    @Override
     public List<Appointment> findRoomsAppointments(Room room) {
         return this.appointmentRepository.findAllByRoom(room);
     }
@@ -160,6 +165,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         app.setDoctor(doctor.get());
         app.setClinic(clinic.get());
         app.setType(et.get());
+        app.setAppointmentType(appointment.getRoomType());
         app.setDatetime(appointment.getStart());
         app.setActive(false);
         app.setDiscount(0.0);
@@ -280,5 +286,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment save(Appointment appointment) {
         return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public List<Appointment> findAll() {
+        return (List<Appointment>)this.appointmentRepository.findAll();
     }
 }

@@ -15,8 +15,8 @@ export class AdminService {
   }
 
   addAdmin(data) {
-  	return this.http.post<any>('${environment.api_url}/admin/add', 
-  															data, 
+  	return this.http.post<any>(`${environment.api_url}/admin/add`,
+  															data,
   															httpOptions);
   }
 }

@@ -8,18 +8,24 @@ import java.util.Set;
 
 public class RecipeDTO {
     private Integer id;
-    private Set<Drug> drugs;
-    // private Boolean sealed;
+    private Drug drug;
+    private Boolean sealed;
+    private String givenBy;
+    private Integer appointmentId;
 
 
-    public RecipeDTO(Integer id, Set<Drug> drugs) {
+    public RecipeDTO(Integer id, Drug drug, Boolean sealed, String givenBy, Integer appointmentId) {
         this.id = id;
-        this.drugs = drugs;
+        this.drug = drug;
+        this.sealed = sealed;
+        this.givenBy = givenBy;
+        this.appointmentId = appointmentId;
     }
 
     public RecipeDTO(Recipe recipe) {
         this.id = recipe.getId();
-        this.drugs = recipe.getDrugs();
+        this.drug = recipe.getDrug();
+        this.sealed = recipe.getSealed();
     }
 
     public RecipeDTO() {
@@ -34,11 +40,35 @@ public class RecipeDTO {
         this.id = id;
     }
 
-    public Set<Drug> getDrugs() {
-        return drugs;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setDrugs(Set<Drug> drugs) {
-        this.drugs = drugs;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
+    }
+
+    public Boolean getSealed() {
+        return sealed;
+    }
+
+    public void setSealed(Boolean sealed) {
+        this.sealed = sealed;
+    }
+
+    public String getGivenBy() {
+        return givenBy;
+    }
+
+    public void setGivenBy(String givenBy) {
+        this.givenBy = givenBy;
+    }
+
+    public Integer getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Integer appointmentId) {
+        this.appointmentId = appointmentId;
     }
 }

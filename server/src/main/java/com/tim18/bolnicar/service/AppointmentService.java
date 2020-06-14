@@ -15,6 +15,7 @@ public interface AppointmentService {
     boolean bookAppointment(Integer appointmentId, Integer patientId);
     boolean bookAppointment(Integer appointmentId, String patientEmail);
     List<Appointment> findDoctorsAppointments(Doctor doctor);
+    List<Appointment> findAllDoctorsAppointments(Doctor doctor);
     List<Appointment> findRoomsAppointments(Room room);
     List<AppointmentDTO> getFreeAppointments(Integer clinicId);
     Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail);
@@ -25,4 +26,5 @@ public interface AppointmentService {
     void remove(int id);
     boolean gradeAppointment(String patientEmail, GradeRequest req);
     String appointmentInfo(Appointment appointment);
+    List<Appointment> findAll();
 }

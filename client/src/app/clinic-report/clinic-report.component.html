@@ -60,3 +60,23 @@
   </tr>
   </tbody>
 </table>
+<div class="col-sm-6">
+  <div>
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [chartType]="lineChartType"
+            [options]="lineChartOptions"></canvas>
+  </div>
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="choice">
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(0)" [value]="0"> Dnevni
+    </label>
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(1)" value="1"> Nedeljni
+    </label>
+    <label ngbButtonLabel class="btn-primary">
+      <input ngbButton type="radio" (click)="preview(2)" [value]="2"> Mesečni
+    </label>
+  </div>
+</div>

@@ -5,6 +5,8 @@
 		<div class="form-group form-inline">
 			Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
 		</div>
+    <button *ngIf="isDoctor();" [disabled]="startedAppointment == null" class="btn btn-primary mb-3 mt-2 col-sm-3 float-left"
+            (click)="checkAppointmentStatus();">{{btnMessage}}</button>
 	</form>
 
 	<table class="table table-striped">
@@ -14,6 +16,7 @@
 				<th scope="col" sortable="jmbg" (sort)="onSort($event)">JMBG</th>
 				<th scope="col" sortable="firstName" (sort)="onSort($event)">Ime</th>
 				<th scope="col" sortable="lastName" (sort)="onSort($event)">Prezime</th>
+        <th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,6 +25,10 @@
 				<td>{{ patient.jmbg }}</td>
 				<td>{{ patient.firstName }}</td>
 				<td>{{ patient.lastName }}</td>
+        <td>
+          <i class="fa fa-info-circle enabled" aria-hidden="true"
+             (click)="showRecordModal(patient.patientId)"></i>
+        </td>
 			</tr>
 		</tbody>
 	</table>

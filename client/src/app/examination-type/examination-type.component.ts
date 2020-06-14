@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { FormControl, FormGroup, FormsModule } from "@angular/forms";
 import { Subject } from 'rxjs';
-import { ExaminationTypeService } from '../service';
+import { ToastService, ExaminationTypeService } from '../service';
 
 @Component({
   selector: 'app-examination-type',
@@ -34,7 +34,8 @@ export class ExaminationTypeComponent implements OnInit {
   price:string = '';
   errorMessage:string = null;
 
-  constructor(private service:ExaminationTypeService) { }
+  constructor(private service:ExaminationTypeService,
+              private toastService:ToastService) { }
 
   ngOnInit(): void {
   }
@@ -52,6 +53,7 @@ export class ExaminationTypeComponent implements OnInit {
         this.price = '';
         this.eventsSubject.next();
         this.isCollapsed = true;
+        this.toastService.show('Dodavanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
       }
       else {
         this.errorMessage = "Tip pregleda već postoji."
