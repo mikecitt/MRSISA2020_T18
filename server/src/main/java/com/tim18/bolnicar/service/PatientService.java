@@ -16,4 +16,5 @@ public interface PatientService {
     List<PatientDTO> getUnregistered();
     Patient getPatient(String patientJmbg);
     Patient save(Patient patient);
+    boolean isDoctorPatient(Patient patient, int doctor_id);
 }

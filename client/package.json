@@ -33,6 +33,7 @@
     "install": "^0.13.0",
     "moment": "^2.26.0",
     "ng2-charts": "^2.3.2",
+    "ng-multiselect-dropdown": "^0.2.10",
     "ngx-bar-rating": "^1.1.0",
     "ngx-cookie-service": "^3.0.4",
     "ngx-spinner": "^9.0.2",

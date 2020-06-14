@@ -24,6 +24,7 @@ import { ActivationPageComponent } from './activation-page/activation-page.compo
 import { ClinicTableComponent } from './clinic-table/clinic-table.component';
 import { ApprovementComponent } from './approvement/approvement.component';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
+import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
 
 import { Router } from '@angular/router';
 
@@ -49,6 +50,7 @@ const routes: Routes = [
       { path: 'appointment-predef', component: AppointmentPredefComponent, canActivate: [AdminclGuard]},
       { path: 'approvement', component: ApprovementComponent, canActivate: [AdminclGuard]},
       { path: 'clinic-report', component: ClinicReportComponent, canActivate: [AdminclGuard]},
+      { path: 'appointment-rep', component: AppointmentReportComponent, canActivate: [MedicalGuard]},
     ],
     canActivate: [MainPageGuard]
   },

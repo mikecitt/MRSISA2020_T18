@@ -256,8 +256,7 @@ INSERT INTO appointment (
     report_id,
     room_id,
     type_id,
-    active,
-    price
+    active
 ) VALUES
     -- not free
     (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE, 1232.43),
@@ -284,11 +283,8 @@ INSERT INTO medical_report (description, appointment_id) VALUES
 INSERT INTO medical_report_diagnoses (medical_report_id, diagnoses_id) VALUES
     (1, 7), (2, 6);
 
-INSERT INTO recipe (sealed, nurse_id) VALUES
-    (TRUE, 5);
-
-INSERT INTO recipe_drugs (recipe_id, drugs_id) VALUES
-    (1, 13);
+INSERT INTO recipe (sealed, drug_id, nurse_id) VALUES
+    (TRUE, 13, 5);
 
 INSERT INTO medical_report_recipes (medical_report_id, recipes_id) VALUES
     (1, 1);

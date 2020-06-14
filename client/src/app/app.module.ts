@@ -55,12 +55,14 @@ import { ApprovementComponent } from './approvement/approvement.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BarRatingModule } from "ngx-bar-rating";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { ClinicCardComponent } from './clinic-card/clinic-card.component';
 import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
 import { ChartsModule } from 'ng2-charts';
+import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,7 @@ import { ChartsModule } from 'ng2-charts';
     ClinicReportComponent,
     ClinicCardComponent,
     RoomCalendarComponent,
+    AppointmentReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +122,7 @@ import { ChartsModule } from 'ng2-charts';
     FullCalendarModule,
     BarRatingModule,
     NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ChartsModule
   ],
   providers: [
