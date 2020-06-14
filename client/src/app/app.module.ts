@@ -64,6 +64,7 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
 import { ChartsModule } from 'ng2-charts';
 import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
 import { AppointmentDoctorModalComponent } from './appointment-doctor-modal/appointment-doctor-modal.component';
+import { CheckRecipeComponent } from './check-recipe/check-recipe.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { AppointmentDoctorModalComponent } from './appointment-doctor-modal/appo
     RoomCalendarComponent,
     AppointmentDoctorModalComponent,
     AppointmentReportComponent,
+    CheckRecipeComponent,
   ],
   imports: [
     BrowserModule,

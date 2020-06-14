@@ -74,4 +74,12 @@ export class AppointmentService {
   saveAppointment(form) {
     return this.http.post<any>(`${environment.api_url}/appointment/saveAppointment`, form, httpOptions);
   }
+
+  getRecipes() {
+    return this.http.get<any>(`${environment.api_url}/appointment/recipes`, httpOptions);
+  }
+
+  checkRecipe(aid, rid) {
+    return this.http.get<any>(`${environment.api_url}/appointment/recipe/${aid}/${rid}`, httpOptions);
+  }
 }
