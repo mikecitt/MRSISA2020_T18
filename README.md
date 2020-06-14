@@ -10,6 +10,10 @@
 #### Asistent: 
 - Milan Stojkov
 
+## Deployment
+ - Client na adresi: http://bolnicarapp.herokuapp.com/
+ - Server na adresi: http://bolnicar.herokuapp.com/
+
 ## Server
 #### Korišćene tehnologije:
 
