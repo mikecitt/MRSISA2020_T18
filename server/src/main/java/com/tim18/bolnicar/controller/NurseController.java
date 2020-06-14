@@ -29,14 +29,18 @@ public class NurseController {
     private ClinicAdminService clinicAdminService;
 
     @GetMapping
-    public ResponseEntity<List<NurseDTO>> getNurses() {
-        List<Nurse> nurses = this.nurseService.findAll();
-        List<NurseDTO> response = new ArrayList<>();
+    @PreAuthorize("hasRole('CLINIC_ADMIN')")
+    public ResponseEntity<List<MedicalWorkerDTO>> getNurses(Principal user) {
+        ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
+        List<MedicalWorkerDTO> doctors = new ArrayList<>();
+        if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
+            List<Nurse> nursesFromClinic = nurseService.findNursesFromClinic(clinicAdmin.getClinic().getId());
+            for(Nurse d : nursesFromClinic)
+                doctors.add(new MedicalWorkerDTO(d));
 
-        for (Nurse nurse : nurses) {
-            response.add(new NurseDTO(nurse));
+            return ResponseEntity.ok(doctors);
         }
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(doctors, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(

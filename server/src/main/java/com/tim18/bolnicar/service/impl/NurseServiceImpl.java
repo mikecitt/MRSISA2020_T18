@@ -56,4 +56,9 @@ public class NurseServiceImpl implements NurseService {
     public void remove(int id) {
         this.nurseRepository.deleteById(id);
     }
+
+    @Override
+    public List<Nurse> findNursesFromClinic(Integer clinicId) {
+        return this.nurseRepository.findAllByClinicIdOrderByLastNameAsc(clinicId);
+    }
 }

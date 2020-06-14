@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface DoctorRepository extends CrudRepository<Doctor, Integer> {
     Doctor findByEmailAddress(String emailAddress);
-    List<Doctor> findAllByClinicIdOrderByIdAsc(Integer clinicId);
+    List<Doctor> findAllByClinicIdOrderByLastNameAsc(Integer clinicId);
 }

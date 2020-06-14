@@ -68,7 +68,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findDoctorsFromClinic(Integer clinicId) {
-        return doctorRepository.findAllByClinicIdOrderByIdAsc(clinicId);
+        return doctorRepository.findAllByClinicIdOrderByLastNameAsc(clinicId);
     }
 
     @Override

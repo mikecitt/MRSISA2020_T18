@@ -1,10 +1,7 @@
 package com.tim18.bolnicar.controller;
 
-import com.tim18.bolnicar.dto.DoctorDTO;
-import com.tim18.bolnicar.dto.RoomDTO;
+import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.dto.Response;
-import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.MedicalWorker;
@@ -44,17 +41,13 @@ public class DoctorController {
 
     @GetMapping
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
-    public ResponseEntity<List<DoctorDTO>> getDoctors(Principal user) {
+    public ResponseEntity<List<MedicalWorkerDTO>> getDoctors(Principal user) {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
-        List<DoctorDTO> doctors = new ArrayList<>();
+        List<MedicalWorkerDTO> doctors = new ArrayList<>();
         if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
             List<Doctor> doctorsFromClinic= doctorService.findDoctorsFromClinic(clinicAdmin.getClinic().getId());
             for(Doctor d : doctorsFromClinic)
-                doctors.add(new DoctorDTO(d));
-            /*for(MedicalWorker medicalWorker : clinicAdmin.getClinic().getWorkers()) {
-                if(medicalWorker instanceof Doctor)
-                    doctors.add(new DoctorDTO((Doctor) medicalWorker));
-            }*/
+                doctors.add(new MedicalWorkerDTO(d));
 
             return ResponseEntity.ok(doctors);
         }

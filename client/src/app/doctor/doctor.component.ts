@@ -71,7 +71,7 @@ export class DoctorComponent implements OnInit {
         this.eventsSubject.next();
       }
       else {
-        this.errorMessage = "Lekar vec postoji."
+        this.errorMessage = "Korisnik vec postoji."
       }
     });
 
