@@ -48,7 +48,7 @@ public class CronRequestProccesing {
         for(Appointment appointment : appointmentList) {
             try {
                 List<RoomDTO> rooms = this.roomService.freeRoomsByDateInterval(appointment.getClinic(),
-                        sdf.format(appointment.getDatetime()), appointment.getDuration());
+                        sdf.format(appointment.getDatetime()), appointment.getDuration(), appointment.getAppointmentType());
 
                 Room room;
                 Date newDate = null;
