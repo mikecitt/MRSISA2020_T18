@@ -159,24 +159,96 @@ public class ClinicController {
     public ResponseEntity<Response>getAppointmentsSummary(Principal user) {
         ClinicAdmin clinicAdmin = clinicAdminService.findSingle(user.getName());
         Response resp = new Response();
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
-        Object[] objects = new Object[1];
+        LinkedHashMap<String, Integer> daily = new LinkedHashMap<String, Integer>();
+        LinkedHashMap<String, Integer> weekly = new LinkedHashMap<String, Integer>();
+        LinkedHashMap <String, Integer> monthly = new LinkedHashMap <>();
+        Object[] objects = new Object[3];
+        Date now = new Date();
+        DateFormat dailyFormatter = new SimpleDateFormat("HH:mm");
+        DateFormat weeklyFormatter = new SimpleDateFormat("EEEEE");
+        DateFormat monthlyFormatter = new SimpleDateFormat("dd.MM.");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        Date monthlyLowest = calendar.getTime();
+        System.out.println(monthlyLowest);
+        while(!calendar.getTime().after(now)) {
+            monthly.put(monthlyFormatter.format(calendar.getTime()), 0);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        calendar.setTime(now);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.DAY_OF_WEEK, -6);
+        Date weeklyLowest = calendar.getTime();
+        System.out.println(weeklyLowest);
+        while(!calendar.getTime().after(now)) {
+            weekly.put(weeklyFormatter.format(calendar.getTime()), 0);
+            calendar.add(Calendar.DAY_OF_WEEK, 1);
+        }
+        calendar.setTime(now);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.DAY_OF_WEEK, -1);
+        calendar.add(Calendar.HOUR_OF_DAY, 1);
+        Date dailyLowest = calendar.getTime();
+        System.out.println(dailyLowest);
+        while(!calendar.getTime().after(now)) {
+            daily.put(dailyFormatter.format(calendar.getTime()), 0);
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+        }
+
+
 
         if(clinicAdmin != null && clinicAdmin.getClinic() != null) {
             for(Appointment appointment : clinicAdmin.getClinic().getAppointments()) {
                 if(appointment.getReport() != null) {
-                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    String date = formatter.format(appointment.getDatetime());
+                    System.out.println(appointment.getDatetime());
+                    if(appointment.getDatetime().after(monthlyLowest) && appointment.getDatetime().before(now)) {
+                        if(monthly.containsKey(monthlyFormatter.format(appointment.getDatetime())))
+                            monthly.put(monthlyFormatter.format(appointment.getDatetime()), monthly.get(monthlyFormatter.format(appointment.getDatetime())) + 1);
+                    }
+                    if(appointment.getDatetime().after(weeklyLowest) && appointment.getDatetime().before(now)) {
+                        if(weekly.containsKey(weeklyFormatter.format(appointment.getDatetime())))
+                            weekly.put(weeklyFormatter.format(appointment.getDatetime()), weekly.get(weeklyFormatter.format(appointment.getDatetime())) + 1);
+                    }
+                    if(appointment.getDatetime().after(dailyLowest) && appointment.getDatetime().before(now)) {
+                        if(daily.containsKey(dailyFormatter.format(appointment.getDatetime())))
+                            daily.put(dailyFormatter.format(appointment.getDatetime()), daily.get(dailyFormatter.format(appointment.getDatetime())) + 1);
+                    }
 
-                    if (hashMap.containsKey(date))
+
+                    //String date = formatter.format(appointment.getDatetime());
+
+                    /*if (hashMap.containsKey(date))
                         hashMap.put(date, hashMap.get(date) + 1);
                     else
-                        hashMap.put(date, 1);
+                        hashMap.put(date, 1);*/
                 }
             }
 
             resp.setStatus("ok");
-            objects[0] = hashMap;
+            Object[] obj = new Object[2];
+
+            obj[0] = daily.keySet();
+            obj[1] = daily.values();
+            objects[0] = obj;
+            obj = new Object[2];
+            obj[0] = weekly.keySet();
+            obj[1] = weekly.values();
+            objects[1] = obj;
+            obj = new Object[2];
+            obj[0] = monthly.keySet();
+            obj[1] = monthly.values();
+            objects[2] = obj;
             resp.setData(objects);
             return ResponseEntity.ok(resp);
         }
