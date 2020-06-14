@@ -271,7 +271,7 @@ INSERT INTO appointment (
     (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 7, 5, TRUE),
     (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
     (PARSEDATETIME('2020-07-07 08:00', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
-    (PARSEDATETIME('2020-06-14 14:05', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
+    (PARSEDATETIME('2020-06-14 15:28', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
 
     -- free
     (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE),
@@ -285,11 +285,8 @@ INSERT INTO medical_report (description, appointment_id) VALUES
 INSERT INTO medical_report_diagnoses (medical_report_id, diagnoses_id) VALUES
     (1, 7), (2, 6);
 
-INSERT INTO recipe (sealed, nurse_id) VALUES
-    (TRUE, 5);
-
-INSERT INTO recipe_drugs (recipe_id, drugs_id) VALUES
-    (1, 13);
+INSERT INTO recipe (sealed, drug_id, nurse_id) VALUES
+    (TRUE, 13, 5);
 
 INSERT INTO medical_report_recipes (medical_report_id, recipes_id) VALUES
     (1, 1);

@@ -50,6 +50,13 @@ public class AppointmentController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private DiagnosisService diagnosisService;
+
+    @Autowired
+    private DrugService drugService;
+
+
     @PostMapping("/{aid}/{pid}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<ResponseReport> bookAppointment(@PathVariable Integer aid,
@@ -344,5 +351,62 @@ public class AppointmentController {
         else {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/diagnosis")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getDiagnosis() {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        List<DiagnosisDTO> diagnosiss = new ArrayList<DiagnosisDTO>();
+        for(MedicalDiagnosis diagnosis : this.diagnosisService.findAll()) {
+            diagnosiss.add(new DiagnosisDTO(diagnosis));
+        }
+        resp.setData(diagnosiss.toArray());
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/drug")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getDrug() {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        List<DrugDTO> drugs = new ArrayList<DrugDTO>();
+        for(Drug drug : this.drugService.findAll()) {
+            drugs.add(new DrugDTO(drug));
+        }
+        resp.setData(drugs.toArray());
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/saveAppointment")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> saveAppointment(@RequestBody AppointmentSave appointment) {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        Appointment app = this.appointmentService.findById(appointment.getAppointmentId());
+
+        if(app != null) {
+            app.getReport().setDescription(appointment.getDescription());
+            app.getReport().setDiagnoses(new HashSet<MedicalDiagnosis>(appointment.getDiagnosis()));
+            Set<Recipe> recipe = new HashSet<Recipe>();
+            for(Drug drug : appointment.getRecipe()) {
+                Recipe r = new Recipe();
+                r.setDrug(drug);
+                r.setSealed(false);
+                recipe.add(r);
+            }
+            app.getReport().setRecipes(recipe);
+
+            this.appointmentService.save(app);
+        }
+        else {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(resp);
     }
 }

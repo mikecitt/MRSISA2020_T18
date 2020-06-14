@@ -55,6 +55,7 @@ import { ApprovementComponent } from './approvement/approvement.component';
 import { AppointmentStartModalComponent } from './appointment-start-modal/appointment-start-modal.component';
 import { ActivationPageComponent } from './activation-page/activation-page.component';
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BarRatingModule } from "ngx-bar-rating";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
@@ -119,7 +120,8 @@ import { AppointmentReportComponent } from './appointment-report/appointment-rep
     StorageServiceModule,
     FullCalendarModule,
     BarRatingModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
   {

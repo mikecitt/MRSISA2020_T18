@@ -68,7 +68,7 @@ public class PatientServiceImpl implements PatientService {
             report.setAppointmentId(m.getAppointment().getId());
             report.setDescription(m.getDescription());
             report.setDiagnoses(m.getDiagnoses());
-            report.setRecipes(m.getRecipes());
+            //report.setRecipes(m.getRecipes());
             report.setAppointmentDate(m.getAppointment().getDatetime());
             reports.add(report);
         }

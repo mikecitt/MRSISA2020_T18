@@ -18,12 +18,24 @@
 <form>
   <div class="form-row">
     <div class="col-md-4 mb-3">
-      <label for="diagnosisId">Dijagnoze</label>
-      <input type="text" class="form-control" id="diagnosisId" name="diagnosis" [(ngModel)]="diagnosis">
+      <label>Dijagnoze</label>
+      <ng-multiselect-dropdown
+        name="diag"
+        [settings]="dropdownSettings"
+        [data]="dropdownListDiag"
+        [(ngModel)]="diagnosis"
+      >
+      </ng-multiselect-dropdown>
     </div>
     <div class="col-md-4 mb-3">
-      <label for="recipeId">Recepti</label>
-      <input type="text" class="form-control" id="recipeId" name="recipe" [(ngModel)]="recipe">
+      <label>Recepti</label>
+      <ng-multiselect-dropdown
+      name="recipe"
+      [settings]="dropdownSettings"
+      [data]="dropdownListRecip"
+      [(ngModel)]="recipe"
+    >
+    </ng-multiselect-dropdown>
     </div>
   </div>
   <div class="form-row">
@@ -32,5 +44,5 @@
       <textarea class="form-control" id="reportId" rows="13" name="report" [(ngModel)]="report"></textarea>
     </div>
   </div>
-  <button class="btn btn-primary" type="button">Završi pregled</button>
+  <button (click)="saveReport()" class="btn btn-primary" type="button">Sačuvaj</button>
 </form>

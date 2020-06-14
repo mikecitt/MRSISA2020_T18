@@ -58,4 +58,16 @@ export class AppointmentService {
   getAppointment(aid) {
     return this.http.get<any>(`${environment.api_url}/appointment/${aid}`, httpOptions);
   }
+
+  getDiagnosis() {
+    return this.http.get<any>(`${environment.api_url}/appointment/diagnosis`, httpOptions);
+  }
+
+  getDrugs() {
+    return this.http.get<any>(`${environment.api_url}/appointment/drug`, httpOptions);
+  }
+
+  saveAppointment(form) {
+    return this.http.post<any>(`${environment.api_url}/appointment/saveAppointment`, form, httpOptions);
+  }
 }
