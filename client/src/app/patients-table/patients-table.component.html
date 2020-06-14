@@ -26,13 +26,8 @@
 				<td>{{ patient.firstName }}</td>
 				<td>{{ patient.lastName }}</td>
         <td>
-          <div *ngIf="patient.medicalReports.length == 0; then thenInfo else elseInfo"></div>
-          <ng-template #thenInfo>
-            <i class="fa fa-info-circle disabled" aria-hidden="true"></i>
-          </ng-template>
-          <ng-template #elseInfo>
-            <i class="fa fa-info-circle enabled" aria-hidden="true"></i>
-          </ng-template>
+          <i class="fa fa-info-circle enabled" aria-hidden="true"
+             (click)="showRecordModal(patient.patientId)"></i>
         </td>
 			</tr>
 		</tbody>

@@ -5,6 +5,8 @@ import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SESSION_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MedicalRecordComponent } from '../medical-record/medical-record.component';
 
 import { NgSortableHeader, SortDirection, SortEvent, compare } from '../sortable-table';
 
@@ -53,7 +55,8 @@ export class PatientsTableComponent implements OnInit {
               private appointmentService: AppointmentService,
               private userService: UserService,
               private router: Router,
-              @Inject(SESSION_STORAGE) private storage: StorageService) {
+              @Inject(SESSION_STORAGE) private storage: StorageService,
+              private modalService: NgbModal) {
 		this.filter.valueChanges.subscribe(val => {
   		this.tableData = this.data.filter(entity => {
 				const term = val.toLowerCase();
@@ -86,7 +89,6 @@ export class PatientsTableComponent implements OnInit {
 
   activeAppointment() {
     this.appointmentService.canStartAppointment().subscribe(result => {
-      console.log(result);
       this.btnMessage = "Pokreni pregled";
       if(result['description'] !== "not started") {
         if(result['description'] === "started") {
@@ -98,5 +100,13 @@ export class PatientsTableComponent implements OnInit {
         this.storage.remove(STORAGE_KEY);
       }
     });
+  }
+
+  showRecordModal(patientId) {
+    const modalRef = this.modalService.open(MedicalRecordComponent, {
+      size: 'lg',
+      centered: true,
+    });
+    modalRef.componentInstance.patientId = patientId;
   }
 }

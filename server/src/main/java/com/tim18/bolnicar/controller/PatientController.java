@@ -1,10 +1,9 @@
 package com.tim18.bolnicar.controller;
 
 import com.tim18.bolnicar.dto.*;
-import com.tim18.bolnicar.model.Appointment;
-import com.tim18.bolnicar.model.MedicalReport;
-import com.tim18.bolnicar.model.MedicalWorker;
-import com.tim18.bolnicar.model.Patient;
+import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.service.AppointmentService;
+import com.tim18.bolnicar.service.DoctorService;
 import com.tim18.bolnicar.service.PatientService;
 import com.tim18.bolnicar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,21 @@ public class PatientController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DoctorService doctorService;
+
     @GetMapping("/medicalRecord/{patientId}")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Response> getMedicalReport(@PathVariable Integer patientId) {
+    public ResponseEntity<Response> getMedicalReport(@PathVariable Integer patientId, Principal user) {
         MedicalRecordDTO record = null;
+        Doctor doctor = this.doctorService.findOne(user.getName());
         Response resp = new Response();
 
-        if (patientId != null)
-            record = this.patientService.getMedicalRecord(patientId);
+        if (patientId != null && doctor != null) {
+            if(this.patientService.isDoctorPatient(
+                    this.patientService.getPatient(patientId), doctor.getId()))
+                record = this.patientService.getMedicalRecord(patientId);
+        }
         else {
             resp.setStatus("error");
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);

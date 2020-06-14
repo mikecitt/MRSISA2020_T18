@@ -64,6 +64,7 @@ public class PatientServiceImpl implements PatientService {
         mr.setFirstName(patient.get().getFirstName());
         mr.setLastName(patient.get().getLastName());
         mr.setJmbg(patient.get().getJmbg());
+        mr.setPatientId(patient.get().getId());
 
         for (MedicalReport m : patient.get().getMedicalRecord()) {
             MedicalReportDTO report = new MedicalReportDTO();
@@ -98,6 +99,7 @@ public class PatientServiceImpl implements PatientService {
         mr.setFirstName(patient.getFirstName());
         mr.setLastName(patient.getLastName());
         mr.setJmbg(patient.getJmbg());
+        mr.setPatientId(patient.getId());
 
         for (MedicalReport m : patient.getMedicalRecord()) {
             MedicalReportDTO report = new MedicalReportDTO();

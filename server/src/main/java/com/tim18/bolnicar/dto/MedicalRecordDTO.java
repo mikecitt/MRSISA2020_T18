@@ -7,13 +7,16 @@ public class MedicalRecordDTO {
     private String firstName;
     private String lastName;
     private String jmbg;
+    private Integer patientId;
     private List<MedicalReportDTO> medicalReports;
 
-    public MedicalRecordDTO(String firstName, String lastName, String jmbg, List<MedicalReportDTO> medicalReports) {
+    public MedicalRecordDTO(String firstName, String lastName, String jmbg,
+                            List<MedicalReportDTO> medicalReports, Integer patientId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.jmbg = jmbg;
         this.medicalReports = medicalReports;
+        this.patientId = patientId;
     }
 
     public MedicalRecordDTO() {
@@ -50,6 +53,14 @@ public class MedicalRecordDTO {
 
     public void setMedicalReports(List<MedicalReportDTO> medicalReports) {
         this.medicalReports = medicalReports;
+    }
+
+    public Integer getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Integer patientId) {
+        this.patientId = patientId;
     }
 
     @Override
