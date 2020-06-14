@@ -1,10 +1,14 @@
 package com.tim18.bolnicar.repository;
 
 import com.tim18.bolnicar.model.*;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import java.util.Date;
 import java.util.List;
 
@@ -28,4 +32,9 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 
     @Query("SELECT CASE WHEN count(e) > 0 THEN true ELSE false END FROM Appointment e where clinic_id = :cid and patient_id = :pid")
     boolean patientHasAppointment(@Param("cid") Integer cid, @Param("pid") Integer pid);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT a FROM Appointment a WHERE a.id = :id")
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
+    Appointment findOneById(@Param("id") Integer id);
 }

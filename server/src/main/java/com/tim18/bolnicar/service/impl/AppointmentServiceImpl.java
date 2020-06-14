@@ -8,6 +8,7 @@ import com.tim18.bolnicar.repository.*;
 import com.tim18.bolnicar.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,46 +31,54 @@ public class AppointmentServiceImpl implements AppointmentService {
     private ExaminationTypeRepository examinationTypeRepository;
 
     @Override
+    @Transactional(readOnly = false)
     public boolean bookAppointment(Integer appointmentId, Integer patientId) {
+        Appointment appointment = this.appointmentRepository.findOneById(appointmentId);
         Optional<Patient> patient = this.patientRepository.findById(patientId);
-        Optional<Appointment> appointment = this.appointmentRepository.findById(appointmentId);
 
-        if (patient.isEmpty())
+        if (patient.isEmpty() || appointment == null)
             return false;
 
-        if (appointment.isEmpty())
+        // System.out.println("Write: " + patient.get().getFirstName());
+
+        if (appointment.getPatient() != null)
             return false;
 
-        if (appointment.get().getPatient() != null)
-            return false;
+//        try {
+//            Thread.sleep(10000L);
+//        } catch (Exception e) {
+//
+//        }
 
-        Appointment app = appointment.get();
-        app.setPatient(patient.get());
-
-        this.appointmentRepository.save(app);
+        appointment.setPatient(patient.get());
+        this.appointmentRepository.save(appointment);
+        //
 
         return true;
     }
 
     @Override
+    @Transactional(readOnly = false)
     public boolean bookAppointment(Integer appointmentId, String patientEmail) {
-        Optional<Appointment> appointment = this.appointmentRepository.findById(appointmentId);
+        Appointment appointment = this.appointmentRepository.findOneById(appointmentId);
+        // Appointment appointment = this.appointmentRepository.findOneById(appointmentId);
         Optional<Patient> patient = Optional.ofNullable(this.patientRepository.findByEmailAddress(patientEmail));
 
-        if (appointment.isEmpty() || patient.isEmpty())
+        if (appointment == null || patient.isEmpty())
             return false;
 
-        if (appointment.get().getPatient() != null)
+        if (appointment.getPatient() != null)
             return false;
 
-        Appointment app = appointment.get();
-        Patient pat = patient.get();
+//        try {
+//            Thread.sleep(10000L);
+//        } catch (Exception e) {
+//
+//        }
 
-        app.setPatient(pat);
-        pat.getAppointments().add(app);
-
-        this.appointmentRepository.save(app);
-        this.patientRepository.save(pat);
+        appointment.setPatient(patient.get());
+        this.appointmentRepository.save(appointment);
+        //
 
         return true;
     }

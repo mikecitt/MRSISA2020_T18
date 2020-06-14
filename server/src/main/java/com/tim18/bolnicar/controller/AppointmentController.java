@@ -54,8 +54,11 @@ public class AppointmentController {
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<ResponseReport> bookAppointment(@PathVariable Integer aid,
                                                           @PathVariable Integer pid) {
-        if (this.appointmentService.bookAppointment(aid, pid))
-            return new ResponseEntity<>(new ResponseReport("ok", "Appointment booked."), HttpStatus.OK);
+        try {
+            if (this.appointmentService.bookAppointment(aid, pid))
+                return new ResponseEntity<>(new ResponseReport("ok", "Appointment booked."), HttpStatus.OK);
+        } catch (Exception e) {
+        }
 
         return new ResponseEntity<>(new ResponseReport("error", "Input is not valid."), HttpStatus.BAD_REQUEST);
     }
@@ -63,9 +66,20 @@ public class AppointmentController {
     @PostMapping("/book/{aid}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<Response> bookAppointment(@PathVariable Integer aid, Principal principal) {
-        boolean status = this.appointmentService.bookAppointment(aid, principal.getName());
+        boolean status = false;
         Response resp = new Response();
         resp.setStatus("ok");
+
+        try {
+            status = this.appointmentService.bookAppointment(aid, principal.getName());
+        } catch (Exception e) {
+            resp.setStatus("error");
+            return new ResponseEntity<Response>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        //boolean status = this.appointmentService.bookAppointment(aid, principal.getName());
+        //Response resp = new Response();
+       // resp.setStatus("ok");
 
         if (!status) {
             resp.setStatus("error");
@@ -140,8 +154,14 @@ public class AppointmentController {
 
         //TODO: check two users
         if (requestAppointment.getAppointmentId() != null) {
-            boolean flag =
-                    this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
+            boolean flag;
+            try {
+                flag = this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
+            } catch (Exception e) {
+                flag = false;
+            }
+            //boolean flag =
+            //        this.appointmentService.bookAppointment(requestAppointment.getAppointmentId(), principal.getName());
             resp.setStatus(flag ? "ok" : "error");
             // resp.setDescription(flag ? "" : "");
             if (!flag)
