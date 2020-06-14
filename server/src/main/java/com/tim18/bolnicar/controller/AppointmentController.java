@@ -175,7 +175,7 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
-    @PostMapping("/request")
+    /*@PostMapping("/request")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")
     public ResponseEntity<Response> makeRequest2(@RequestBody AppointmentRequestDTO requestAppointment, Principal principal) {
         Response resp = new Response();
@@ -208,7 +208,7 @@ public class AppointmentController {
         }
 
         return ResponseEntity.ok(resp);
-    }
+    }*/
 
     @GetMapping("/request")
     @PreAuthorize("hasRole('CLINIC_ADMIN')")

@@ -61,7 +61,6 @@ export class AppointmentDoctorModalComponent implements OnInit {
     this.message = null;
     this.loaded = false;
     this.form.controls['type'].disable();
-    this.doctors = [];
     this.roomService.getAvailableExaminationRooms(this.form.controls['datetime'].value, this.form.controls['duration'].value).subscribe(result => {
       this.rooms = result as Room[];
       if(this.rooms.length > 0) {
