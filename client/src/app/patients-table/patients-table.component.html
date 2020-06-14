@@ -5,6 +5,8 @@
 		<div class="form-group form-inline">
 			Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
 		</div>
+    <button [disabled]="startedAppointment == null" class="btn btn-primary mb-3 mt-2 col-sm-3 float-left"
+            (click)="print()">Pokreni pregled</button>
 	</form>
 
 	<table class="table table-striped">
@@ -24,13 +26,6 @@
 				<td>{{ patient.firstName }}</td>
 				<td>{{ patient.lastName }}</td>
         <td>
-          <div *ngIf="isThatPatient(patient.jmbg); then thenStart else elseStart"></div>
-          <ng-template #thenStart>
-            <i class="fa fa-play mr-sm-3 enabled" aria-hidden="true"></i>
-          </ng-template>
-          <ng-template #elseStart>
-            <i class="fa fa-play mr-sm-3 disabled" aria-hidden="true"></i>
-          </ng-template>
           <div *ngIf="patient.medicalReports.length == 0; then thenInfo else elseInfo"></div>
           <ng-template #thenInfo>
             <i class="fa fa-info-circle disabled" aria-hidden="true"></i>

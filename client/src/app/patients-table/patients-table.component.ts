@@ -52,8 +52,8 @@ export class PatientsTableComponent implements OnInit {
 	    	return entity.jmbg.toLowerCase().includes(term)
 	        || entity.firstName.toLowerCase().includes(term)
 	        || entity.lastName.toLowerCase().includes(term);
-  		})
-  	})
+  		});
+  	});
   }
 
   ngOnInit(): void {
@@ -61,14 +61,19 @@ export class PatientsTableComponent implements OnInit {
   	this.patientService.getPatients().subscribe(result => {
   		this.data = result;
 			this.tableData = result;
-  	})
+  	});
   }
 
   activeAppointment() {
     this.appointmentService.canStartAppointment().subscribe(result => {
       if(result['data'].length !== 0)
-        this.startedAppointment = result['data'];
-    })
+        this.startedAppointment = result['data'][0];
+        console.log(this.startedAppointment);
+    });
+  }
+
+  print() {
+    console.log(this.startedAppointment);
   }
 
   isThatPatient(jmbg) {

@@ -1,6 +1,7 @@
 package com.tim18.bolnicar.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MedicalRecordDTO {
     private String firstName;
@@ -49,5 +50,18 @@ public class MedicalRecordDTO {
 
     public void setMedicalReports(List<MedicalReportDTO> medicalReports) {
         this.medicalReports = medicalReports;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicalRecordDTO that = (MedicalRecordDTO) o;
+        return Objects.equals(jmbg, that.jmbg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(jmbg);
     }
 }
