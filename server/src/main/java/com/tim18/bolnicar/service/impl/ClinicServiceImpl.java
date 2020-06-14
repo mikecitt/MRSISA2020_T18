@@ -5,18 +5,20 @@ import com.tim18.bolnicar.dto.DoctorDTO;
 import com.tim18.bolnicar.dto.GradeRequest;
 import com.tim18.bolnicar.dto.TimeIntervalDTO;
 import com.tim18.bolnicar.model.*;
+import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.ClinicGradeRepository;
 import com.tim18.bolnicar.repository.ClinicRepository;
 import com.tim18.bolnicar.repository.PatientRepository;
+import com.tim18.bolnicar.service.ClinicGradeTransService;
 import com.tim18.bolnicar.service.ClinicService;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.security.Timestamp;
 import java.util.*;
 
+@Transactional
 @Service
 public class ClinicServiceImpl implements ClinicService {
 
@@ -29,9 +31,15 @@ public class ClinicServiceImpl implements ClinicService {
     @Autowired
     private ClinicGradeRepository clinicGradeRepository;
 
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     //TODO: discuss
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private ClinicGradeTransService clinicGradeTransService;
 
     @Override
     public ClinicDTO getClinicProfile(int id) {
@@ -188,7 +196,6 @@ public class ClinicServiceImpl implements ClinicService {
 
 
     @Override
-    //TODO: optimise
     public boolean gradeClinic(String patientEmail, GradeRequest req) {
 
         if (req.getGrade() == null || req.getGrade() < 1 || req.getGrade() > 5 || req.getEntityId() == null)
@@ -199,62 +206,22 @@ public class ClinicServiceImpl implements ClinicService {
         if (patient == null)
             return false;
 
-        Optional<Clinic> clinic = this.clinicRepository.findById(req.getEntityId());
+        Integer patientId = patient.getId();
 
-        if (clinic.isEmpty())
-            return false;
+        // transaction: required
+        if (this.clinicGradeTransService.updateClinicGrade(patientId, req))
+            return true;
 
-        System.out.println("TU SAM!");
-
-        // grade exists?
-        for (ClinicGrade grade : clinic.get().getGrades()) {
-            if (grade.getPatient().getId() == patient.getId()) {
-                grade.setGrade(req.getGrade());
-
-                System.out.printf("Ok, ima ocena, probacu da uradim update: %d\n", req.getGrade());
-
-                try {
-                    Thread.sleep(10000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.printf("Update to: %d\n", req.getGrade());
-
-                this.clinicGradeRepository.save(grade);
+        try {
+            if (this.clinicGradeTransService.addClinicGrade(patient, req)) {
                 return true;
             }
-        }
-
-        // has appointment?
-        for (Appointment app : clinic.get().getAppointments()) {
-            if (app.getPatient() != null &&
-                    app.getPatient().getId() == patient.getId() &&
-                    app.getReport() != null) {
-                ClinicGrade grade = new ClinicGrade();
-                grade.setGrade(req.getGrade());
-                grade.setClinic(clinic.get());
-                grade.setPatient(patient);
-                clinic.get().addGrade(grade);
-
-                System.out.printf("Pendding: %d\n", grade.getGrade());
-
-                try {
-                    Thread.sleep(10000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.printf("Write: %d\n", grade.getGrade());
-
-
-                this.clinicRepository.save(clinic.get());
-                return true;
-            }
+        } catch (Exception e) {
         }
 
         return false;
     }
+
 
     @Override
     public ClinicDTO getClinic(String patientEmail, Integer clinicId) {

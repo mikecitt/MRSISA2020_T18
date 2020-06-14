@@ -25,4 +25,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
 
     List<Appointment> findAllByActiveAndClinic(boolean active, Clinic clinic);
     List<Appointment> findAllByRoom(Room room);
+
+    @Query("SELECT CASE WHEN count(e) > 0 THEN true ELSE false END FROM Appointment e where clinic_id = :cid and patient_id = :pid")
+    boolean patientHasAppointment(@Param("cid") Integer cid, @Param("pid") Integer pid);
 }
