@@ -19,8 +19,8 @@ export class AppointmentService {
   															httpOptions);
   }
 
-	startAppointment() {
-		return this.http.get<any>(`${environment.api_url}/appointment/start`,
+	startAppointment(aid) {
+		return this.http.get<any>(`${environment.api_url}/appointment/start/${aid}`,
   															httpOptions);
 	}
 
@@ -53,5 +53,9 @@ export class AppointmentService {
 
   canStartAppointment() {
     return this.http.get<any>(`${environment.api_url}/appointment/canStart`, httpOptions);
+  }
+
+  getAppointment(aid) {
+    return this.http.get<any>(`${environment.api_url}/appointment/${aid}`, httpOptions);
   }
 }

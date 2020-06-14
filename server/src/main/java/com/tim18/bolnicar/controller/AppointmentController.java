@@ -253,12 +253,14 @@ public class AppointmentController {
 
     @GetMapping("/canStart")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Response> canStartAppointment(Principal user) {
+    public ResponseEntity<Response> canStart(Principal user) {
         Response resp = new Response();
         Doctor doctor = doctorService.findOne(user.getName());
-        AppointmentDTO[] appointmentDTOS = new AppointmentDTO[1];
         if(doctor != null && doctor.getClinic() != null) {
             for(Appointment appointment : doctor.getClinic().getAppointments()) {
+                if(appointment.getDoctor().getId().intValue() !=
+                   doctor.getId())
+                    continue;
                 if(appointment.getReport() == null) {
                     Date now = new Date();
                     Date start = appointment.getDatetime();
@@ -268,26 +270,14 @@ public class AppointmentController {
                     Date end = calendar.getTime();
                     if (!now.after(end) && !now.before(start)) {
                         resp.setStatus("ok");
-                        appointmentDTOS[0] = new AppointmentDTO(appointment);
+                        resp.setDescription("start");
+                        Integer[] appId = new Integer[1];
+                        appId[0] = appointment.getId();
+                        resp.setData(appId);
+                        return ResponseEntity.ok(resp);
                     }
                 }
-            }
-            resp.setStatus("ok");
-            resp.setData(appointmentDTOS);
-            return ResponseEntity.ok(resp);
-        } else {
-            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/start")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Response> startAppointment(Principal user) {
-        Response resp = new Response();
-        Doctor doctor = doctorService.findOne(user.getName());
-        if(doctor != null && doctor.getClinic() != null) {
-            for(Appointment appointment : doctor.getClinic().getAppointments()) {
-                if(appointment.getReport() == null) {
+                else {
                     Date now = new Date();
                     Date start = appointment.getDatetime();
                     Calendar calendar = Calendar.getInstance();
@@ -295,16 +285,11 @@ public class AppointmentController {
                     calendar.add(Calendar.MINUTE, appointment.getDuration());
                     Date end = calendar.getTime();
                     if (!now.after(end) && !now.before(start)) {
-                        MedicalReport medicalReport = new MedicalReport();
-                        medicalReport.setAppointment(appointment);
-                        medicalReportRepository.save(medicalReport);
-                        appointment.setReport(medicalReport);
-                        appointmentService.save(appointment);
                         resp.setStatus("ok");
                         resp.setDescription("started");
-                        AppointmentDTO[] appointmentDTOS = new AppointmentDTO[1];
-                        appointmentDTOS[0] = new AppointmentDTO(appointment);
-                        resp.setData(appointmentDTOS);
+                        Integer[] appId = new Integer[1];
+                        appId[0] = appointment.getId();
+                        resp.setData(appId);
                         return ResponseEntity.ok(resp);
                     }
                 }
@@ -313,6 +298,50 @@ public class AppointmentController {
             resp.setDescription("not started");
             return ResponseEntity.ok(resp);
         } else {
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/{aid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getAppointment(@PathVariable int aid, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        Appointment appointment = this.appointmentService.findById(aid);
+        if(appointment != null) {
+            resp.setStatus("ok");
+            AppointmentDTO[] temp = new AppointmentDTO[1];
+            temp[0] = new AppointmentDTO(appointment);
+            resp.setData(temp);
+
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/start/{aid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> startAppointment(@PathVariable int aid, Principal user) {
+        Response resp = new Response();
+        Appointment appointment = this.appointmentService.findById(aid);
+        if(appointment != null) {
+            if(appointment.getReport() == null) {
+                MedicalReport medicalReport = new MedicalReport();
+                medicalReport.setAppointment(appointment);
+                medicalReportRepository.save(medicalReport);
+                appointment.setReport(medicalReport);
+                appointmentService.save(appointment);
+                resp.setStatus("ok");
+                resp.setDescription("start");
+            }
+            else {
+                resp.setStatus("ok");
+                resp.setDescription("started");
+            }
+            return ResponseEntity.ok(resp);
+        }
+        else {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
     }

@@ -271,7 +271,7 @@ INSERT INTO appointment (
     (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 7, 5, TRUE),
     (PARSEDATETIME('2020-07-07 11:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
     (PARSEDATETIME('2020-07-07 08:00', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
-    (PARSEDATETIME('2020-06-14 10:40', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
+    (PARSEDATETIME('2020-06-14 14:05', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 11, NULL, 8, 5, TRUE),
 
     -- free
     (PARSEDATETIME('2020-09-02 13:00', 'yyyy-MM-dd HH:mm'), 0.4, 60, 2, 4, NULL, NULL, 16, 3, TRUE),

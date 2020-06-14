@@ -5,8 +5,8 @@
 		<div class="form-group form-inline">
 			Pretraži <input class="form-control ml-2" type="text" [formControl]="filter"/>
 		</div>
-    <button [disabled]="startedAppointment == null" class="btn btn-primary mb-3 mt-2 col-sm-3 float-left"
-            (click)="print()">Pokreni pregled</button>
+    <button *ngIf="isDoctor();" [disabled]="startedAppointment == null" class="btn btn-primary mb-3 mt-2 col-sm-3 float-left"
+            (click)="checkAppointmentStatus();">{{btnMessage}}</button>
 	</form>
 
 	<table class="table table-striped">

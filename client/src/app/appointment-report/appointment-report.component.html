@@ -1,0 +1,36 @@
+<h3>Trenutni termin</h3>
+<div class="box-wrap d-flex justify-content-center">
+  <div *ngIf="appointment != undefined" class="box">
+    <div class="row">
+      <label class="col-sm-5 col-form-label"><strong>Ime i prezime</strong></label>
+      <div class="col">
+        <input type="text" readonly class="form-control-plaintext" [value]="appointment.patient">
+      </div>
+    </div>
+    <div class="row">
+      <label class="col-sm-5 col-form-label"><strong>JMBG</strong></label>
+      <div class="col">
+        <input type="text" readonly class="form-control-plaintext" [value]="appointment.jmbg">
+      </div>
+    </div>
+  </div>
+</div>
+<form>
+  <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="diagnosisId">Dijagnoze</label>
+      <input type="text" class="form-control" id="diagnosisId" name="diagnosis" [(ngModel)]="diagnosis">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="recipeId">Recepti</label>
+      <input type="text" class="form-control" id="recipeId" name="recipe" [(ngModel)]="recipe">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <label for="reportId">Izveštaj</label>
+      <textarea class="form-control" id="reportId" rows="13" name="report" [(ngModel)]="report"></textarea>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="button">Završi pregled</button>
+</form>

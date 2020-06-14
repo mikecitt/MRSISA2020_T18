@@ -60,6 +60,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ClinicReportComponent } from './clinic-report/clinic-report.component';
 import { ClinicCardComponent } from './clinic-card/clinic-card.component';
 import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
+import { AppointmentReportComponent } from './appointment-report/appointment-report.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { RoomCalendarComponent } from './room-calendar/room-calendar.component';
     ClinicReportComponent,
     ClinicCardComponent,
     RoomCalendarComponent,
+    AppointmentReportComponent,
   ],
   imports: [
     BrowserModule,
