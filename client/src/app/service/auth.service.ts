@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { environment } from './../../environments/environment';
 
-import { environment } from './../../environments/environment';
-
 const httpOptions = {
 	headers: new HttpHeaders({'Content-Type': 'application/json'})
 }
