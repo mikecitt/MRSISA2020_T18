@@ -256,7 +256,8 @@ INSERT INTO appointment (
     report_id,
     room_id,
     type_id,
-    active
+    active,
+    price
 ) VALUES
     -- not free
     (PARSEDATETIME('2020-06-02 10:30', 'yyyy-MM-dd HH:mm'), 0.2, 30, 1, 3, 7, NULL, 1, 5, TRUE, 1232.43),
