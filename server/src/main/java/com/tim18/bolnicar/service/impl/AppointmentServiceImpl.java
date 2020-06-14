@@ -8,6 +8,8 @@ import com.tim18.bolnicar.repository.*;
 import com.tim18.bolnicar.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
@@ -116,6 +118,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRES_NEW)
     public Appointment addAppointmentRequest(AppointmentRequestDTO appointment, String patientEmail) {
         Patient patient = this.patientRepository.findByEmailAddress(patientEmail);
         Optional<Doctor> doctor = this.doctorRepository.findById(appointment.getDoctorId());
@@ -133,6 +136,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         if (et.isEmpty())
             return null;
+
+        // provera da ne dolazi do preklapanja
+        //System.out.println("pending: " + patientEmail);
+
+        //TODO: 30 minutes by default, make global constant!
+        if (this.appointmentRepository.appointmentExists(
+                appointment.getStart(),
+                30,
+                appointment.getDoctorId())) {
+            return null;
+        }
+
+//                try {
+//            Thread.sleep(10000L);
+//        } catch (Exception e) {
+//
+//        }
+//                System.out.println("Write: " + patientEmail);
 
         Appointment app = new Appointment();
         app.setPatient(patient);

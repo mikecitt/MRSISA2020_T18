@@ -168,7 +168,12 @@ public class AppointmentController {
                 return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         } else {
             // create new
-            Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
+            Appointment app = null;
+            try {
+                app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
+            } catch (Exception e) {
+            }
+            ///Appointment app = this.appointmentService.addAppointmentRequest(requestAppointment, principal.getName());
             resp.setStatus(app != null ? "ok" : "error");
 
             if (app == null)
@@ -177,12 +182,13 @@ public class AppointmentController {
             Object[] objArray = this.clinicAdminService.getAllEmails(app.getClinic()).toArray();
             String[] stringArray = Arrays.copyOf(objArray,
                     objArray.length, String[].class);
-            this.emailService.sendMessages(
-                    stringArray,
-                    "[INFO] TERMINI",
-                    "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
-                         this.appointmentService.appointmentInfo(app)
-            );
+            if (stringArray.length > 0)
+                this.emailService.sendMessages(
+                        stringArray,
+                        "[INFO] TERMINI",
+                        "Poštovani,\n\nNovi zahtev je dodat, opis je u priloženom\n" +
+                             this.appointmentService.appointmentInfo(app)
+                );
         }
 
         return ResponseEntity.ok(resp);

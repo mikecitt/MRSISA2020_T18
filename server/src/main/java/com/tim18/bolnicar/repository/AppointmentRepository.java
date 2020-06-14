@@ -37,4 +37,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Integ
     @Query("SELECT a FROM Appointment a WHERE a.id = :id")
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
     Appointment findOneById(@Param("id") Integer id);
+
+    @Query("SELECT CASE WHEN count(e) > 0 THEN true ELSE false END FROM Appointment e where datetime = :pdate and duration = :duration and doctor_id = :did")
+    boolean appointmentExists(@Param("pdate") Date pdate, @Param("duration") Integer duration, @Param("did") Integer did);
 }
