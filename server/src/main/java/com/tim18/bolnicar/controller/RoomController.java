@@ -168,6 +168,11 @@ public class RoomController {
         ResponseReport report = new ResponseReport("error", "Forbidden action, contact admin.");
         Room room = this.roomService.findOne(roomUpdates.getId());
         if(room != null && clinicAdmin != null && clinicAdmin.getClinic() != null && clinicAdmin.getClinic().getRooms().contains(room)) {
+            if(roomUpdates.getType() != room.getType()) { // ako je doslo do promene tipa sobe, spreciti ukoliko ima appointmenta
+                if(appointmentService.findRoomsAppointments(room).size() > 0) {
+                    return new ResponseEntity<>(report, HttpStatus.BAD_REQUEST);
+                }
+            }
             roomUpdates.setClinic(room.getClinic());
             if(this.roomService.save(roomUpdates) != null) {
                 report.setStatus("ok");

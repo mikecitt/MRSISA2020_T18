@@ -48,7 +48,7 @@ export class RoomEditComponent implements OnInit {
   		this.modal.dismiss('cancel click')
   	}, err => {
       this.modal.dismiss('cancel click')
-      this.toastService.show('Broj sale već postoji.', { classname: 'bg-danger text-light', delay: 3000 });
+      this.toastService.show('Greška prilikom izmene.', { classname: 'bg-danger text-light', delay: 3000 });
     })
   }
 
