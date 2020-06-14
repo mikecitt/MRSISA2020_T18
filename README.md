@@ -10,9 +10,7 @@
 #### Asistent: 
 - Milan Stojkov
 
-## Aplikacija
-
-### 1. Server
+## Server
 #### Korišćene tehnologije:
 
  - Java 11
@@ -27,7 +25,7 @@
 
     run BolnicarApplication
 
-### 2. Client
+## Client
 #### Korišćene tehnologije:
 
  - Angular
