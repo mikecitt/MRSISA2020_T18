@@ -257,4 +257,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment save(Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
+
+    @Override
+    public List<Appointment> findAll() {
+        return (List<Appointment>)this.appointmentRepository.findAll();
+    }
 }

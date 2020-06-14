@@ -474,7 +474,7 @@ public class AppointmentController {
 
     @GetMapping("/recipes")
     @PreAuthorize("hasRole('NURSE')")
-    public ResponseEntity<Response> getRecepis(Principal user) {
+    public ResponseEntity<Response> getRecipes(Principal user) {
         Response resp = new Response();
         resp.setStatus("error");
         Nurse nurse = this.nurseService.findOne(user.getName());

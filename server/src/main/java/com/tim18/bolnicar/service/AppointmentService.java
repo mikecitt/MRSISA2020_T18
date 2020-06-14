@@ -26,4 +26,5 @@ public interface AppointmentService {
     void remove(int id);
     boolean gradeAppointment(String patientEmail, GradeRequest req);
     String appointmentInfo(Appointment appointment);
+    List<Appointment> findAll();
 }
