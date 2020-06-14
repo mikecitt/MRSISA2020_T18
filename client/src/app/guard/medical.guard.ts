@@ -21,6 +21,11 @@ export class MedicalGuard implements CanActivate {
             this.router.navigate(['/403']);
             return false;
           }
+
+          if(authorities.search('ROLE_DOCTOR') !== -1 && state.url === '/check-recipe') {
+            this.router.navigate(['/403']);
+            return false;
+          }
         return true;
       } else {
         this.router.navigate(['/403']);

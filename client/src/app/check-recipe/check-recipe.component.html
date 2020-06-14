@@ -1,0 +1,31 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Ime leka</th>
+    <th scope="col">Izdao lekar</th>
+    <th scope="col">Overen</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody *ngIf="recipes != undefined">
+  <tr *ngFor="let r of recipes; let i = index">
+    <th scope="row">{{ i + 1 }}</th>
+    <td>
+      {{ r.drug.name }}
+    </td>
+    <td>
+      {{ r.givenBy }}
+    </td>
+    <td>
+      {{ r.sealed === true ? "Da" : "Ne" }}
+    </td>
+    <td>
+      <div *ngIf="!r.sealed">
+        <i class="fa fa-check" style="font-size:22px; cursor: pointer;"
+           (click)="checkRecipe(r.appointmentId, r.id)" aria-hidden="true"></i>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

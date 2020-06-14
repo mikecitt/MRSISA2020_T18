@@ -9,6 +9,7 @@ import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.model.Room;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.MedicalReportRepository;
+import com.tim18.bolnicar.repository.NurseRepository;
 import com.tim18.bolnicar.service.*;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.Appointment;
@@ -55,6 +56,9 @@ public class AppointmentController {
 
     @Autowired
     private DrugService drugService;
+
+    @Autowired
+    private NurseService nurseService;
 
 
     @PostMapping("/{aid}/{pid}")
@@ -444,5 +448,65 @@ public class AppointmentController {
         }
 
         return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/recipes")
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<Response> getRecepis(Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        Nurse nurse = this.nurseService.findOne(user.getName());
+
+        if(nurse != null) {
+            List<RecipeDTO> recepis = new ArrayList<RecipeDTO>();
+            for(Appointment app : nurse.getClinic().getAppointments()) {
+                Date now = new Date();
+                Date start = app.getDatetime();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(app.getDatetime());
+                calendar.add(Calendar.MINUTE, app.getDuration());
+                Date end = calendar.getTime();
+                if(now.after(end)) {
+                    for(Recipe r : app.getReport().getRecipes()) {
+                        RecipeDTO temp = new RecipeDTO(r);
+                        temp.setGivenBy(app.getDoctor().getFirstName() + " " +
+                                app.getDoctor().getLastName());
+                        temp.setAppointmentId(app.getId());
+                        recepis.add(temp);
+                    }
+                }
+            }
+
+            resp.setStatus("ok");
+            resp.setData(recepis.toArray());
+
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/recipe/{aid}/{rid}")
+    @PreAuthorize("hasRole('NURSE')")
+    public ResponseEntity<Response> checkRecipe(@PathVariable int aid, @PathVariable int rid, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        Nurse nurse = this.nurseService.findOne(user.getName());
+        Appointment app = this.appointmentService.findById(aid);
+
+        if(nurse != null && app != null) {
+            resp.setStatus("ok");
+            for(Recipe recipe : app.getReport().getRecipes()) {
+                if(recipe.getId() == rid) {
+                    recipe.setSealed(true);
+                    recipe.setNurse(nurse);
+                    break;
+                }
+            }
+            this.appointmentService.save(app);
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }
