@@ -9,8 +9,8 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Drug> drugs;
+    @ManyToOne
+    private Drug drug;
 
     @Column
     private Boolean sealed;
@@ -26,12 +26,12 @@ public class Recipe {
         this.id = id;
     }
 
-    public Set<Drug> getDrugs() {
-        return drugs;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setDrugs(Set<Drug> drugs) {
-        this.drugs = drugs;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
     }
 
     public Boolean getSealed() {

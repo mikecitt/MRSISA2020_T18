@@ -8,18 +8,18 @@ import java.util.Set;
 
 public class RecipeDTO {
     private Integer id;
-    private Set<Drug> drugs;
+    private Drug drug;
     // private Boolean sealed;
 
 
-    public RecipeDTO(Integer id, Set<Drug> drugs) {
+    public RecipeDTO(Integer id, Drug drug) {
         this.id = id;
-        this.drugs = drugs;
+        this.drug = drug;
     }
 
     public RecipeDTO(Recipe recipe) {
         this.id = recipe.getId();
-        this.drugs = recipe.getDrugs();
+        this.drug = recipe.getDrug();
     }
 
     public RecipeDTO() {
@@ -34,11 +34,11 @@ public class RecipeDTO {
         this.id = id;
     }
 
-    public Set<Drug> getDrugs() {
-        return drugs;
+    public Drug getDrug() {
+        return drug;
     }
 
-    public void setDrugs(Set<Drug> drugs) {
-        this.drugs = drugs;
+    public void setDrug(Drug drug) {
+        this.drug = drug;
     }
 }

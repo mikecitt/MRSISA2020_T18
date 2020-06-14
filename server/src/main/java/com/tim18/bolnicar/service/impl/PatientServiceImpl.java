@@ -180,4 +180,13 @@ public class PatientServiceImpl implements PatientService {
     public Patient save(Patient patient) {
         return this.patientRepository.save(patient);
     }
+
+    public boolean isDoctorPatient(Patient patient, int doctor_id) {
+        for(Patient patient1 : this.patientRepository.isDoctorPatient(doctor_id)) {
+            if(patient1.getId().intValue() == patient.getId().intValue())
+                return true;
+        }
+
+        return false;
+    }
 }

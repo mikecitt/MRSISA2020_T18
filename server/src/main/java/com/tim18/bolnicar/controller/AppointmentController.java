@@ -50,6 +50,13 @@ public class AppointmentController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private DiagnosisService diagnosisService;
+
+    @Autowired
+    private DrugService drugService;
+
+
     @PostMapping("/{aid}/{pid}")
     @PreAuthorize("hasRole('PATIENT')")
     public ResponseEntity<ResponseReport> bookAppointment(@PathVariable Integer aid,
@@ -287,13 +294,16 @@ public class AppointmentController {
         return ResponseEntity.ok(resp);
     }
 
-    @GetMapping("/start")
+    @GetMapping("/canStart")
     @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Response> startAppointment(Principal user) {
+    public ResponseEntity<Response> canStart(Principal user) {
         Response resp = new Response();
         Doctor doctor = doctorService.findOne(user.getName());
         if(doctor != null && doctor.getClinic() != null) {
             for(Appointment appointment : doctor.getClinic().getAppointments()) {
+                if(appointment.getDoctor().getId().intValue() !=
+                   doctor.getId())
+                    continue;
                 if(appointment.getReport() == null) {
                     Date now = new Date();
                     Date start = appointment.getDatetime();
@@ -302,16 +312,27 @@ public class AppointmentController {
                     calendar.add(Calendar.MINUTE, appointment.getDuration());
                     Date end = calendar.getTime();
                     if (!now.after(end) && !now.before(start)) {
-                        MedicalReport medicalReport = new MedicalReport();
-                        medicalReport.setAppointment(appointment);
-                        medicalReportRepository.save(medicalReport);
-                        appointment.setReport(medicalReport);
-                        appointmentService.save(appointment);
+                        resp.setStatus("ok");
+                        resp.setDescription("start");
+                        Integer[] appId = new Integer[1];
+                        appId[0] = appointment.getId();
+                        resp.setData(appId);
+                        return ResponseEntity.ok(resp);
+                    }
+                }
+                else {
+                    Date now = new Date();
+                    Date start = appointment.getDatetime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(appointment.getDatetime());
+                    calendar.add(Calendar.MINUTE, appointment.getDuration());
+                    Date end = calendar.getTime();
+                    if (!now.after(end) && !now.before(start)) {
                         resp.setStatus("ok");
                         resp.setDescription("started");
-                        AppointmentDTO[] appointmentDTOS = new AppointmentDTO[1];
-                        appointmentDTOS[0] = new AppointmentDTO(appointment);
-                        resp.setData(appointmentDTOS);
+                        Integer[] appId = new Integer[1];
+                        appId[0] = appointment.getId();
+                        resp.setData(appId);
                         return ResponseEntity.ok(resp);
                     }
                 }
@@ -322,5 +343,106 @@ public class AppointmentController {
         } else {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{aid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getAppointment(@PathVariable int aid, Principal user) {
+        Response resp = new Response();
+        resp.setStatus("error");
+        Appointment appointment = this.appointmentService.findById(aid);
+        if(appointment != null) {
+            resp.setStatus("ok");
+            AppointmentDTO[] temp = new AppointmentDTO[1];
+            temp[0] = new AppointmentDTO(appointment);
+            resp.setData(temp);
+
+            return ResponseEntity.ok(resp);
+        }
+
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/start/{aid}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> startAppointment(@PathVariable int aid, Principal user) {
+        Response resp = new Response();
+        Appointment appointment = this.appointmentService.findById(aid);
+        if(appointment != null) {
+            if(appointment.getReport() == null) {
+                MedicalReport medicalReport = new MedicalReport();
+                medicalReport.setAppointment(appointment);
+                medicalReportRepository.save(medicalReport);
+                appointment.setReport(medicalReport);
+                appointmentService.save(appointment);
+                resp.setStatus("ok");
+                resp.setDescription("start");
+            }
+            else {
+                resp.setStatus("ok");
+                resp.setDescription("started");
+            }
+            return ResponseEntity.ok(resp);
+        }
+        else {
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/diagnosis")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getDiagnosis() {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        List<DiagnosisDTO> diagnosiss = new ArrayList<DiagnosisDTO>();
+        for(MedicalDiagnosis diagnosis : this.diagnosisService.findAll()) {
+            diagnosiss.add(new DiagnosisDTO(diagnosis));
+        }
+        resp.setData(diagnosiss.toArray());
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/drug")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> getDrug() {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        List<DrugDTO> drugs = new ArrayList<DrugDTO>();
+        for(Drug drug : this.drugService.findAll()) {
+            drugs.add(new DrugDTO(drug));
+        }
+        resp.setData(drugs.toArray());
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/saveAppointment")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<Response> saveAppointment(@RequestBody AppointmentSave appointment) {
+        Response resp = new Response();
+        resp.setStatus("ok");
+        Appointment app = this.appointmentService.findById(appointment.getAppointmentId());
+
+        if(app != null) {
+            app.getReport().setDescription(appointment.getDescription());
+            app.getReport().setDiagnoses(new HashSet<MedicalDiagnosis>(appointment.getDiagnosis()));
+            Set<Recipe> recipe = new HashSet<Recipe>();
+            for(Drug drug : appointment.getRecipe()) {
+                Recipe r = new Recipe();
+                r.setDrug(drug);
+                r.setSealed(false);
+                recipe.add(r);
+            }
+            app.getReport().setRecipes(recipe);
+
+            this.appointmentService.save(app);
+        }
+        else {
+            resp.setStatus("error");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(resp);
     }
 }

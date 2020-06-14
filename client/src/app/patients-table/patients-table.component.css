@@ -33,3 +33,13 @@ th[sortable] {
     -ms-user-select: none;
     user-select: none;
 }
+
+.enabled {
+  font-size:22px;
+  cursor: pointer;
+}
+
+.disabled {
+  font-size:22px;
+  color: gray;
+}

@@ -284,11 +284,8 @@ INSERT INTO medical_report (description, appointment_id) VALUES
 INSERT INTO medical_report_diagnoses (medical_report_id, diagnoses_id) VALUES
     (1, 7), (2, 6);
 
-INSERT INTO recipe (sealed, nurse_id) VALUES
-    (TRUE, 5);
-
-INSERT INTO recipe_drugs (recipe_id, drugs_id) VALUES
-    (1, 13);
+INSERT INTO recipe (sealed, drug_id, nurse_id) VALUES
+    (TRUE, 13, 5);
 
 INSERT INTO medical_report_recipes (medical_report_id, recipes_id) VALUES
     (1, 1);
