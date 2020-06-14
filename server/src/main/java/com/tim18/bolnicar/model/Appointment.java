@@ -47,7 +47,7 @@ public class Appointment {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private RoomType roomtype;
+    private RoomType appointmentType;
 
     @Column
     private Double price;
@@ -167,11 +167,11 @@ public class Appointment {
         this.price = price;
     }
 
-    public RoomType getRoomtype() {
-        return roomtype;
+    public RoomType getAppointmentType() {
+        return appointmentType;
     }
 
-    public void setRoomtype(RoomType roomtype) {
-        this.roomtype = roomtype;
+    public void setAppointmentType(RoomType type) {
+        this.appointmentType = type;
     }
 }

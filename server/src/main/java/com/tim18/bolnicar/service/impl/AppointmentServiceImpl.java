@@ -135,7 +135,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         app.setDoctor(doctor.get());
         app.setClinic(clinic.get());
         app.setType(et.get());
-        app.setRoomtype(appointment.getRoomType());
+        app.setAppointmentType(appointment.getRoomType());
         app.setDatetime(appointment.getStart());
         app.setActive(false);
         app.setDiscount(0.0);
