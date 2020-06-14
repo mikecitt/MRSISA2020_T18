@@ -3,6 +3,7 @@ package com.tim18.bolnicar.service.impl;
 import com.tim18.bolnicar.model.Clinic;
 import com.tim18.bolnicar.model.ClinicAdmin;
 import com.tim18.bolnicar.repository.ClinicAdminRepository;
+import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.ClinicAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,9 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ClinicAdmin findSingle(String emailAddress) {
@@ -41,15 +45,16 @@ public class ClinicAdminServiceImpl implements ClinicAdminService {
 
     @Override
     public boolean register(ClinicAdmin clinicAdmin) {
-        clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
-        clinicAdmin.setLastPasswordResetDate(null);
-        clinicAdmin.setActive(true);
-
-        try {
-            save(clinicAdmin);
-            return true;
-        } catch (Exception ignored) {}
-
+        if(userRepository.findByEmailAddress(clinicAdmin.getEmailAddress()) == null && userRepository.findByJmbg(clinicAdmin.getJmbg()) == null) {
+            clinicAdmin.setPassword(passwordEncoder.encode(clinicAdmin.getPassword()));
+            clinicAdmin.setLastPasswordResetDate(null);
+            clinicAdmin.setActive(true);
+            try {
+                save(clinicAdmin);
+                return true;
+            } catch (Exception ignored) {
+            }
+        }
         return false;
     }
 }

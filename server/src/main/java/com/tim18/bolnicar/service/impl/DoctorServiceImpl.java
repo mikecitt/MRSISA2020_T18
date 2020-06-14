@@ -7,6 +7,7 @@ import com.tim18.bolnicar.model.Doctor;
 import com.tim18.bolnicar.model.TimeOff;
 import com.tim18.bolnicar.repository.AppointmentRepository;
 import com.tim18.bolnicar.repository.DoctorRepository;
+import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,18 +27,22 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public boolean register(Doctor doctor) {
-        doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-        doctor.setLastPasswordResetDate(null);
-        doctor.setActive(false);
+        if(userRepository.findByEmailAddress(doctor.getEmailAddress()) == null && userRepository.findByJmbg(doctor.getJmbg()) == null) {
+            doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+            doctor.setLastPasswordResetDate(null);
+            doctor.setActive(false);
 
-        try {
-            save(doctor);
-            return true;
-        } catch (Exception ex) {
+            try {
+                save(doctor);
+                return true;
+            } catch (Exception ignored) {
+            }
         }
-
         return false;
     }
 

@@ -3,6 +3,7 @@ package com.tim18.bolnicar.service.impl;
 import com.tim18.bolnicar.dto.*;
 import com.tim18.bolnicar.model.*;
 import com.tim18.bolnicar.repository.PatientRepository;
+import com.tim18.bolnicar.repository.UserRepository;
 import com.tim18.bolnicar.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,28 +21,33 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     //TODO: make annotation call of email notification
     @Override
     public boolean registerPatient(UserDTO user) {
-        Patient patient = new Patient();
+        if(userRepository.findByEmailAddress(user.getEmailAddress()) == null && userRepository.findByJmbg(user.getJmbg()) == null) {
 
-        patient.setEmailAddress(user.getEmailAddress());
-        patient.setPassword(passwordEncoder.encode(user.getPassword()));
-        patient.setFirstName(user.getFirstName());
-        patient.setLastName(user.getLastName());
-        patient.setAddress(user.getAddress());
-        patient.setCity(user.getCity());
-        patient.setCountry(user.getCountry());
-        patient.setContact(user.getContact());
-        patient.setJmbg(user.getJmbg());
-        patient.setActive(null);
+            Patient patient = new Patient();
 
-        try {
-            patientRepository.save(patient);
-            return true;
-        } catch (Exception e) {
+            patient.setEmailAddress(user.getEmailAddress());
+            patient.setPassword(passwordEncoder.encode(user.getPassword()));
+            patient.setFirstName(user.getFirstName());
+            patient.setLastName(user.getLastName());
+            patient.setAddress(user.getAddress());
+            patient.setCity(user.getCity());
+            patient.setCountry(user.getCountry());
+            patient.setContact(user.getContact());
+            patient.setJmbg(user.getJmbg());
+            patient.setActive(null);
+
+            try {
+                patientRepository.save(patient);
+                return true;
+            } catch (Exception ignored) {
+            }
         }
-
         return false;
     }
 
