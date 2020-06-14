@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, FormsModule, FormBuilder, Validators } from "@angular/forms";
 import { ExaminationType, ExaminationTypeService, RoomService, DoctorService, AppointmentService, ToastService } from '../service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-appointment-doctor-modal',
@@ -34,7 +35,11 @@ export class AppointmentDoctorModalComponent implements OnInit {
               private fb: FormBuilder,
               private examinationTypeService: ExaminationTypeService,
               private appointmentService: AppointmentService,
-              private toastService: ToastService) { }
+              private toastService: ToastService,
+              private spinner: NgxSpinnerService) { }
+
+  ngAfterViewInit(): void {
+  }
 
   ngOnInit(): void {
     console.log(this.patientId);
@@ -52,13 +57,16 @@ export class AppointmentDoctorModalComponent implements OnInit {
 
   book() {
     let formData = this.form.getRawValue();
+    this.spinner.show();
 
     console.log(formData);
     this.appointmentService.requestAppointmentByDoctor(formData, this.patientId).subscribe(result => {
-      this.toastService.show('Dodavanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
+      this.spinner.hide();
+      this.toastService.show('Zakazivanje uspešno.', { classname: 'bg-success text-light', delay: 3000 });
       this.modal.dismiss('cancel click');
       console.log(result);
     }, err=>{
+      this.spinner.hide();
       this.modal.dismiss('cancel click');
       this.toastService.show('Greška u unosu.', { classname: 'bg-alert text-light', delay: 3000 });
 
